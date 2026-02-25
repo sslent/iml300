@@ -1,32 +1,36 @@
 body {
-  background-image: url("../assets/sparkles.gif");
-  background-color: pink;
+  background-image: url("../assets/background.png");
   background-size: cover;
   height: 100vh;
+  font-family: "Gamja Flower", sans-serif;
+  text-align: center;
 }
 
+p {
+}
 img {
   height: 150px;
-  border-radius: 20px;
-  padding: 10px;
   transition: 1s;
-  filter: grayscale(100%);
-
 }
 
+/*
+.cute {
+  font-family: "Gamja Flower", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+*/
 
 .small {
-  height: 100px!important;
+  height: 100px !important;
 }
 
 img:hover {
   height: 400px;
   filter: grayscale(0%);
-
 }
 
 p:hover {
-
   letter-spacing: 1em;
 }
 
@@ -36,13 +40,21 @@ p:hover {
   align-items: center;
 }
 
- .links {
+.links {
   margin-top: 40px;
   margin-left: 150px;
 }
+
+a {
+  color: black;
+  font-size: 30px;
 }
 
-
+a:hover {
+  /*background-color: red;*/
+  border: 2px solid #e771aa;
+  text-shadow:  
+}
 
 #p1 {
   animation: coolAnimation 5s infinite;
@@ -58,13 +70,13 @@ p:hover {
   100% {
     color: blue;
   }
-}    
+}
 
 .card {
   width: 400px;
   height: 300px;
-  perspective: 1000px;
-   margin-left: 200px;
+  perspective: 2000px;
+  margin-left: 400px;
 }
 .card-inner {
   width: 100%;
@@ -75,7 +87,8 @@ p:hover {
 .card:hover .card-inner {
   transform: rotateY(180deg);
 }
-.card-front, .card-back {
+.card-front,
+.card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -92,5 +105,4 @@ p:hover {
   display: flex;
   align-items: center;
   padding: 20px;
-  
 }
