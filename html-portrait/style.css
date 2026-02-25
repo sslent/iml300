@@ -1,5 +1,5 @@
 body {
-  background-image: url("/assets/sparkles.gif");
+  background-image: url("../assets/sparkles.gif");
   background-color: pink;
   background-size: cover;
   height: 100vh;
