@@ -6,17 +6,14 @@ body {
   text-align: center;
 }
 
-p {
-}
-img {
-  height: 150px;
-  transition: 1s;
+
 }
 
-/*
+
 .cute {
   font-family: "Gamja Flower", sans-serif;
-  font-weight: 400;
+  font-weight: 600;
+  
   font-style: normal;
 }
 */
@@ -53,7 +50,7 @@ a {
 a:hover {
   /*background-color: red;*/
   border: 2px solid #e771aa;
-  text-shadow:  
+  text-shadow:;
 }
 
 #p1 {
