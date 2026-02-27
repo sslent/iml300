@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('page2notebook.png');
+  background-size: cover;
+}
+
+
+.content {
+  position: absolute;
+  top: 150px;
+  left: 170px;
+  width: 280px;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: gray;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.words-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.word-list {
+  list-style: decimal;
+  padding-left: 20px;
+  font-size: 20px;
+  line-height: 2;
+}
