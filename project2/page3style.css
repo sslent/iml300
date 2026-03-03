@@ -19,7 +19,7 @@ body {
 
 .word-img {
   position: absolute;
-  width: 20px;
+  width: 350px;
   filter: blur(4px);
   opacity: 0.6;
   transition:
