@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frustrating</title>
+    <link rel="stylesheet" href="page4style.css" />
+  </head>
+  <body>
+
+    <div class="bg-text" id="bgText"></div>
+
+    <div class="page-content">
+      <div class="scene">
+        <div class="card" id="card">
+          <div class="card-front">
+            <img src="Redstringhands.png" alt="Red String Hands" />
+          </div>
+          <div class="card-back">
+            <img src="frustrating-whitecutout.png" alt="Frustrating" />
+          </div>
+        </div>
+      </div>
+
+      <div class="text-container">
+        <p class="line">You wrote this word so many times in here.</p>
+        <p class="line">I can't imagine how it hurt— to have so much to say and not enough words in a new language to say it. To feel something passionately and watch it dissolve before it reached anyone's ears.</p>
+        <p class="line">You must have felt invisible, surrounded by people who did not see you.</p>
+        <p class="line">What did you want?</p>
+        <p class="line">You were so much more than what you could express.</p>
+      </div>
+    </div>
+
+    <script>
+      const bg = document.getElementById('bgText');
+      for (let i = 0; i < 300; i++) {
+        const span = document.createElement('span');
+        span.textContent = 'frustrating ';
+        span.style.animationDelay = (i * 0.05) + 's';
+        bg.appendChild(span);
+      }
+
+      const card = document.getElementById('card');
+      let flipped = false;
+
+      card.addEventListener('mouseenter', () => {
+        if (!flipped) {
+          flipped = true;
+          card.classList.add('flipped');
+          revealLines();
+        }
+      });
+
+      function revealLines() {
+        const lines = document.querySelectorAll('.line');
+        lines.forEach((line, i) => {
+          setTimeout(() => {
+            line.classList.add('visible');
+          }, 1500 + i * 2000);
+        });
+      }
+    </script>
+
+  </body>
+</html>
