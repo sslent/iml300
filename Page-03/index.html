@@ -1,41 +1,39 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dear Miyoko</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dear Miyoko</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="words-container">
+            <img class="word-img" src="Apologize.png" alt="Apology" />
+            <img class="word-img" src="Frustrating.png" alt="Frustration" />
+            <img class="word-img" src="Loss.png" alt="Loss" />
+            <img class="word-img" src="Love.png" alt="Love" />
+            <img class="word-img" src="Painfulmemories.png" alt="Painful Memories" />
+            <img class="word-img" src="words/Myth.png" alt="Myth" />
+            <img class="word-img" src="Potentialanddestiny.png" alt="Potential and Destiny" />
+        </div>
 
-    <div class="words-container">
- <img class="word-img" src="../../words/Apologize.png" alt="Apology" />
-<img class="word-img" src="../../words/Frustrating.png" alt="Frustration" />
-<img class="word-img" src="../../words/Loss.png" alt="Loss" />
-<img class="word-img" src="../../words/Love.png" alt="Love" />
-<img class="word-img" src="../../words/Painfulmemories.png" alt="Painful Memories" />
-<img class="word-img" src="../../words/Myth.png" alt="Myth" />
-<img class="word-img" src="../../words/Potentialanddestiny.png" alt="Potential and Destiny" />
-    </div>
+        <script>
+            const positions = [
+                { top: "8%", left: "5%", rotate: "-8deg" },
+                { top: "5%", left: "55%", rotate: "5deg" },
+                { top: "38%", left: "15%", rotate: "-12deg" },
+                { top: "35%", left: "60%", rotate: "8deg" },
+                { top: "65%", left: "5%", rotate: "6deg" },
+                { top: "60%", left: "40%", rotate: "-5deg" },
+                { top: "65%", left: "72%", rotate: "10deg" }
+            ];
 
-  <script>
-  const positions = [
-    { top: '8%',  left: '5%',  rotate: '-8deg'  },
-    { top: '5%',  left: '55%', rotate: '5deg'   },
-    { top: '38%', left: '15%', rotate: '-12deg' },
-    { top: '35%', left: '60%', rotate: '8deg'   },
-    { top: '65%', left: '5%',  rotate: '6deg'   },
-    { top: '60%', left: '40%', rotate: '-5deg'  },
-    { top: '65%', left: '72%', rotate: '10deg'  },
-  ];
-
-  const imgs = document.querySelectorAll('.word-img');
-  imgs.forEach((img, i) => {
-    img.style.top = positions[i].top;
-    img.style.left = positions[i].left;
-    img.style.transform = `rotate(${positions[i].rotate})`;
-  });
-</script>
-
-  </body>
+            const imgs = document.querySelectorAll(".word-img");
+            imgs.forEach((img, i) => {
+                img.style.top = positions[i].top;
+                img.style.left = positions[i].left;
+                img.style.transform = `rotate(${positions[i].rotate})`;
+            });
+        </script>
+    </body>
 </html>
