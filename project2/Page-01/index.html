@@ -9,7 +9,7 @@
   <body>
 
     <div class="bg">
-      <img src="Page-02/Pageone.png" alt="closed notebook" class="notebook-img" />
+      <img src="Pageone.png" alt="closed notebook" class="notebook-img" />
     </div>
 
     <div class="story-container">
@@ -25,13 +25,11 @@
       const lines = document.querySelectorAll('.line');
       let current = 0;
 
-      // Show first line on load
       window.addEventListener('load', () => {
         lines[0].classList.add('fade-in');
         current = 1;
       });
 
-      // Click anywhere to reveal next line
       document.addEventListener('click', (e) => {
         if (e.target.id === 'next-page-btn') return;
         if (current < lines.length) {

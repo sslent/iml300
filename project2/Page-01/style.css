@@ -7,14 +7,13 @@
 body {
   height: 100vh;
   overflow: hidden;
-  background-color: #1a1a1a;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
 
-/* notebook image centered */
 .bg {
   position: fixed;
   inset: 0;
@@ -25,13 +24,12 @@ body {
 }
 
 .notebook-img {
-  max-height: 80vh;
-  max-width: 80vw;
+  max-height: 90vh;
+  max-width: 90vw;
   object-fit: contain;
   opacity: 0.85;
 }
 
-/* text on top */
 .story-container {
   position: relative;
   z-index: 1;
@@ -48,8 +46,7 @@ body {
   font-family: Georgia, serif;
   font-size: 25px;
   line-height: 1.9;
-  color: #f5f0e8;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+  color: #2a2a2a;
   opacity: 0;
 }
 
@@ -57,7 +54,6 @@ body {
   display: none;
 }
 
-/* lyrical fade-drift animation */
 @keyframes lyricFade {
   0% {
     opacity: 0;
@@ -75,12 +71,11 @@ body {
   animation: lyricFade 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* date line styled differently */
 #line-0 {
   font-size: 35px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #c9bfb0;
+  color: #5c1d1d;
 }
 
 .next-btn {
@@ -89,7 +84,7 @@ body {
   font-family: Georgia, serif;
   font-size: 13px;
   letter-spacing: 0.2em;
-  color: #c9bfb0;
+  color: #888;
   cursor: pointer;
   opacity: 0;
   text-transform: uppercase;
@@ -97,10 +92,9 @@ body {
 }
 
 .next-btn:hover {
-  color: #ffffff;
+  color: #2a2a2a;
 }
 
-/* page flip out */
 @keyframes flipOut {
   to {
     transform: scaleX(0);
