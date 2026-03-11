@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>loss</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0e0c0b;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Trail canvas sits behind everything */
+#trail-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Page content */
+#content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 24px 100px;
+}
+
+/* Video */
+#video-wrap {
+  width: min(780px, 92vw);
+}
+
+#video-wrap video {
+  width: 100%;
+  display: block;
+}
+
+/* Text */
+#text {
+  margin-top: 72px;
+  max-width: min(520px, 88vw);
+  text-align: center;
+  line-height: 2;
+}
+
+#text .line {
+  display: block;
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: #c8b8a8;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 1.8s ease, transform 1.8s ease;
+}
+
+#text .line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#text a {
+  color: #9b3a3a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Custom cursor dot */
+#cursor {
+  position: fixed;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #8b1a1a;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  transition: opacity 0.2s;
+}
+</style>
+</head>
+<body>
+
+<canvas id="trail-canvas"></canvas>
+<div id="cursor"></div>
+
+<div id="content">
+  <div id="video-wrap">
+    <video src="assets/Loss.mp4" autoplay loop muted playsinline></video>
+  </div>
+
+  <div id="text">
+    <span class="line">You had to leave everything.</span>
+    <span class="line">I think part of you never stopped leaving,</span>
+    <span class="line">maybe grief became a new home.</span>
+    <span class="line">&nbsp;</span>
+    <span class="line">You wrote that love is the greatest gift of all.</span>
+    <span class="line">Was it something you believed,</span>
+    <span class="line">or something you were trying to convince yourself of?</span>
+    <span class="line">Or both?</span>
+    <span class="line">&nbsp;</span>
+    <span class="line">The way you hold onto a thing</span>
+    <span class="line">tighter the more it has <a href="painfulmemories.html">cost you</a>.</span>
+  </div>
+</div>
+
+<script>
+// ── Red string trail ──
+const canvas = document.getElementById('trail-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const cursor = document.getElementById('cursor');
+const pts = []; // ring buffer of recent mouse positions
+const MAX_PTS = 80;
+let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+
+window.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+  pts.push({ x: e.clientX, y: e.clientY, age: 0 });
+  if (pts.length > MAX_PTS) pts.shift();
+});
+
+function drawTrail() {
+  requestAnimationFrame(drawTrail);
+
+  // Fade the canvas very slowly — this leaves a persistent stain
+  ctx.fillStyle = 'rgba(14, 12, 11, 0.012)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (pts.length < 2) return;
+
+  // Age points
+  pts.forEach(p => p.age++);
+
+  // Draw the string as a continuous path
+  // Recent points = bright red, older = dark and thin
+  for (let i = 1; i < pts.length; i++) {
+    const t = i / pts.length; // 0 = oldest, 1 = newest
+    const alpha = t * 0.75;
+    const width = t * 1.6 + 0.2;
+
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(120, 20, 20, ${alpha})`;
+    ctx.lineWidth = width;
+    ctx.lineCap = 'round';
+    ctx.moveTo(pts[i-1].x, pts[i-1].y);
+    ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+  }
+}
+
+drawTrail();
+
+// ── Text reveal on scroll ──
+const lines = document.querySelectorAll('#text .line');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Stagger lines based on their index
+      const allLines = [...lines];
+      const idx = allLines.indexOf(entry.target);
+      setTimeout(() => entry.target.classList.add('visible'), idx * 3000);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+lines.forEach(line => observer.observe(line));
+</script>
+</body>
+</html>

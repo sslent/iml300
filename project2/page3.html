@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dear Miyoko</title>
+       <style>* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f0e8;
+}
+.words-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+.word-link {
+  position: absolute;
+  display: block;
+}
+.word-img {
+  width: 350px;
+  filter: blur(4px);
+  opacity: 0.6;
+  transition:
+    filter 0.5s ease,
+    opacity 0.5s ease,
+    transform 0.4s ease;
+  cursor: pointer;
+  display: block;
+}
+.word-link:hover .word-img {
+  filter: blur(0px);
+  opacity: 1;
+  transform: scale(1.05);
+  z-index: 10;
+}</style>
+    </head>
+    <body>
+        <div class="words-container">
+            <a class="word-link" href="apologize.html"><img class="word-img" src="assets/Apologize.png" alt="Apologize" /></a>
+            <a class="word-link" href="frustrating.html"><img class="word-img" src="assets/Frustrating.png" alt="Frustration" /></a>
+            <a class="word-link" href="loss.html"><img class="word-img" src="assets/Loss.png" alt="Loss" /></a>
+            <a class="word-link" href="love.html"><img class="word-img" src="assets/Love.png" alt="Love" /></a>
+            <a class="word-link" href="painfulmemories.html"><img class="word-img" src="assets/Painfulmemories.png" alt="Painful Memories" /></a>
+            <a class="word-link" href="myth.html"><img class="word-img" src="assets/Myth.png" alt="Myth" /></a>
+            <a class="word-link" href="potential.html"><img class="word-img" src="assets/Potentialanddestiny.png" alt="Potential" /></a>
+        </div>
+        <script>
+            const positions = [
+                { top: "8%", left: "10%", rotate: "-8deg" },
+                { top: "6%", left: "42%", rotate: "4deg" },
+                { top: "10%", left: "72%", rotate: "-5deg" },
+                { top: "40%", left: "5%", rotate: "7deg" },
+                { top: "38%", left: "42%", rotate: "-10deg" },
+                { top: "42%", left: "74%", rotate: "6deg" },
+                { top: "72%", left: "38%", rotate: "-4deg" }
+            ];
+            const links = document.querySelectorAll(".word-link");
+            links.forEach((link, i) => {
+                link.style.top = positions[i].top;
+                link.style.left = positions[i].left;
+                link.style.transform = `rotate(${positions[i].rotate})`;
+            });
+        </script>
+    </body>
+</html>

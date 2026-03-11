@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>she remembered everything</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d0b0e; overflow: hidden; font-family: Georgia, serif; }
+canvas { display: block; position: fixed; top:0; left:0; }
+
+#text {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(560px, 88vw);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#text p {
+  color: #d8cfc4;
+  font-size: clamp(13px, 1.5vw, 16px);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.2em;
+}
+
+#text p span.line {
+  display: block;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 2s ease, transform 2s ease;
+}
+
+#text p span.line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#text a {
+  color: #c4a882;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.echo {
+  position: fixed;
+  font: italic 11px Georgia, serif;
+  letter-spacing: 0.18em;
+  color: rgba(220, 200, 185, 0.55);
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  transition: opacity 2.2s ease, transform 2.2s ease;
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="text">
+  <p>
+    <span class="line">You would beg me to stop asking questions.</span>
+    <span class="line"><em>Itai</em>, you would say. <em>Pain.</em></span>
+  </p>
+  <p>
+    <span class="line">I learned early that the only way to be close to you</span>
+    <span class="line">was to do a craft together — quietly, hands busy,</span>
+    <span class="line">following a pattern. That was how you let me in.</span>
+    <span class="line"><a href="love.html">Side by side</a>. Doing.</span>
+  </p>
+  <p>
+    <span class="line">I have so many questions I never got to ask.</span>
+    <span class="line">I was too young then and thought you were</span>
+    <span class="line">the strongest person in the world.</span>
+    <span class="line">I didn't think I'd ever lose you.</span>
+    <span class="line">To me, you were immortal.</span>
+  </p>
+  <p>
+    <span class="line">I carry all my questions the way you carried yours —</span>
+    <span class="line">working with my hands,</span>
+    <span class="line">hoping something will come through</span>
+    <span class="line">that doesn't need words.</span>
+  </p>
+  <p>
+    <span class="line">Emily Dickinson wrote,</span>
+    <span class="line"><em>"Tell all the truth but tell it slant."</em></span>
+    <span class="line">Some things are too painful to approach head on.</span>
+    <span class="line">You have to come at them sideways.</span>
+  </p>
+  <p>
+    <span class="line">You taught me that some things</span>
+    <span class="line">can only be said slant.</span>
+  </p>
+</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+
+const COLORS = ['#e8ddd0','#c4a882','#d4b5b0','#9e8f8f','#b8c4c0','#bba89a'];
+const WORDS  = ['forget','war','frustrating','alien','kintown','home','takeo','sister','voices','gone'];
+
+// Line-by-line reveal
+const lines = document.querySelectorAll('.line');
+lines.forEach((line, i) => {
+  setTimeout(() => line.classList.add('visible'), 1200 + i * 2000);
+});
+
+
+class Arm {
+  constructor(x, y, angle, depth, color, gid) {
+    this.x=x; this.y=y; this.angle=angle; this.depth=depth;
+    this.color=color; this.gid=gid;
+    this.pts=[{x,y}];
+    this.width = Math.max(0.08, 1.0 * Math.pow(0.62, depth));
+    this.done=false; this.dead=false; this.flashing=false;
+  }
+  get tip(){ return this.pts[this.pts.length-1]; }
+
+  step() {
+    if (this.done||this.dead) return null;
+    this.angle += (Math.random()-0.5)*0.22;
+    const t = this.tip;
+    const nx = t.x + Math.cos(this.angle)*11 + (Math.random()-0.5)*2.5;
+    const ny = t.y + Math.sin(this.angle)*11 + (Math.random()-0.5)*2.5;
+    this.pts.push({x:nx,y:ny});
+    if (nx<-60||nx>canvas.width+60||ny<-60||ny>canvas.height+60) { this.done=true; return null; }
+    if (this.depth<8 && this.pts.length>3 && Math.random()<0.032) {
+      this.done=true;
+      const sp = 0.35+Math.random()*0.45;
+      return [
+        new Arm(nx,ny,this.angle-sp,this.depth+1,this.color,this.gid),
+        new Arm(nx,ny,this.angle+sp,this.depth+1,this.color,this.gid),
+      ];
+    }
+    return null;
+  }
+
+  shrink() { if(this.pts.length>1) this.pts.pop(); else this.dead=true; }
+
+  draw() {
+    if (this.pts.length<2||this.dead) return;
+    ctx.beginPath();
+    ctx.strokeStyle = this.flashing ? '#5a1010' : this.color;
+    ctx.lineWidth = this.width;
+    ctx.globalAlpha = 0.78;
+    ctx.lineCap = 'round';
+    ctx.moveTo(this.pts[0].x, this.pts[0].y);
+    for (let i=1;i<this.pts.length;i++) {
+      ctx.lineTo(this.pts[i].x+(Math.random()-0.5)*0.7, this.pts[i].y+(Math.random()-0.5)*0.7);
+    }
+    ctx.stroke();
+  }
+}
+
+let groups=[], scatters=[], gid=0;
+
+function spawn(x, y) {
+  const id=gid++, color=COLORS[id%COLORS.length];
+  const n=1+Math.floor(Math.random()*2);
+  const arms=[];
+  for (let i=0;i<n;i++) arms.push(new Arm(x,y,Math.random()*Math.PI*2,0,color,id));
+  groups.push({id,arms,color,retracting:false,hit:false,lingerAt:null});
+}
+
+function collide(g, cx, cy) {
+  if (g.hit) return;
+  g.hit=true;
+  g.arms.forEach(a=>a.flashing=true);
+  for (let i=0;i<12;i++) {
+    const a=Math.random()*Math.PI*2, spd=1+Math.random()*3;
+    scatters.push({x:cx,y:cy,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,a,life:35,max:35});
+  }
+  const el = document.createElement('div');
+  el.className = 'echo';
+  el.textContent = WORDS[Math.floor(Math.random()*WORDS.length)];
+  el.style.cssText = `left:${cx}px;top:${cy}px;opacity:0.55`;
+  document.body.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translate(-50%, calc(-50% - 20px))';
+  }, 50);
+  setTimeout(() => el.remove(), 2300);
+  setTimeout(()=>{ g.arms.forEach(a=>a.flashing=false); g.retracting=true; },380);
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+  ctx.fillStyle='rgba(13,11,14,0.18)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  const now=performance.now();
+
+  // Maintain ~10 non-mouse groups
+  if (groups.filter(g=>!g.retracting).length < 10) {
+    const m=60;
+    spawn(m+Math.random()*(canvas.width-m*2), m+Math.random()*(canvas.height-m*2));
+  }
+
+  // Update & draw
+  for (let gi=groups.length-1;gi>=0;gi--) {
+    const g=groups[gi];
+    if (g.retracting) {
+      g.arms.forEach(a=>a.shrink());
+      if (g.arms.every(a=>a.dead)) groups.splice(gi,1);
+      continue;
+    }
+    // Grow
+    const born=[];
+    for (const arm of g.arms) {
+      if (!arm.done&&!arm.dead&&g.arms.length+born.length<120) {
+        const c=arm.step(); if(c) born.push(...c);
+      }
+    }
+    g.arms.push(...born);
+    // Linger check
+    if (!g.hit && g.arms.every(a=>a.done||a.dead)) {
+      if (!g.lingerAt) g.lingerAt=now;
+      else if (now-g.lingerAt>2600) g.retracting=true;
+    }
+    g.arms.forEach(a=>a.draw());
+  }
+
+  // Collision detection — tips of A vs points of B
+  const live=groups.filter(g=>!g.retracting&&!g.hit);
+  outer: for (let i=0;i<live.length;i++) {
+    for (let j=i+1;j<live.length;j++) {
+      const gA=live[i],gB=live[j];
+      for (const arm of gA.arms) {
+        if (arm.done||arm.dead) continue;
+        const tip=arm.tip;
+        for (const ab of gB.arms) {
+          for (let p=0;p<ab.pts.length;p+=4) {
+            const pt=ab.pts[p];
+            const dx=tip.x-pt.x,dy=tip.y-pt.y;
+            if (dx*dx+dy*dy<144) {
+              const cx=(tip.x+pt.x)*0.5,cy=(tip.y+pt.y)*0.5;
+              collide(gA,cx,cy); collide(gB,cx,cy);
+              continue outer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Ink scatter
+  for (let i=scatters.length-1;i>=0;i--) {
+    const s=scatters[i];
+    s.x+=s.vx; s.y+=s.vy; s.vx*=0.82; s.vy*=0.82; s.life--;
+    if (s.life<=0){scatters.splice(i,1);continue;}
+    const t=s.life/s.max;
+    ctx.globalAlpha=t*0.55;
+    ctx.strokeStyle='#5a1010';
+    ctx.lineWidth=0.8; ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(s.x,s.y);
+    ctx.lineTo(s.x+Math.cos(s.a)*12*(0.3+t*0.7),s.y+Math.sin(s.a)*12*(0.3+t*0.7));
+    ctx.stroke();
+  }
+}
+
+for (let i=0;i<10;i++) setTimeout(()=>spawn(
+  60+Math.random()*(canvas.width-120),60+Math.random()*(canvas.height-120)
+),i*280);
+
+loop();
+</script>
+</body>
+</html>

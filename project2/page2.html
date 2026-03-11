@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dear Miyoko</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #fdf8f2;
+        font-family: Georgia, serif;
+      }
+      .bg {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
+      }
+      .notebook-img {
+        width: 3000px;
+        height: 800px;
+        object-fit: contain;
+        opacity: 0.85;
+      }
+      .story-container {
+        position: relative;
+        z-index: 10;
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 80px 40px;
+      }
+      .chunk {
+        margin-bottom: 40px;
+        transition: opacity 0.6s ease;
+      }
+      .chunk.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="bg">
+      <img src="assets/Pagetwo.png" alt="notebook" class="notebook-img" style="width: 900px; max-width: 150vw; opacity: 0.6; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+    </div>
+
+    <div class="story-container" style="position: relative; z-index: 999;">
+      <div class="chunk" id="chunk-0">
+        <p>I was moving into her room. She wasn't gone yet — but she was getting there, and we decided to move her out to my Aunt's house amidst the chaos of the Pandemic. Someone had to start going through her stuff.</p>
+        <button class="next-btn" onclick="showNext(1)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-1">
+        <p>Her name was Masako Oshiro. She was born in Okinawa. She survived World War II by hiding in a cave with her family, her little brother would die of starvation here. She married an American and followed him to Binghamton, New York, where the winters were bleak and harsh and the neighborhood was predominantly White. She raised three daughters, mostly alone, working two and three jobs at a time. She was stubborn and sassy and brilliant.</p>
+        <button class="next-btn" onclick="showNext(2)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-2">
+        <p>I was too young, when she was most herself, to understand her.</p>
+        <button class="next-btn" onclick="showNext(3)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-3">
+        <p>I remember she would always stop me in the middle of whatever I was doing and ask me to spell something. Or define a word. Out of nowhere, any random word. As a kid, I found it annoying.</p>
+        <button class="next-btn" onclick="showNext(4)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-4">
+        <p>This notebook is the proof of her trying. English words, written in her steady and deliberate handwriting, with definitions and notes alongside them. She always kept a notebook — to write in, to draw in — and must have left dozens of them behind somewhere. But this one I found. This one I kept.</p>
+        <button class="next-btn" onclick="showNext(5)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-5">
+        <p>It is a beautiful and painful thing, to hold the evidence of someone trying this hard. To see, in her own writing, how much effort it took to navigate a language and a culture that she was not born into. When I found it I felt like I had discovered something secret. Something that belonged to me specifically, that I was meant to find. I knew how valuable it was — a chance, maybe the only one I'd get, to understand something about her mind.</p>
+        <button class="next-btn" onclick="showNext(6)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-6">
+        <p>She died four years after I found it.</p>
+        <button class="next-btn" onclick="showNext(7)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-7">
+        <p>She never wrote letters. She never gave speeches. Words were not her best friend — she said things with her hands, with what she made. But she wanted words. She worked for them. She collected them in secret in a little book.</p>
+        <button class="next-btn" onclick="showNext(8)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-8">
+        <p>I'm older now. I have so many questions she's not here to answer.</p>
+        <button class="next-btn" onclick="showNext(9)">continue ↓</button>
+      </div>
+
+      <div class="chunk hidden" id="chunk-9">
+        <p>Maybe this is a <a href="page3.html" class="start-link">start.</a></p>
+      </div>
+    </div>
+
+    <script>
+      function showNext(index) {
+        const next = document.getElementById('chunk-' + index);
+        if (next) {
+          next.classList.remove('hidden');
+          next.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>myth</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Georgia, serif;
+}
+
+/* Fullscreen video */
+#bg-video {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto;
+  object-fit: cover;
+  z-index: 0;
+  transition: opacity 2.5s ease;
+}
+
+#bg-video.fade {
+  opacity: 0;
+}
+
+/* Text centered over video */
+#text {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+  max-width: min(580px, 88vw);
+  line-height: 2.1;
+  pointer-events: none;
+}
+
+#text .line {
+  display: block;
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: #d4c8b8;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 1.8s ease, transform 1.8s ease;
+  pointer-events: none;
+}
+
+#text .line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#text a {
+  color: #c4a882;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  pointer-events: all;
+}
+</style>
+</head>
+<body>
+
+<video id="bg-video" src="assets/myth.mp4" autoplay playsinline muted></video>
+
+<div id="text">
+  <span class="line">I heard pieces of your story from other family members</span>
+  <span class="line">so many times that you became something I could picture completely —</span>
+  <span class="line">the cave, the bombs, your brother,</span>
+  <span class="line">the sharp pain of starvation.</span>
+  <span class="line">Every detail is vivid even though I was never there</span>
+  <span class="line">and it happened long before I was born.</span>
+  <span class="line">&nbsp;</span>
+  <span class="line">That's what a myth is, I think —</span>
+  <span class="line">a story so powerful that it passes down through generations</span>
+  <span class="line">and lives in the body.</span>
+  <span class="line">&nbsp;</span>
+  <span class="line">You became a myth to me the way only real people can.</span>
+  <span class="line">Part of you <a href="potentialanddestiny.html">will always live</a> inside me.</span>
+</div>
+
+<script>
+const video = document.getElementById('bg-video');
+const lines = document.querySelectorAll('#text .line');
+
+video.addEventListener('ended', () => {
+  // Fade video to black
+  video.classList.add('fade');
+
+  // Reveal text after video 
+  setTimeout(() => {
+    lines.forEach((line, i) => {
+      setTimeout(() => line.classList.add('visible'), i * 800);
+    });
+  }, 2000);
+});
+</script>
+</body>
+</html>

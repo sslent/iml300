@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>apologize</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0e0c0b;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Canvas for the string */
+#string-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hearts stage */
+#hearts {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10vw;
+  z-index: 2;
+  transition: opacity 1.2s ease;
+}
+
+#hearts.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.heart-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  user-select: none;
+}
+
+.heart-wrap img {
+  width: min(280px, 38vw);
+  height: min(280px, 38vw);
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.heart-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #6a5a5a;
+  text-transform: lowercase;
+}
+
+#heart1-wrap { cursor: grab; }
+#heart1-wrap:active { cursor: grabbing; }
+
+/* Hint text */
+#hint {
+  position: fixed;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #5a4a4a;
+  text-transform: lowercase;
+  z-index: 3;
+  transition: opacity 1s ease;
+  white-space: nowrap;
+}
+
+#hint.hidden { opacity: 0; }
+
+/* Connected flash */
+#connected-flash {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: #9b3a3a;
+  text-transform: lowercase;
+  opacity: 0;
+  z-index: 3;
+  transition: opacity 1s ease;
+}
+
+/* Scrollable text content */
+#content {
+  position: relative;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120px 24px 120px;
+}
+
+#content.visible { opacity: 1; }
+
+#text {
+  max-width: min(520px, 88vw);
+  text-align: center;
+  line-height: 2.1;
+}
+
+#text .line {
+  display: block;
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: #c8b8a8;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(7px);
+  transition: opacity 1.8s ease, transform 1.8s ease;
+}
+
+#text .line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#text a {
+  color: #9b3a3a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+</style>
+</head>
+<body>
+
+<canvas id="string-canvas"></canvas>
+
+<div id="hearts">
+  <div class="heart-wrap" id="heart1-wrap">
+    <img id="heart1" src="assets/heart1.png" alt="heart">
+  </div>
+  <div class="heart-wrap" id="heart2-wrap">
+    <img id="heart2" src="assets/heart2.png" alt="heart">
+  </div>
+</div>
+
+<div id="hint">drag to connect</div>
+<div id="connected-flash">connected</div>
+
+<div id="content">
+  <div id="text">
+    <span class="line">You were so stubborn.</span>
+    <span class="line">Once you made up your mind about how you felt,</span>
+    <span class="line">that was it — the door closed.</span>
+    <span class="line">&nbsp;</span>
+    <span class="line">I used to think it was just your personality</span>
+    <span class="line">but maybe it was survival.</span>
+    <span class="line">Maybe in <a href="loss.html">losing</a> everything once,</span>
+    <span class="line">you protect what you have left of yours very carefully,</span>
+    <span class="line">even your anger.</span>
+    <span class="line">&nbsp;</span>
+    <span class="line">You wrote "yearning to breathe free" on this page.</span>
+    <span class="line">Was it so heavy you couldn't breathe, Obachan?</span>
+    <span class="line">&nbsp;</span>
+    <span class="line">I wonder what you needed to be forgiven for.</span>
+    <span class="line">I wonder what you were waiting to put down.</span>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('string-canvas');
+const ctx    = canvas.getContext('2d');
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const heartsEl   = document.getElementById('hearts');
+const hint       = document.getElementById('hint');
+const flash      = document.getElementById('connected-flash');
+const content    = document.getElementById('content');
+const lines      = document.querySelectorAll('#text .line');
+const heart1El   = document.getElementById('heart1');
+const heart2El   = document.getElementById('heart2');
+const heart1Wrap = document.getElementById('heart1-wrap');
+
+let dragging = false;
+let startPt  = null;
+let currentPt = null;
+let connected = false;
+
+// Get center of an element
+function center(el) {
+  const r = el.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+
+// Catenary-like slack string using quadratic bezier
+function drawString(ax, ay, bx, by, alpha, width, color) {
+  const slack = Math.min(120, Math.hypot(bx - ax, by - ay) * 0.35);
+  const mx = (ax + bx) / 2;
+  const my = (ay + by) / 2 + slack;
+
+  ctx.beginPath();
+  ctx.moveTo(ax, ay);
+  ctx.quadraticCurveTo(mx, my, bx, by);
+  ctx.strokeStyle = color || `rgba(140, 30, 30, ${alpha})`;
+  ctx.lineWidth   = width;
+  ctx.lineCap     = 'round';
+  ctx.stroke();
+}
+
+// Trailing ghost strings (old paths)
+const ghosts = [];
+
+function draw() {
+  requestAnimationFrame(draw);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw ghost strings fading out
+  for (let i = ghosts.length - 1; i >= 0; i--) {
+    const g = ghosts[i];
+    g.alpha -= 0.004;
+    if (g.alpha <= 0) { ghosts.splice(i, 1); continue; }
+    drawString(g.ax, g.ay, g.bx, g.by, g.alpha, g.width * g.alpha, `rgba(100, 15, 15, ${g.alpha * 0.6})`);
+  }
+
+  if (connected) {
+    // Draw the final connected string — glowing red
+    const h1 = center(heart1El);
+    const h2 = center(heart2El);
+    drawString(h1.x, h1.y, h2.x, h2.y, 0.9, 1.8, 'rgba(160, 40, 40, 0.85)');
+    return;
+  }
+
+  if (!dragging || !startPt || !currentPt) return;
+
+  // Draw active drag string
+  drawString(startPt.x, startPt.y, currentPt.x, currentPt.y, 0.85, 1.5);
+}
+
+draw();
+
+// Drag from heart1
+heart1Wrap.addEventListener('mousedown', e => {
+  if (connected) return;
+  dragging = true;
+  startPt  = center(heart1El);
+  currentPt = { x: e.clientX, y: e.clientY };
+  hint.classList.add('hidden');
+  heart1El.style.transform = 'scale(1.06)';
+});
+
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  // Save ghost trail
+  if (currentPt) {
+    ghosts.push({ ax: startPt.x, ay: startPt.y, bx: currentPt.x, by: currentPt.y, alpha: 0.18, width: 1.2 });
+  }
+  currentPt = { x: e.clientX, y: e.clientY };
+});
+
+window.addEventListener('mouseup', e => {
+  if (!dragging) return;
+  dragging = false;
+  heart1El.style.transform = '';
+
+  // Check if released near heart2
+  const h2 = center(heart2El);
+  const dx = e.clientX - h2.x;
+  const dy = e.clientY - h2.y;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+
+  if (dist < 80) {
+    connect();
+  } else {
+    // Leave a ghost and reset
+    if (startPt && currentPt) {
+      ghosts.push({ ax: startPt.x, ay: startPt.y, bx: currentPt.x, by: currentPt.y, alpha: 0.4, width: 1.5 });
+    }
+    currentPt = null;
+    hint.classList.remove('hidden');
+  }
+});
+
+// Touch support
+heart1Wrap.addEventListener('touchstart', e => {
+  if (connected) return;
+  e.preventDefault();
+  dragging = true;
+  startPt  = center(heart1El);
+  currentPt = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  hint.classList.add('hidden');
+}, { passive: false });
+
+window.addEventListener('touchmove', e => {
+  if (!dragging) return;
+  e.preventDefault();
+  if (currentPt) ghosts.push({ ax: startPt.x, ay: startPt.y, bx: currentPt.x, by: currentPt.y, alpha: 0.18, width: 1.2 });
+  currentPt = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+}, { passive: false });
+
+window.addEventListener('touchend', e => {
+  if (!dragging) return;
+  dragging = false;
+  const touch = e.changedTouches[0];
+  const h2 = center(heart2El);
+  const dx = touch.clientX - h2.x;
+  const dy = touch.clientY - h2.y;
+  if (Math.sqrt(dx*dx + dy*dy) < 80) {
+    connect();
+  } else {
+    currentPt = null;
+    hint.classList.remove('hidden');
+  }
+});
+
+function connect() {
+  connected = true;
+  currentPt = null;
+
+  // Pulse hearts
+  heart1El.style.transform = 'scale(1.12)';
+  heart2El.style.transform = 'scale(1.12)';
+  setTimeout(() => {
+    heart1El.style.transform = '';
+    heart2El.style.transform = '';
+  }, 400);
+
+  // Fade out hearts, reveal content
+  setTimeout(() => {
+    heartsEl.classList.add('done');
+    hint.classList.add('hidden');
+  }, 800);
+
+  setTimeout(() => {
+    content.classList.add('visible');
+    // Reveal lines
+    lines.forEach((line, i) => {
+      setTimeout(() => line.classList.add('visible'), i * 2000);
+    });
+  }, 1800);
+}
+</script>
+</body>
+</html>

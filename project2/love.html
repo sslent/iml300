@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>love</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: #f5f0e8;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: Georgia, serif;
+                overflow-x: hidden;
+            }
+
+            /* ── Origami section ── */
+            #fold-section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 28px;
+            }
+
+            #paper-wrap {
+                width: min(600px, 90vw);
+                height: min(600px, 90vw);
+                cursor: pointer;
+            }
+
+            #origami {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                transition: opacity 0.3s ease;
+                cursor: pointer;
+            }
+
+            #fold-label {
+                font-size: 13px;
+                letter-spacing: 0.18em;
+                color: #8a7a6a;
+                text-transform: lowercase;
+                cursor: pointer;
+                transition: opacity 0.5s;
+                user-select: none;
+            }
+
+            #fold-label.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            /* ── Text reveal ── */
+            #message {
+                margin-top: 52px;
+                text-align: center;
+                max-width: min(500px, 88vw);
+                line-height: 2;
+            }
+
+            #message .line {
+                display: block;
+                font-size: clamp(15px, 1.8vw, 19px);
+                color: #3a2e28;
+                letter-spacing: 0.02em;
+                opacity: 0;
+                transform: translateY(8px);
+                transition:
+                    opacity 1.6s ease,
+                    transform 1.6s ease;
+            }
+
+            #message .line.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* ── Video ── */
+            #video-wrap {
+                margin-top: 60px;
+                width: min(720px, 92vw);
+            }
+
+            #video-wrap video {
+                width: 100%;
+                border-radius: 2px;
+                display: block;
+            }
+
+            /* bottom breathing room */
+            .spacer {
+                height: 80px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fold-section">
+            <div id="paper-wrap">
+                <img id="origami" src="assets/fold1.png" alt="origami fold" />
+            </div>
+            <div id="fold-label">click to fold</div>
+        </div>
+
+        <div id="message">
+            <span class="line">Obachan, I think love is what pulled you through.</span>
+            <span class="line">I think you survived on it.</span>
+            <span class="line">&nbsp;</span>
+            <span class="line">I hope you know how much I loved you.</span>
+        </div>
+
+        <div id="video-wrap">
+            <video src="assets/love.mp4" autoplay loop muted playsinline></video>
+        </div>
+
+        <div class="spacer"></div>
+
+        <script>
+            const steps = [
+                "assets/fold2.png",
+                "assets/fold3.png",
+                "assets/fold4.png",
+                "assets/fold5.png",
+                "assets/fold6.png",
+                "assets/fold7.png",
+                "assets/fold8.png",
+                "assets/fold9.png"
+            ];
+            let current = -1;
+
+            const img = document.getElementById("origami");
+            const foldLabel = document.getElementById("fold-label");
+            const lines = document.querySelectorAll("#message .line");
+            const videoWrap = document.getElementById("video-wrap");
+
+            function fold() {
+                if (current >= steps.length - 1) return;
+                current++;
+
+                img.style.opacity = 0;
+                setTimeout(() => {
+                    img.src = steps[current];
+                    img.style.opacity = 1;
+                }, 300);
+
+                const remaining = steps.length - 1 - current;
+                if (remaining <= 0) {
+                    foldLabel.classList.add("hidden");
+                    revealText();
+                }
+            }
+
+            function revealText() {
+                lines.forEach((line, i) => {
+                    setTimeout(() => line.classList.add("visible"), 800 + i * 950);
+                });
+
+                const afterText = 800 + lines.length * 950 + 800;
+                setTimeout(() => {
+                    videoWrap.classList.add("visible");
+                }, afterText);
+            }
+
+            document.getElementById("paper-wrap").addEventListener("click", fold);
+            foldLabel.addEventListener("click", fold);
+        </script>
+    </body>
+</html>

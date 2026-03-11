@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Miyoko</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #fdf8f2;
+  font-family: Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#date {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(28px, 5vw, 52px);
+  letter-spacing: 0.08em;
+  color: #2a2a2a;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  pointer-events: none;
+  z-index: 10;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#date.visible { opacity: 1; }
+#date.gone    { opacity: 0; }
+
+/* Main content */
+#content {
+  width: min(620px, 88vw);
+  padding: 80px 0 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+#content.visible { opacity: 1; }
+
+/* Image */
+#notebook {
+  width: 100%;
+  max-width: 620px;
+  display: block;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+#notebook.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Text */
+#text {
+  width: 100%;
+}
+
+.line {
+  display: block;
+  font-size: 18px;
+  line-height: 1.9;
+  color: #2a2a2a;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Open button */
+#open-btn {
+  display: block;
+  background: none;
+  border: none;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  letter-spacing: 0.15em;
+  color: #b04a2f;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 1.2s ease, color 0.3s ease;
+  padding: 0;
+}
+
+#open-btn.visible { opacity: 1; }
+#open-btn:hover   { color: #2a2a2a; }
+</style>
+</head>
+<body>
+
+<div id="date">August 29, 2020</div>
+
+<div id="content">
+  <img id="notebook" src="assets/Pageone.png" alt="notebook">
+  <div id="text">
+    <span class="line">I found an address book in the bottom of one of those cardboard produce boxes that Costco gives away if you ask.</span>
+    <span class="line">She refused to buy any proper shelving, she used these boxes to organize everything.</span>
+    <span class="line">It was small. Definitely bought at the dollar store.</span>
+    <span class="line">My grandmother's handwriting on the inside cover.</span>
+  </div>
+  <button id="open-btn" onclick="window.location.href='page2.html'">open →</button>
+</div>
+
+<script>
+const date      = document.getElementById('date');
+const content   = document.getElementById('content');
+const notebook  = document.getElementById('notebook');
+const lines     = document.querySelectorAll('.line');
+const openBtn   = document.getElementById('open-btn');
+
+// 1. Fade in date
+setTimeout(() => date.classList.add('visible'), 400);
+
+// 2. Fade out date, show content + image
+setTimeout(() => {
+  date.classList.add('gone');
+}, 2200);
+
+setTimeout(() => {
+  content.classList.add('visible');
+  notebook.classList.add('visible');
+}, 3200);
+
+// 3. Reveal lines one by one after image settles
+lines.forEach((line, i) => {
+  setTimeout(() => line.classList.add('visible'), 4800 + i * 3000);
+});
+
+// 4. Show open button after last line
+setTimeout(() => {
+  openBtn.classList.add('visible');
+}, 4800 + lines.length * 3000 + 600);
+</script>
+</body>
+</html>
