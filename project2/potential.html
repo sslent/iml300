@@ -5,36 +5,195 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Obachan & Me</title>
         <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
+
+                        @font-face {
+              font-family: 'BodyFont';
+              src: url('assets/bodyfont.ttf') format('truetype');
             }
 
-            html,
-            body {
-                width: 100%;
-                height: 100%;
-                background: #000;
-                overflow: hidden;
-                cursor: crosshair;
-            }
 
-            canvas {
-                display: block;
-            }
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                            @font-face {
+
+                        }
+
+                        html,
+                        body {
+                            width: 100%;
+                            height: 100%;
+                            background: #000;
+                            overflow: hidden;
+                        }
+
+                        canvas {
+                            display: block;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            z-index: 0;
+                        }
+
+                        /* Grid parent — centres the three-column row */
+                        #layout {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100vh;
+                            display: grid;
+                            place-items: center;
+                            z-index: 10;
+                            pointer-events: none;
+                        }
+
+                        /* Three-column row */
+                        #row {
+                            display: grid;
+                            grid-template-columns: 1fr auto 1fr;
+                            align-items: center;
+                            gap: 2vw;
+                            width: 100%;
+                            padding: 0 3vw;
+                        }
+
+                        /*
+                         * #photo-space must match what the canvas actually draws.
+                         * The canvas uses contain-fit logic: the image fills the full
+                         * viewport height (portrait image on landscape screen), so:
+                         *   fitH = 100vh
+                         *   fitW = 100vh * (naturalWidth / naturalHeight)
+                         * We use a CSS custom property --img-ratio set by JS once the
+                         * image loads, so the spacer is always exact.
+                         */
+                        #photo-space {
+                            width: calc(100vh * var(--img-ratio, 0.75));
+                            height: 100vh;
+                            flex-shrink: 0;
+                        }
+
+                        .side-text {
+                            font-family: "BodyFont", serif;
+                            font-size: 16px;
+                            line-height: 2;
+                            color: rgba(255, 255, 255, 0.72);
+                            letter-spacing: 0.06em;
+                            user-select: none;
+                        }
+
+                        #left-text {
+                            text-align: right;
+                        }
+                        #right-text {
+                            text-align: left;
+                        }
+
+                        .side-text .clickable-mark {
+                            color: #fff;
+                            cursor: pointer;
+                            pointer-events: all;
+                            border-bottom: none solid rgba(255, 255, 255, 0.5);
+                            transition: opacity 0.3s;
+                            font-style: italic;
+                        }
+                        .side-text .clickable-mark:hover {
+                            opacity: 0.6;
+                        }
+
+                        /* Behind-photo text — centred absolutely over canvas */
+                        #behind-text {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 20vw;
+                            text-align: center;
+                            font-family: "BodyFont", serif;
+                            font-size: 18px;
+                            line-height: 1.9;
+                            color: rgba(255, 255, 255, 0.18);
+                            letter-spacing: 0.08em;
+                            pointer-events: none;
+                            user-select: none;
+                            z-index: 5;
+                        }
+
+                        #behind-text .clickable {
+                            color: rgba(255, 255, 255, 0.45);
+                            cursor: pointer;
+                            pointer-events: all;
+                            text-decoration: none;
+                            border-bottom: none solid rgba(255, 255, 255, 0.25);
+                            transition:
+                                color 0.3s,
+                                border-color 0.3s;
+                        }
+                        #behind-text .clickable:hover {
+                            color: rgba(255, 255, 255, 0.9);
+                            border-color: rgba(255, 255, 255, 0.7);
+                        }
+
+                        #hint {
+                            position: absolute;
+                            bottom: 6vh;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            font-family: "BodyFont", serif;
+                            font-size: 0.7rem;
+                            letter-spacing: 0.18em;
+                            color: rgba(255, 255, 255, 0.3);
+                            pointer-events: none;
+                            opacity: 0;
+                            transition: opacity 1.5s ease;
+                            text-transform: uppercase;
+                            z-index: 10;
+                            white-space: nowrap;
+                        }
         </style>
     </head>
     <body>
         <canvas id="c"></canvas>
+
+        <!-- Behind-photo text -->
+        <div id="behind-text">
+            You are all I could be.<br />
+            I am everything you could have been.<br />
+            In this way, you are woven into the fabric of
+            <a class="clickable" href="love.html">who I am</a>.
+        </div>
+
+        <!-- Centred grid layout -->
+        <div id="layout">
+            <div id="row">
+                <div class="side-text" id="left-text">
+                    I think about my destiny a lot.<br />
+                    Every time I need an answer,<br />
+                    I reach for you.<br />
+                    <br />
+                    Something always pulls me back to you.
+                </div>
+
+                <div id="photo-space"></div>
+
+                <div class="side-text" id="right-text">
+                    It pushes me to keep going.<br />
+                    To make things the way you always did.<br />
+                    To insist, the way you insisted,<br />
+                    to <span class="clickable-mark" id="mark-trigger">make a mark</span>.
+                </div>
+            </div>
+        </div>
+
+        <div id="hint">move your cursor — scatter the stars</div>
+
         <script>
             const canvas = document.getElementById("c");
             const ctx = canvas.getContext("2d");
             let W, H;
-            const mouse = {
-                x: -9999,
-                y: -9999
-            };
+            const mouse = { x: -9999, y: -9999 };
+            let phase1Unlocked = false;
 
             function resize() {
                 W = canvas.width = window.innerWidth;
@@ -51,8 +210,39 @@
                 mouse.y = -9999;
             });
 
+            document.getElementById("mark-trigger").addEventListener("click", () => {
+                if (phase1Unlocked) return;
+                phase1Unlocked = true;
+                document.getElementById("left-text").style.transition = "opacity 1.5s";
+                document.getElementById("right-text").style.transition = "opacity 1.5s";
+                document.getElementById("left-text").style.opacity = "0.3";
+                document.getElementById("right-text").style.opacity = "0.3";
+                const hint = document.getElementById("hint");
+                hint.style.opacity = "1";
+                setTimeout(() => {
+                    hint.style.opacity = "0";
+                }, 4000);
+                for (const s of stars) s.burst();
+            });
+
+            canvas.addEventListener("click", (e) => {
+                if (!phase1Unlocked) return;
+                const cx = e.clientX,
+                    cy = e.clientY;
+                for (const s of stars) {
+                    const dx = s.x - cx,
+                        dy = s.y - cy;
+                    const d2 = dx * dx + dy * dy;
+                    const R = 200;
+                    if (d2 < R * R && d2 > 0.1) {
+                        const d = Math.sqrt(d2);
+                        s.vx += (dx / d) * ((R - d) / R) * 18;
+                        s.vy += (dy / d) * ((R - d) / R) * 18;
+                    }
+                }
+            });
+
             function sampleImage(img) {
-                // Fit image to screen
                 const aspect = img.naturalWidth / img.naturalHeight;
                 let fitW, fitH;
                 if (W / H > aspect) {
@@ -65,7 +255,6 @@
                 const offX = (W - fitW) / 2;
                 const offY = (H - fitH) / 2;
 
-                // Draw image to offscreen at full screen resolution
                 const off = document.createElement("canvas");
                 off.width = W;
                 off.height = H;
@@ -75,36 +264,27 @@
                 oCtx.drawImage(img, offX, offY, fitW, fitH);
                 const data = oCtx.getImageData(0, 0, W, H).data;
 
-                // Grid-based sampling: divide screen into small cells,
-                // place a star in each cell weighted by brightness
                 const CELL = 4;
-                // one star per NxN pixel cell = very dense grid
                 const cols = Math.floor(W / CELL);
                 const rows = Math.floor(H / CELL);
                 const pts = [];
-
                 for (let row = 0; row < rows; row++) {
                     for (let col = 0; col < cols; col++) {
-                        // Average brightness in this cell
                         let totalLum = 0,
                             count = 0;
                         for (let dy = 0; dy < CELL; dy++) {
                             for (let dx = 0; dx < CELL; dx++) {
-                                const px = col * CELL + dx;
-                                const py = row * CELL + dy;
+                                const px = col * CELL + dx,
+                                    py = row * CELL + dy;
                                 if (px >= W || py >= H) continue;
                                 const i = py * W + px;
-                                const lum =
+                                totalLum +=
                                     (0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2]) / 255;
-                                totalLum += lum;
                                 count++;
                             }
                         }
                         const avgLum = count > 0 ? totalLum / count : 0;
-
-                        // Only place a star if bright enough — threshold removes dark background
                         if (avgLum > 0.08) {
-                            // Jitter within cell
                             pts.push({
                                 x: col * CELL + CELL / 2 + (Math.random() - 0.5) * CELL * 0.7,
                                 y: row * CELL + CELL / 2 + (Math.random() - 0.5) * CELL * 0.7,
@@ -128,70 +308,62 @@
                     this.vx = 0;
                     this.vy = 0;
                     this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-                    // Brighter pixels = slightly larger stars
                     this.size = 0.3 + pt.lum * 1.1 + Math.random() * 0.4;
                     this.seed = Math.random() * 100;
                     this.twinkle = Math.random() * 0.03 + 0.005;
                     this.flowSpeed = Math.random() * 0.1 + 0.02;
-                    this.released = false;
                 }
-
+                burst() {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 3 + 0.5;
+                    this.vx += Math.cos(angle) * speed;
+                    this.vy += Math.sin(angle) * speed;
+                }
                 update(t, forming) {
                     if (forming) {
-                        // Snap to home with strong spring
-                        const dx = this.hx - this.x;
-                        const dy = this.hy - this.y;
+                        const dx = this.hx - this.x,
+                            dy = this.hy - this.y;
                         this.vx += dx * 0.12;
                         this.vy += dy * 0.12;
                         this.vx *= 0.7;
                         this.vy *= 0.7;
                     } else {
-                        // Flow field
                         const nx = (this.x / W) * 3,
                             ny = (this.y / H) * 3;
+                        const spd = phase1Unlocked ? 0.012 : 0.003;
+                        const tspd = phase1Unlocked ? [0.0006, 0.0005, 0.0008] : [0.00035, 0.00028, 0.00045];
+                        const damp = phase1Unlocked ? 0.96 : 0.97;
                         const angle =
-                            (Math.sin(nx * 1.2 + t * 0.00035) +
-                                Math.cos(ny * 1.0 + t * 0.00028) +
-                                Math.sin((nx + ny) * 0.9 + t * 0.00045)) *
+                            (Math.sin(nx * 1.2 + t * tspd[0]) +
+                                Math.cos(ny * 1.0 + t * tspd[1]) +
+                                Math.sin((nx + ny) * 0.9 + t * tspd[2])) *
                             Math.PI;
-                        this.vx += Math.cos(angle) * 0.003 * this.flowSpeed;
-                        this.vy += Math.sin(angle) * 0.003 * this.flowSpeed;
-                        this.vx *= 0.97;
-                        this.vy *= 0.97;
-
-                        // Wrap
+                        this.vx += Math.cos(angle) * spd * this.flowSpeed;
+                        this.vy += Math.sin(angle) * spd * this.flowSpeed;
+                        this.vx *= damp;
+                        this.vy *= damp;
                         if (this.x < -10) this.x = W + 10;
                         if (this.x > W + 10) this.x = -10;
                         if (this.y < -10) this.y = H + 10;
                         if (this.y > H + 10) this.y = -10;
                     }
-
-                    // Mouse repulsion always active
                     const mdx = this.x - mouse.x,
                         mdy = this.y - mouse.y;
                     const md2 = mdx * mdx + mdy * mdy;
-                    const R = 100;
+                    const R = phase1Unlocked ? 180 : 100;
+                    const fMag = phase1Unlocked ? 9.0 : 4.0;
                     if (md2 < R * R && md2 > 0.1) {
                         const md = Math.sqrt(md2);
-                        const f = ((R - md) / R) * 4.0;
-                        this.vx += (mdx / md) * f;
-                        this.vy += (mdy / md) * f;
+                        this.vx += (mdx / md) * ((R - md) / R) * fMag;
+                        this.vy += (mdy / md) * ((R - md) / R) * fMag;
                     }
-
                     this.x += this.vx;
                     this.y += this.vy;
                 }
-
                 draw(t, forming) {
-                    // While forming: opacity driven by luminance = photo looks real
-                    // After release: gentle twinkle
-                    let alpha;
-                    if (forming) {
-                        alpha = 0.4 + this.lum * 0.6;
-                    } else {
-                        alpha = (0.3 + this.lum * 0.5) * (0.7 + Math.sin(t * this.twinkle + this.seed) * 0.3);
-                    }
-
+                    const alpha = forming
+                        ? 0.4 + this.lum * 0.6
+                        : (0.3 + this.lum * 0.5) * (0.7 + Math.sin(t * this.twinkle + this.seed) * 0.3);
                     ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
                     ctx.fillStyle = this.color;
                     const r = Math.max(
@@ -208,9 +380,7 @@
             let forming = true;
             let formingTimer = 0;
             const FORM_DURATION = 400;
-            // hold portrait for ~6s at 60fps
 
-            // Paper grain
             const paperCanvas = document.createElement("canvas");
             const pCtx = paperCanvas.getContext("2d");
             function buildPaper() {
@@ -233,36 +403,30 @@
 
             let t = 0;
             function frame() {
-                // While forming hold a solid dark bg so portrait is crisp
-                if (forming) {
-                    ctx.fillStyle = "rgba(0,0,0,0.6)";
-                } else {
-                    ctx.fillStyle = "rgba(0,0,0,0.12)";
-                }
+                ctx.fillStyle = forming ? "rgba(0,0,0,0.6)" : phase1Unlocked ? "rgba(0,0,0,0.08)" : "rgba(0,0,0,0.12)";
                 ctx.fillRect(0, 0, W, H);
-
                 if (forming) {
                     formingTimer++;
                     if (formingTimer > FORM_DURATION) forming = false;
                 }
-
                 for (const s of stars) {
                     s.update(t, forming);
                     s.draw(t, forming);
                 }
-
                 ctx.globalAlpha = 0.18;
                 ctx.drawImage(paperCanvas, 0, 0);
                 ctx.globalAlpha = 1;
-
                 t++;
                 requestAnimationFrame(frame);
             }
 
             const img = new Image();
             img.onload = () => {
+                // Tell CSS the exact ratio so #photo-space matches the canvas render
+                const ratio = img.naturalWidth / img.naturalHeight;
+                document.documentElement.style.setProperty("--img-ratio", ratio);
+
                 const pts = sampleImage(img);
-                console.log("Star count:", pts.length);
                 stars = pts.map((p) => new Star(p));
                 ctx.fillStyle = "#000";
                 ctx.fillRect(0, 0, W, H);

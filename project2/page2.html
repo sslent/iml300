@@ -5,111 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dear Miyoko</title>
     <style>
+      @font-face {
+        font-family: "BodyFont";
+        src: url("assets/bodyfont.ttf") format("truetype");
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
+
       body {
         background-color: #fdf8f2;
-        font-family: Georgia, serif;
+        font-family: "BodyFont", Georgia, serif;
+        min-height: 100vh;
+        overflow-x: hidden;
       }
-      .bg {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 0;
-      }
+
+      /* Fixed centered notebook image */
       .notebook-img {
-        width: 3000px;
-        height: 800px;
-        object-fit: contain;
-        opacity: 0.85;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 900px;
+        max-width: 150vw;
+        opacity: 0.6;
+        z-index: 0;
+        pointer-events: none;
       }
-      .story-container {
+
+      /* Full layout wrapper */
+      .page-layout {
         position: relative;
         z-index: 10;
-        max-width: 620px;
-        margin: 0 auto;
-        padding: 80px 40px;
+        display: grid;
+        grid-template-columns: 1fr 340px 1fr;
+        min-height: 100vh;
+        padding: 60px 40px;
+        gap: 0 40px;
+        align-items: start;
       }
+
+      /* Text columns */
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        padding-top: 80px;
+      }
+
+      #col-left {
+        align-items: flex-end;
+        text-align: right;
+      }
+      #col-right {
+        align-items: flex-start;
+        text-align: left;
+        visibility: hidden;
+      }
+      #col-right.active {
+        visibility: visible;
+      }
+
+      /* Image spacer — keeps the center column empty */
+      .img-spacer {
+        width: 340px;
+      }
+
+      /* Each chunk */
       .chunk {
-        margin-bottom: 40px;
-        transition: opacity 0.6s ease;
+        max-width: 300px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+        pointer-events: none;
       }
-      .chunk.hidden {
-        display: none;
+
+      .chunk.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+
+      .chunk p {
+        font-family: "BodyFont", Georgia, serif;
+        font-size: 20px;
+        line-height: 1.95;
+        color: #3a2e28;
+        letter-spacing: 0.01em;
+      }
+
+      .chunk p a {
+        font-family: "BodyFont", Georgia, serif;
+        color: #7a3a3a;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(122, 58, 58, 0.4);
+      }
+
+      /* Continue button */
+      .next-btn {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
+        margin-top: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: "BodyFont", Georgia, serif;
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        color: #b81834;
+        text-transform: lowercase;
+        padding: 0;
+        transition: opacity 0.3s;
+      }
+
+      .next-btn:hover {
+        opacity: 0.45;
+      }
+
+      .next-btn .arrow {
+        font-size: 16px;
+        line-height: 1;
       }
     </style>
   </head>
   <body>
+    <img src="assets/Pagetwo.png" alt="notebook" class="notebook-img" />
 
-    <div class="bg">
-      <img src="assets/Pagetwo.png" alt="notebook" class="notebook-img" style="width: 900px; max-width: 150vw; opacity: 0.6; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
-    </div>
+    <div class="page-layout">
+      <!-- LEFT: chunks 0–4 -->
+      <div class="col" id="col-left">
+        <div class="chunk" id="chunk-0">
+          <p>
+            I was moving into her room. She wasn't gone yet — but she was getting there, and we decided to move her out
+            to my Aunt's house amidst the chaos of the Pandemic. Someone had to start going through her stuff.
+          </p>
+          <button class="next-btn" onclick="showNext(1)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-    <div class="story-container" style="position: relative; z-index: 999;">
-      <div class="chunk" id="chunk-0">
-        <p>I was moving into her room. She wasn't gone yet — but she was getting there, and we decided to move her out to my Aunt's house amidst the chaos of the Pandemic. Someone had to start going through her stuff.</p>
-        <button class="next-btn" onclick="showNext(1)">continue ↓</button>
+        <div class="chunk" id="chunk-1">
+          <p>
+            Her name was Masako Oshiro. She'd given me the Japanese name "Miyoko" when I was born. She was born in
+            Okinawa. She survived World War II by hiding in a cave with her family, her little brother would die of
+            starvation here. She married an American and followed him to New York, where the neighborhood was
+            predominantly White. She raised three daughters, mostly alone, working two and three jobs at a time. She was
+            stubborn and sassy and brilliant.
+          </p>
+          <button class="next-btn" onclick="showNext(2)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
+
+        <div class="chunk" id="chunk-2">
+          <p>I was too young, when she was most herself, to understand her.</p>
+          <button class="next-btn" onclick="showNext(3)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
+
+        <div class="chunk" id="chunk-3">
+          <p>
+            I remember she would always stop me in the middle of whatever I was doing and ask me to spell something. Or
+            define a word. Out of nowhere, any random word. As a kid, I found it annoying.
+          </p>
+          <button class="next-btn" onclick="showNext(4)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
+
+        <div class="chunk" id="chunk-4">
+          <p>
+            This notebook is the proof of her trying. She always kept a notebook — to write in, to draw in — and must
+            have left dozens of them behind somewhere. But this one I found. This one I kept.
+          </p>
+          <button class="next-btn" onclick="showNext(5)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
       </div>
 
-      <div class="chunk hidden" id="chunk-1">
-        <p>Her name was Masako Oshiro. She was born in Okinawa. She survived World War II by hiding in a cave with her family, her little brother would die of starvation here. She married an American and followed him to Binghamton, New York, where the winters were bleak and harsh and the neighborhood was predominantly White. She raised three daughters, mostly alone, working two and three jobs at a time. She was stubborn and sassy and brilliant.</p>
-        <button class="next-btn" onclick="showNext(2)">continue ↓</button>
-      </div>
+      <!-- Center spacer -->
+      <div class="img-spacer"></div>
 
-      <div class="chunk hidden" id="chunk-2">
-        <p>I was too young, when she was most herself, to understand her.</p>
-        <button class="next-btn" onclick="showNext(3)">continue ↓</button>
-      </div>
+      <!-- RIGHT: chunks 5–9 -->
+      <div class="col" id="col-right">
+        <div class="chunk" id="chunk-5">
+          <p>
+            It is a beautiful and painful thing, to hold the evidence of someone trying this hard. To see, in her own
+            writing, how much effort it took to navigate a language and a culture that she was not born into.
+          </p>
+          <button class="next-btn" onclick="showNext(6)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-      <div class="chunk hidden" id="chunk-3">
-        <p>I remember she would always stop me in the middle of whatever I was doing and ask me to spell something. Or define a word. Out of nowhere, any random word. As a kid, I found it annoying.</p>
-        <button class="next-btn" onclick="showNext(4)">continue ↓</button>
-      </div>
+        <div class="chunk" id="chunk-6">
+          <p>
+            When I found it I felt like I had discovered something secret. Something that belonged to me specifically,
+            that I was meant to find.
+          </p>
 
-      <div class="chunk hidden" id="chunk-4">
-        <p>This notebook is the proof of her trying. English words, written in her steady and deliberate handwriting, with definitions and notes alongside them. She always kept a notebook — to write in, to draw in — and must have left dozens of them behind somewhere. But this one I found. This one I kept.</p>
-        <button class="next-btn" onclick="showNext(5)">continue ↓</button>
-      </div>
+          <button class="next-btn" onclick="showNext(7)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-      <div class="chunk hidden" id="chunk-5">
-        <p>It is a beautiful and painful thing, to hold the evidence of someone trying this hard. To see, in her own writing, how much effort it took to navigate a language and a culture that she was not born into. When I found it I felt like I had discovered something secret. Something that belonged to me specifically, that I was meant to find. I knew how valuable it was — a chance, maybe the only one I'd get, to understand something about her mind.</p>
-        <button class="next-btn" onclick="showNext(6)">continue ↓</button>
-      </div>
+        <div class="chunk" id="chunk-7">
+          <p>She died four years after I found it.</p>
+          <button class="next-btn" onclick="showNext(8)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-      <div class="chunk hidden" id="chunk-6">
-        <p>She died four years after I found it.</p>
-        <button class="next-btn" onclick="showNext(7)">continue ↓</button>
-      </div>
+        <div class="chunk" id="chunk-8">
+          <p>
+            She never wrote letters so I knew how valuable this was — a chance, maybe the only one I'd get, to
+            understand something about her mind.
+          </p>
+          <button class="next-btn" onclick="showNext(9)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-      <div class="chunk hidden" id="chunk-7">
-        <p>She never wrote letters. She never gave speeches. Words were not her best friend — she said things with her hands, with what she made. But she wanted words. She worked for them. She collected them in secret in a little book.</p>
-        <button class="next-btn" onclick="showNext(8)">continue ↓</button>
-      </div>
+        <div class="chunk" id="chunk-9">
+          <p>I'm older now. I have so many questions she's not here to answer.</p>
+          <button class="next-btn" onclick="showNext(10)"><span>continue</span><span class="arrow">↓</span></button>
+        </div>
 
-      <div class="chunk hidden" id="chunk-8">
-        <p>I'm older now. I have so many questions she's not here to answer.</p>
-        <button class="next-btn" onclick="showNext(9)">continue ↓</button>
-      </div>
-
-      <div class="chunk hidden" id="chunk-9">
-        <p>Maybe this is a <a href="page3.html" class="start-link">start.</a></p>
+        <div class="chunk" id="chunk-10">
+          <p>Maybe this is a <a href="page3.html">start.</a></p>
+        </div>
       </div>
     </div>
 
     <script>
+      const LEFT_MAX = 4;
+
+      // Show first chunk on load
+      document.getElementById("chunk-0").classList.add("visible");
+
       function showNext(index) {
-        const next = document.getElementById('chunk-' + index);
-        if (next) {
-          next.classList.remove('hidden');
-          next.scrollIntoView({ behavior: 'smooth' });
+        // Activate right column when we cross over
+        if (index > LEFT_MAX) {
+          document.getElementById("col-right").classList.add("active");
         }
+
+        const next = document.getElementById("chunk-" + index);
+        if (!next) return;
+
+        // Hide the button on the previous chunk
+        const prev = document.getElementById("chunk-" + (index - 1));
+        if (prev) {
+          const btn = prev.querySelector(".next-btn");
+          if (btn) btn.style.display = "none";
+        }
+
+        next.classList.add("visible");
+
+        // Scroll so the new chunk is comfortably in view
+        setTimeout(() => {
+          next.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 100);
       }
     </script>
-
   </body>
 </html>

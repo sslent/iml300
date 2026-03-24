@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>myth</title>
     <style>
+      @font-face {
+        font-family: "BodyFont";
+        src: url("assets/bodyfont.ttf") format("truetype");
+      }
       * {
         margin: 0;
         padding: 0;
@@ -14,7 +18,7 @@
         background: #000;
         height: 100vh;
         overflow: hidden;
-        font-family: Georgia, serif;
+        font-family: BodyFont, serif;
       }
 
       /* Fullscreen video */
@@ -51,8 +55,8 @@
 
       #text .line {
         display: block;
-        font-size: clamp(14px, 1.6vw, 17px);
-        color: #d4c8b8;
+        font-size: 18;
+        color: #ffffff;
         letter-spacing: 0.03em;
         opacity: 0;
         transform: translateY(7px);
@@ -68,8 +72,8 @@
       }
 
       #text a {
-        color: #c4a882;
-        text-decoration: underline;
+        color: #ffffff;
+        text-decoration: none;
         text-underline-offset: 3px;
         pointer-events: all;
       }
@@ -91,7 +95,7 @@
       <span class="line">and lives in the body.</span>
       <span class="line">&nbsp;</span>
       <span class="line">You became a myth to me the way only real people can.</span>
-      <span class="line">Part of you <a href="potential.html">will always live</a> inside me.</span>
+      <span class="line">Part of you <a href="love.html">will always live</a> inside me.</span>
     </div>
 
     <script>
