@@ -36,16 +36,24 @@
         pointer-events: none;
       }
 
-      /* Full layout wrapper */
-      .page-layout {
-        position: relative;
-        z-index: 10;
-        display: grid;
-        grid-template-columns: 1.5fr 340px 1fr;
-        min-height: 100vh;
-        padding: 60px 10px;
-        gap: 0 40px;
-        align-items: start;
+    .page-layout {
+  position: relative;
+  z-index: 10;
+  display: grid;
+
+  /* Make side columns take more space */
+  grid-template-columns: 1fr 340px 1fr;
+
+  min-height: 100vh;
+
+  /* Remove side padding so content can hit edges */
+  padding: 60px 0;
+
+  /* Increase gap so center image breathes */
+  gap: 0 80px;
+
+  align-items: start;
+}
       }
 
       /* Text columns */
