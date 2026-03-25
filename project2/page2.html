@@ -5,142 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dear Miyoko</title>
     <style>
-      @font-face {
-        font-family: "BodyFont";
-        src: url("assets/bodyfont.ttf") format("truetype");
-      }
+            @font-face {
+              font-family: "BodyFont";
+              src: url("assets/bodyfont.ttf") format("truetype");
+            }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
 
-      body {
-        background-color: #fdf8f2;
-        font-family: "BodyFont", Georgia, serif;
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
+            body {
+              background-color: #fdf8f2;
+              font-family: "BodyFont", Georgia, serif;
+              min-height: 100vh;
+              overflow-x: hidden;
+            }
 
-      /* Fixed centered notebook image */
-      .notebook-img {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 900px;
-        max-width: 150vw;
-        opacity: 0.6;
-        z-index: 0;
-        pointer-events: none;
-      }
+            /* Fixed centered notebook image */
+            .notebook-img {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 900px;
+              max-width: 150vw;
+              opacity: 0.6;
+              z-index: 0;
+              pointer-events: none;
+            }
 
-    .page-layout {
+          .page-layout {
   position: relative;
-  z-index: 10;
-  display: grid;
-
-  /* Make side columns take more space */
-  grid-template-columns: 1fr 340px 1fr;
-
-  min-height: 100vh;
-
-  /* Remove side padding so content can hit edges */
-  padding: 60px 0;
-
-  /* Increase gap so center image breathes */
-  gap: 0 80px;
-
-  align-items: start;
+  width: 100vw; /
 }
-      }
+        z-index: 10;
+        display: grid;
 
-      /* Text columns */
-      .col {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-        padding-top: 80px;
-      }
+        /* Make side columns take more space */
+        grid-template-columns: 1fr 340px 1fr;
 
-      #col-left {
-        align-items: flex-end;
-        text-align: right;
-      }
-      #col-right {
-        align-items: flex-start;
-        text-align: left;
-        visibility: hidden;
-      }
-      #col-right.active {
-        visibility: visible;
-      }
+        min-height: 100vh;
 
-      /* Image spacer — keeps the center column empty */
-      .img-spacer {
-        width: 340px;
-      }
+        /* Remove side padding so content can hit edges */
+        padding: 60px 0;
 
-      /* Each chunk */
-      .chunk {
-        max-width: 300px;
-        opacity: 0;
-        transform: translateY(8px);
-        transition:
-          opacity 0.9s ease,
-          transform 0.9s ease;
-        pointer-events: none;
-      }
+        /* Increase gap so center image breathes */
+        gap: 0 80px;
 
-      .chunk.visible {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: all;
+        align-items: start;
       }
+            }
 
-      .chunk p {
-        font-family: "BodyFont", Georgia, serif;
-        font-size: 20px;
-        line-height: 1.95;
-        color: #3a2e28;
-        letter-spacing: 0.01em;
-      }
+            /* Text columns */
+            .col {
+              display: flex;
+              flex-direction: column;
+              gap: 32px;
+              padding-top: 80px;
+            }
 
-      .chunk p a {
-        font-family: "BodyFont", Georgia, serif;
-        color: #7a3a3a;
-        text-decoration: none;
-        border-bottom: 1px solid rgba(122, 58, 58, 0.4);
-      }
+            #col-left {
+  align-items: flex-end;
+  text-align: right;
 
-      /* Continue button */
-      .next-btn {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1px;
-        margin-top: 12px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-family: "BodyFont", Georgia, serif;
-        font-size: 15px;
-        letter-spacing: 0.16em;
-        color: #b81834;
-        text-transform: lowercase;
-        padding: 0;
-        transition: opacity 0.3s;
-      }
+  /* KEY: push whole column to left edge */
+  justify-self: start;
+  margin-left: 5vw;   /* controls how far into the margin it sits */
+}
 
-      .next-btn:hover {
-        opacity: 0.45;
-      }
+#col-right {
+  align-items: flex-start;
+  text-align: left;
+  visibility: hidden;
 
-      .next-btn .arrow {
-        font-size: 16px;
-        line-height: 1;
-      }
+  justify-self: end;
+  margin-right: 5vw;  /* same idea on right side */
+}
+            #col-right.active {
+              visibility: visible;
+            }
+
+            /* Image spacer — keeps the center column empty */
+            .img-spacer {
+              width: 340px;
+            }
+
+            /* Each chunk */
+            .chunk {
+              max-width: 300px;
+              opacity: 0;
+              transform: translateY(8px);
+              transition:
+                opacity 0.9s ease,
+                transform 0.9s ease;
+              pointer-events: none;
+            }
+
+            .chunk.visible {
+              opacity: 1;
+              transform: translateY(0);
+              pointer-events: all;
+            }
+
+            .chunk p {
+              font-family: "BodyFont", Georgia, serif;
+              font-size: 20px;
+              line-height: 1.95;
+              color: #3a2e28;
+              letter-spacing: 0.01em;
+            }
+
+            .chunk p a {
+              font-family: "BodyFont", Georgia, serif;
+              color: #7a3a3a;
+              text-decoration: none;
+              border-bottom: 1px solid rgba(122, 58, 58, 0.4);
+            }
+
+            /* Continue button */
+            .next-btn {
+              display: inline-flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 1px;
+              margin-top: 12px;
+              background: none;
+              border: none;
+              cursor: pointer;
+              font-family: "BodyFont", Georgia, serif;
+              font-size: 15px;
+              letter-spacing: 0.16em;
+              color: #b81834;
+              text-transform: lowercase;
+              padding: 0;
+              transition: opacity 0.3s;
+            }
+
+            .next-btn:hover {
+              opacity: 0.45;
+            }
+
+            .next-btn .arrow {
+              font-size: 16px;
+              line-height: 1;
+            }
     </style>
   </head>
   <body>
