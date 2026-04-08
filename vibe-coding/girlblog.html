@@ -111,22 +111,15 @@ body {
   color: var(--lime);
   letter-spacing: 2px;
 }
-    
-    .pose-box {
-  background: #fff0f5;
-  border: 2px solid #ff1493;
-  border-top: none;
+.photo-cycler {
   text-align: center;
-  padding: 8px;
+  padding: 10px;
 }
 
-.pose-box img {
-  width: 100%;
-  max-width: 220px;
-  /*image-rendering: pixelated;*/
-  border: 2px solid #ff69b4;
+.photo-cycler img {
+  max-height: 200px;
+  border: 3px solid #ff69b4;
 }
-
 /* ---- MARQUEE ---- */
 .marquee-bar {
   background: #cc0077;
@@ -530,12 +523,13 @@ body {
     ▓▓▓ VISITORS: <span id="visitorCount">002847</span> ▓▓▓ &nbsp;|&nbsp; YOU ARE VISITOR #<span id="yourNum">002848</span> ▓▓▓
   </div>
     
-    <div class="pose-box">
-  <img id="poseImg" src="assets/pose1.png">
+<div class="photo-cycler">
+  <img id="cyclerImg" src="../assets/pose1.png" >
+    
 </div>
-        
-        
-
+    
+    
+    
   <div class="marquee-bar">
     <marquee scrollamount="3">✿ welcome 2 my corner of the internet ✿ &nbsp;&nbsp;&nbsp; ♡ this site is best viewed in 800x600 ♡ &nbsp;&nbsp;&nbsp; ~*~ leave ur thoughts in the guestbook below ~*~ &nbsp;&nbsp;&nbsp; ✿ femininity is not a weakness ✿ &nbsp;&nbsp;&nbsp; ♡ girlhood is a practice ♡ &nbsp;&nbsp;&nbsp;</marquee>
   </div>
@@ -882,14 +876,13 @@ loadEntries();
 // Poll for new entries every 30s
 setInterval(loadEntries, 30000);
     
-    // my pics cycle
-const poses = ["assets/pose1.png", "assets/pose2.png", "assets/pose3.png", "assets/pose4.png"];
-let poseIndex = 0;
+    const poses = ['../assets/pose1.png', '../assets/pose2.png', '../assets/pose3.png', '../assets/pose4.png'];
+let i = 0;
 
-setInterval(() => {
-  poseIndex = (poseIndex + 1) % poses.length;
-  document.getElementById("poseImg").src = poses[poseIndex];
-}, 2000);
+setInterval(function() {
+  i = (i + 1) % poses.length;
+  document.getElementById('cyclerImg').src = poses[i];
+}, 3000);
     
 </script>
 </body>
