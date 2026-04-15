@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is a Woman?</title>
+<style>
+    @font-face {
+  font-family: 'Titlefont';
+  src: url('assets/titlefont.ttf') format('truetype');
+}
+
+    @font-face {
+  font-family: 'EmbroiderFont';
+  src: url('assets/embroiderfont.ttf') format('truetype');
+}
+    
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #e8e2d8;
+    color: #1a1612;
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 200;
+  }
+
+  /* Full-screen image stage */
+  .image-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .img-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(25%) brightness(0.86) contrast(1.08) sepia(12%);
+  }
+
+  .img-slide.active { opacity: 1; }
+
+  /* Glitch layer A — clips top slice, shifts left */
+  .img-slide.active::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(25%) brightness(0.86) contrast(1.08) sepia(12%);
+    animation: glitch-a 4s infinite steps(1);
+  }
+
+  /* Glitch layer B — clips bottom slice, shifts right */
+  .img-slide.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(25%) brightness(0.86) contrast(1.08) sepia(12%);
+    animation: glitch-b 4s infinite steps(1);
+  }
+
+  @keyframes glitch-a {
+    0%,64%,100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+    65%  { clip-path: inset(12% 0 68% 0); transform: translateX(-10px); }
+    66%  { clip-path: inset(48% 0 34% 0); transform: translateX(7px); }
+    67%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+    72%  { clip-path: inset(28% 0 54% 0); transform: translateX(-6px); }
+    73%  { clip-path: inset(70% 0 10% 0); transform: translateX(5px); }
+    74%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  }
+
+  @keyframes glitch-b {
+    0%,64%,100% { clip-path: inset(100% 0 0 0); transform: translate(0); }
+    65%  { clip-path: inset(68% 0 12% 0); transform: translateX(9px); }
+    66%  { clip-path: inset(34% 0 48% 0); transform: translateX(-7px); }
+    67%  { clip-path: inset(100% 0 0 0); transform: translate(0); }
+    72%  { clip-path: inset(54% 0 28% 0); transform: translateX(6px); }
+    73%  { clip-path: inset(10% 0 70% 0); transform: translateX(-5px); }
+    74%  { clip-path: inset(100% 0 0 0); transform: translate(0); }
+  }
+
+  /* Fog — clears center, fades edges */
+  .fog {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(232,226,216,0.32) 0%, rgba(232,226,216,0.0) 100%),
+      linear-gradient(to bottom, rgba(232,226,216,0.78) 0%, rgba(232,226,216,0.05) 20%, rgba(232,226,216,0.05) 80%, rgba(232,226,216,0.78) 100%),
+      linear-gradient(to right,  rgba(232,226,216,0.55) 0%, rgba(232,226,216,0.0) 18%, rgba(232,226,216,0.0) 82%, rgba(232,226,216,0.55) 100%);
+    pointer-events: none;
+  }
+
+  /* Content */
+  .content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 3rem 2rem;
+    max-width: 640px;
+  }
+
+  .eyebrow {
+  font-family: 'EmbroiderFont', serif;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: white;
+  text-transform: uppercase;
+}
+  
+
+  /* Circular title SVG */
+  .circle-title {
+    width: clamp(220px, 40vw, 340px);
+    height: clamp(220px, 40vw, 340px);
+    animation: slow-spin 28s linear infinite;
+  }
+
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+ .circle-title text {
+  font-family: 'Titlefont', serif;
+  font-size: 40px;
+  font-weight: 300;
+  font-style: italic;
+  fill: #1a1612;
+  letter-spacing: 0.18em;
+}
+
+  .rule {
+    width: 44px;
+    height: 1px;
+    background: rgba(26,22,18,0.18);
+  }
+
+ .tagline {
+  font-family: 'EmbroiderFont', serif;
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  font-style: italic;
+  color: white;
+  line-height: 1.75;
+  max-width: 360px;
+}
+
+  .start-btn {
+    display: inline-block;
+    font-family: Titlefont;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid white;
+    padding-bottom: 3px;
+    margin-top: 0.4rem;
+    transition: letter-spacing 0.5s ease, color 0.3s, border-color 0.3s;
+  }
+
+  .start-btn:hover {
+    letter-spacing: 0.4em;
+    color: #1a1612;
+    border-color: rgba(26,22,18,0.6);
+  }
+</style>
+</head>
+<body>
+
+<div class="image-stage" id="stage"></div>
+<div class="fog"></div>
+
+<div class="content">
+  <p class="eyebrow">a meditation</p>
+
+  <!-- Circular title using SVG textPath -->
+  <svg class="circle-title" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="circlePath"
+        d="M 170,170 m -130,0 a 130,130 0 1,1 260,0 a 130,130 0 1,1 -260,0" />
+    </defs>
+    <text>
+      <textPath href="#circlePath" startOffset="0%">
+        What is a Woman? · What is a Woman? ·
+      </textPath>
+    </text>
+  </svg>
+
+  <div class="rule"></div>
+  <p class="tagline">Strictly speaking, "women" cannot be said to exist.<br>—Julia Kristeva</p>
+  <a class="start-btn" href="page1.html">Begin</a>
+</div>
+
+<script>
+  const total = 14;
+  const stage = document.getElementById('stage');
+
+  for (let i = 1; i <= total; i++) {
+    const div = document.createElement('div');
+    div.className = 'img-slide' + (i === 1 ? ' active' : '');
+    div.style.backgroundImage = `url('assets/${i}.png')`;
+    stage.appendChild(div);
+  }
+
+  const slides = document.querySelectorAll('.img-slide');
+  let current = 0;
+
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % total;
+    slides[current].classList.add('active');
+  }, 2600);
+</script>
+</body>
+</html>

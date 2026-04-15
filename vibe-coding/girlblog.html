@@ -1,889 +1,1002 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>~*~ xoxo girlblog ~*~ est. 2003</title>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Kalam:wght@300;400;700&family=VT323&family=Special+Elite&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>~*~ xoxo girlblog ~*~ est. 2003</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Kalam:wght@300;400;700&family=VT323&family=Special+Elite&display=swap"
+            rel="stylesheet" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-:root {
-  --hot-pink: #ff69b4;
-  --deep-pink: #c2185b;
-  --baby-pink: #ffb6c1;
-  --lilac: #dda0dd;
-  --sky: #87ceeb;
-  --lime: #adff2f;
-  --yellow: #ffff99;
-  --white: #ffffff;
-  --bg: #fff0f5;
-}
+            :root {
+                --hot-pink: #ff69b4;
+                --deep-pink: #c2185b;
+                --baby-pink: #ffb6c1;
+                --lilac: #dda0dd;
+                --sky: #87ceeb;
+                --lime: #adff2f;
+                --yellow: #ffff99;
+                --white: #ffffff;
+                --bg: #fff0f5;
+            }
 
-body {
-  background-color: #ffccee;
-  background-image: 
-    radial-gradient(circle, #ff99cc 1px, transparent 1px),
-    radial-gradient(circle, #ffaadd 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
-  font-family: 'Kalam', cursive;
-  color: #330022;
-  min-height: 100vh;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ctext y='16' font-size='16'%3E✿%3C/text%3E%3C/svg%3E") 10 10, auto;
-}
+            body {
+                background-color: #ffccee;
+                background-image: radial-gradient(circle, #ff99cc 1px, transparent 1px),
+                    radial-gradient(circle, #ffaadd 1px, transparent 1px);
+                background-size: 20px 20px;
+                background-position:
+                    0 0,
+                    10px 10px;
+                font-family: "Kalam", cursive;
+                color: #330022;
+                min-height: 100vh;
+                cursor:
+                    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ctext y='16' font-size='16'%3E✿%3C/text%3E%3C/svg%3E")
+                        10 10,
+                    auto;
+            }
 
-/* ---- STARS / SPARKLES EVERYWHERE ---- */
-.star-field {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.star {
-  position: absolute;
-  font-size: 14px;
-  animation: twinkle 2s ease-in-out infinite;
-  color: var(--hot-pink);
-}
-@keyframes twinkle {
-  0%,100%{opacity:0.2;transform:scale(0.8) rotate(0deg);}
-  50%{opacity:1;transform:scale(1.2) rotate(180deg);}
-}
+            /* ---- STARS / SPARKLES EVERYWHERE ---- */
+            .star-field {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+                overflow: hidden;
+            }
+            .star {
+                position: absolute;
+                font-size: 14px;
+                animation: twinkle 2s ease-in-out infinite;
+                color: var(--hot-pink);
+            }
+            @keyframes twinkle {
+                0%,
+                100% {
+                    opacity: 0.2;
+                    transform: scale(0.8) rotate(0deg);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.2) rotate(180deg);
+                }
+            }
 
-/* ---- OUTER WRAPPER ---- */
-.site-wrapper {
-  max-width: 780px;
-  margin: 20px auto;
-  position: relative;
-  z-index: 1;
-}
+            /* ---- OUTER WRAPPER ---- */
+            .site-wrapper {
+                max-width: 780px;
+                margin: 20px auto;
+                position: relative;
+                z-index: 1;
+            }
 
-/* ---- HEADER ---- */
-.site-header {
-  background: linear-gradient(135deg, #ff99cc, #cc66ff, #ff99cc, #ff66aa);
-  background-size: 400% 400%;
-  animation: gradientShift 4s ease infinite;
-  border: 3px solid #ff1493;
-  border-bottom: none;
-  padding: 16px;
-  text-align: center;
-  position: relative;
-  box-shadow: 4px 4px 0px #cc0077, 8px 8px 0px #990055;
-}
-@keyframes gradientShift {
-  0%,100%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-}
+            /* ---- HEADER ---- */
+            .site-header {
+                background: linear-gradient(135deg, #ff99cc, #cc66ff, #ff99cc, #ff66aa);
+                background-size: 400% 400%;
+                animation: gradientShift 4s ease infinite;
+                border: 3px solid #ff1493;
+                border-bottom: none;
+                padding: 16px;
+                text-align: center;
+                position: relative;
+                box-shadow:
+                    4px 4px 0px #cc0077,
+                    8px 8px 0px #990055;
+            }
+            @keyframes gradientShift {
+                0%,
+                100% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+            }
 
-.blink {
-  animation: blink 1s step-end infinite;
-}
-@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+            .blink {
+                animation: blink 1s step-end infinite;
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
 
-.site-title {
-  font-family: 'VT323', monospace;
-  font-size: 52px;
-  color: white;
-  text-shadow: 3px 3px 0 #cc0077, -1px -1px 0 #ff99cc;
-  letter-spacing: 3px;
-  line-height: 1;
-}
-.site-subtitle {
-  font-family: 'Kalam', cursive;
-  font-size: 14px;
-  color: #fff0f5;
-  margin-top: 4px;
-}
-.site-subtitle span { color: var(--yellow); font-weight: 700; }
+            .site-title {
+                font-family: "VT323", monospace;
+                font-size: 52px;
+                color: white;
+                text-shadow:
+                    3px 3px 0 #cc0077,
+                    -1px -1px 0 #ff99cc;
+                letter-spacing: 3px;
+                line-height: 1;
+            }
+            .site-subtitle {
+                font-family: "Kalam", cursive;
+                font-size: 14px;
+                color: #fff0f5;
+                margin-top: 4px;
+            }
+            .site-subtitle span {
+                color: var(--yellow);
+                font-weight: 700;
+            }
 
-/* visitor counter style */
-.counter-bar {
-  background: #1a001a;
-  border: 2px solid #ff1493;
-  border-top: none;
-  border-bottom: none;
-  padding: 6px;
-  text-align: center;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--lime);
-  letter-spacing: 2px;
-}
-.photo-cycler {
-  text-align: center;
-  padding: 10px;
-}
+            /* visitor counter style */
+            .counter-bar {
+                background: #1a001a;
+                border: 2px solid #ff1493;
+                border-top: none;
+                border-bottom: none;
+                padding: 6px;
+                text-align: center;
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: var(--lime);
+                letter-spacing: 2px;
+            }
+            .photo-cycler {
+                text-align: center;
+                padding: 10px;
+            }
 
-.photo-cycler img {
-  max-height: 200px;
-  border: 3px solid #ff69b4;
-}
-/* ---- MARQUEE ---- */
-.marquee-bar {
-  background: #cc0077;
-  border: 2px solid #ff1493;
-  border-top: none;
-  border-bottom: none;
-  overflow: hidden;
-  padding: 4px 0;
-}
-.marquee-bar marquee {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--yellow);
-  letter-spacing: 2px;
-}
+            .photo-cycler img {
+                max-height: 200px;
+                border: 3px solid #ff69b4;
+            }
+            /* ---- MARQUEE ---- */
+            .marquee-bar {
+                background: #cc0077;
+                border: 2px solid #ff1493;
+                border-top: none;
+                border-bottom: none;
+                overflow: hidden;
+                padding: 4px 0;
+            }
+            .marquee-bar marquee {
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: var(--yellow);
+                letter-spacing: 2px;
+            }
 
-/* ---- NAV ---- */
-.site-nav {
-  background: #ff1493;
-  border: 2px solid #ff1493;
-  border-top: none;
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: wrap;
-}
-.site-nav a {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: white;
-  text-decoration: none;
-  padding: 6px 16px;
-  border-right: 1px solid #cc0077;
-  transition: background 0.1s;
-  letter-spacing: 1px;
-}
-.site-nav a:hover { background: #cc0077; color: var(--yellow); }
+            /* ---- NAV ---- */
+            .site-nav {
+                background: #ff1493;
+                border: 2px solid #ff1493;
+                border-top: none;
+                display: flex;
+                justify-content: center;
+                gap: 0;
+                flex-wrap: wrap;
+            }
+            .site-nav a {
+                font-family: "VT323", monospace;
+                font-size: 20px;
+                color: white;
+                text-decoration: none;
+                padding: 6px 16px;
+                border-right: 1px solid #cc0077;
+                transition: background 0.1s;
+                letter-spacing: 1px;
+            }
+            .site-nav a:hover {
+                background: #cc0077;
+                color: var(--yellow);
+            }
 
-/* ---- MAIN 2-COL LAYOUT ---- */
-.main-layout {
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  border: 2px solid #ff1493;
-  border-top: none;
-  background: white;
-  box-shadow: 4px 4px 0 #cc0077, 8px 8px 0 #990055;
-}
+            /* ---- MAIN 2-COL LAYOUT ---- */
+            .main-layout {
+                display: grid;
+                grid-template-columns: 1fr 200px;
+                border: 2px solid #ff1493;
+                border-top: none;
+                background: white;
+                box-shadow:
+                    4px 4px 0 #cc0077,
+                    8px 8px 0 #990055;
+            }
 
-/* ---- LEFT CONTENT ---- */
-.main-content {
-  padding: 16px;
-  border-right: 2px dashed #ffaadd;
-}
+            /* ---- LEFT CONTENT ---- */
+            .main-content {
+                padding: 16px;
+                border-right: 2px dashed #ffaadd;
+            }
 
-/* ---- ABOUT BOX ---- */
-.about-box {
-  background: var(--yellow);
-  border: 2px solid #ff1493;
-  padding: 12px;
-  margin-bottom: 14px;
-  font-size: 13px;
-  line-height: 1.6;
-  position: relative;
-}
-.about-box::before {
-  content: '✿ ABOUT THIS SITE ✿';
-  display: block;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: #cc0077;
-  margin-bottom: 6px;
-  letter-spacing: 1px;
-}
-.about-box p { font-size: 12.5px; }
+            /* ---- ABOUT BOX ---- */
+            .about-box {
+                background: var(--yellow);
+                border: 2px solid #ff1493;
+                padding: 12px;
+                margin-bottom: 14px;
+                font-size: 13px;
+                line-height: 1.6;
+                position: relative;
+            }
+            .about-box::before {
+                content: "✿ ABOUT THIS SITE ✿";
+                display: block;
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: #cc0077;
+                margin-bottom: 6px;
+                letter-spacing: 1px;
+            }
+            .about-box p {
+                font-size: 12.5px;
+            }
 
-/* ---- WRITE ENTRY FORM ---- */
-.write-box {
-  background: #fff0f5;
-  border: 3px solid #ff69b4;
-  padding: 14px;
-  margin-bottom: 14px;
-  box-shadow: inset 0 0 8px rgba(255,105,180,0.15);
-}
+            /* ---- WRITE ENTRY FORM ---- */
+            .write-box {
+                background: #fff0f5;
+                border: 3px solid #ff69b4;
+                padding: 14px;
+                margin-bottom: 14px;
+                box-shadow: inset 0 0 8px rgba(255, 105, 180, 0.15);
+            }
 
-.box-title {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: #cc0077;
-  letter-spacing: 1px;
-  border-bottom: 2px dotted #ff69b4;
-  padding-bottom: 6px;
-  margin-bottom: 10px;
-}
+            .box-title {
+                font-family: "VT323", monospace;
+                font-size: 22px;
+                color: #cc0077;
+                letter-spacing: 1px;
+                border-bottom: 2px dotted #ff69b4;
+                padding-bottom: 6px;
+                margin-bottom: 10px;
+            }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 8px;
-}
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
 
-.form-row { display: flex; flex-direction: column; gap: 3px; }
-.form-row label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #cc0077;
-  font-family: 'VT323', monospace;
-  font-size: 15px;
-  letter-spacing: 1px;
-}
-.form-row input, .form-row select, .form-row textarea {
-  border: 2px solid #ff69b4;
-  background: white;
-  padding: 5px 8px;
-  font-family: 'Kalam', cursive;
-  font-size: 13px;
-  color: #330022;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
-  border-color: #cc0077;
-  background: #fff8fc;
-}
-.form-row textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-.form-row.full { grid-column: 1 / -1; }
+            .form-row {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+            .form-row label {
+                font-size: 11px;
+                font-weight: 700;
+                color: #cc0077;
+                font-family: "VT323", monospace;
+                font-size: 15px;
+                letter-spacing: 1px;
+            }
+            .form-row input,
+            .form-row select,
+            .form-row textarea {
+                border: 2px solid #ff69b4;
+                background: white;
+                padding: 5px 8px;
+                font-family: "Kalam", cursive;
+                font-size: 13px;
+                color: #330022;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+            .form-row input:focus,
+            .form-row select:focus,
+            .form-row textarea:focus {
+                border-color: #cc0077;
+                background: #fff8fc;
+            }
+            .form-row textarea {
+                resize: vertical;
+                min-height: 80px;
+            }
+            .form-row.full {
+                grid-column: 1 / -1;
+            }
 
-.submit-btn {
-  background: linear-gradient(180deg, #ff69b4, #cc0077);
-  color: white;
-  border: 2px solid #990055;
-  padding: 8px 24px;
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  letter-spacing: 2px;
-  cursor: pointer;
-  box-shadow: 3px 3px 0 #660033;
-  transition: all 0.1s;
-  display: block;
-  margin: 10px auto 0;
-}
-.submit-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 #660033;
-}
-.submit-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 #660033;
-}
+            .submit-btn {
+                background: linear-gradient(180deg, #ff69b4, #cc0077);
+                color: white;
+                border: 2px solid #990055;
+                padding: 8px 24px;
+                font-family: "VT323", monospace;
+                font-size: 20px;
+                letter-spacing: 2px;
+                cursor: pointer;
+                box-shadow: 3px 3px 0 #660033;
+                transition: all 0.1s;
+                display: block;
+                margin: 10px auto 0;
+            }
+            .submit-btn:hover {
+                transform: translate(-1px, -1px);
+                box-shadow: 4px 4px 0 #660033;
+            }
+            .submit-btn:active {
+                transform: translate(2px, 2px);
+                box-shadow: 1px 1px 0 #660033;
+            }
 
-/* ---- ENTRIES ---- */
-.entries-box {
-  background: white;
-}
+            /* ---- ENTRIES ---- */
+            .entries-box {
+                background: white;
+            }
 
-.entry-card {
-  border: 2px solid #ffaadd;
-  margin-bottom: 12px;
-  background: white;
-  position: relative;
-  animation: entryFadeIn 0.4s ease;
-}
-@keyframes entryFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+            .entry-card {
+                border: 2px solid #ffaadd;
+                margin-bottom: 12px;
+                background: white;
+                position: relative;
+                animation: entryFadeIn 0.4s ease;
+            }
+            @keyframes entryFadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
-.entry-header {
-  background: linear-gradient(90deg, #ff99cc, #cc66ff);
-  padding: 6px 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.entry-name {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: white;
-  text-shadow: 1px 1px 0 #990055;
-}
-.entry-meta {
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  color: #fff0f5;
-  letter-spacing: 1px;
-}
-.entry-badges {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.badge {
-  background: white;
-  color: #cc0077;
-  font-family: 'VT323', monospace;
-  font-size: 13px;
-  padding: 1px 6px;
-  border-radius: 10px;
-  letter-spacing: 0.5px;
-}
+            .entry-header {
+                background: linear-gradient(90deg, #ff99cc, #cc66ff);
+                padding: 6px 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .entry-name {
+                font-family: "VT323", monospace;
+                font-size: 20px;
+                color: white;
+                text-shadow: 1px 1px 0 #990055;
+            }
+            .entry-meta {
+                font-family: "VT323", monospace;
+                font-size: 14px;
+                color: #fff0f5;
+                letter-spacing: 1px;
+            }
+            .entry-badges {
+                display: flex;
+                gap: 4px;
+                flex-wrap: wrap;
+            }
+            .badge {
+                background: white;
+                color: #cc0077;
+                font-family: "VT323", monospace;
+                font-size: 13px;
+                padding: 1px 6px;
+                border-radius: 10px;
+                letter-spacing: 0.5px;
+            }
 
-.entry-body {
-  padding: 10px 12px;
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: #330022;
-  border-top: 1px dashed #ffaadd;
-}
+            .entry-body {
+                padding: 10px 12px;
+                font-size: 13.5px;
+                line-height: 1.65;
+                color: #330022;
+                border-top: 1px dashed #ffaadd;
+            }
 
-.entry-prompts {
-  padding: 8px 12px;
-  background: #fff8fc;
-  border-top: 1px dashed #ffaadd;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.entry-prompts .prompt-line {
-  color: #770044;
-}
-.entry-prompts .prompt-line strong {
-  color: #cc0077;
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
+            .entry-prompts {
+                padding: 8px 12px;
+                background: #fff8fc;
+                border-top: 1px dashed #ffaadd;
+                font-size: 12px;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .entry-prompts .prompt-line {
+                color: #770044;
+            }
+            .entry-prompts .prompt-line strong {
+                color: #cc0077;
+                font-family: "VT323", monospace;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            }
 
-.entry-footer {
-  padding: 5px 12px;
-  background: #ffeeee;
-  border-top: 1px dashed #ffaadd;
-  font-family: 'VT323', monospace;
-  font-size: 13px;
-  color: #cc0077;
-}
+            .entry-footer {
+                padding: 5px 12px;
+                background: #ffeeee;
+                border-top: 1px dashed #ffaadd;
+                font-family: "VT323", monospace;
+                font-size: 13px;
+                color: #cc0077;
+            }
 
-.no-entries {
-  text-align: center;
-  padding: 30px;
-  color: #cc88aa;
-  font-size: 13px;
-}
-.no-entries .big { font-size: 32px; display: block; margin-bottom: 8px; }
+            .no-entries {
+                text-align: center;
+                padding: 30px;
+                color: #cc88aa;
+                font-size: 13px;
+            }
+            .no-entries .big {
+                font-size: 32px;
+                display: block;
+                margin-bottom: 8px;
+            }
 
-/* ---- SIDEBAR ---- */
-.sidebar {
-  padding: 12px;
-  background: #fff0f5;
-  font-size: 12px;
-}
+            /* ---- SIDEBAR ---- */
+            .sidebar {
+                padding: 12px;
+                background: #fff0f5;
+                font-size: 12px;
+            }
 
-.sidebar-widget {
-  border: 2px solid #ff69b4;
-  margin-bottom: 12px;
-  background: white;
-}
-.sidebar-widget-title {
-  background: #ff69b4;
-  color: white;
-  font-family: 'VT323', monospace;
-  font-size: 16px;
-  letter-spacing: 1px;
-  padding: 4px 8px;
-}
-.sidebar-widget-body {
-  padding: 8px;
-  font-size: 11.5px;
-  line-height: 1.7;
-}
+            .sidebar-widget {
+                border: 2px solid #ff69b4;
+                margin-bottom: 12px;
+                background: white;
+            }
+            .sidebar-widget-title {
+                background: #ff69b4;
+                color: white;
+                font-family: "VT323", monospace;
+                font-size: 16px;
+                letter-spacing: 1px;
+                padding: 4px 8px;
+            }
+            .sidebar-widget-body {
+                padding: 8px;
+                font-size: 11.5px;
+                line-height: 1.7;
+            }
 
-.mood-list { list-style: none; }
-.mood-list li { padding: 2px 0; border-bottom: 1px dotted #ffaadd; }
-.mood-list li:last-child { border: none; }
+            .mood-list {
+                list-style: none;
+            }
+            .mood-list li {
+                padding: 2px 0;
+                border-bottom: 1px dotted #ffaadd;
+            }
+            .mood-list li:last-child {
+                border: none;
+            }
 
-.playlist-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2px 0;
-  font-size: 11px;
-}
-.note-icon { font-size: 12px; }
+            .playlist-item {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 2px 0;
+                font-size: 11px;
+            }
+            .note-icon {
+                font-size: 12px;
+            }
 
-.web-ring {
-  text-align: center;
-  padding: 6px;
-}
-.web-ring a {
-  color: #cc0077;
-  font-size: 11px;
-  display: block;
-  text-decoration: none;
-}
-.web-ring a:hover { text-decoration: underline; }
-.web-ring .ring-nav {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: #ff1493;
-  margin: 4px 0;
-}
+            .web-ring {
+                text-align: center;
+                padding: 6px;
+            }
+            .web-ring a {
+                color: #cc0077;
+                font-size: 11px;
+                display: block;
+                text-decoration: none;
+            }
+            .web-ring a:hover {
+                text-decoration: underline;
+            }
+            .web-ring .ring-nav {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: #ff1493;
+                margin: 4px 0;
+            }
 
-.about-me-mini {
-  text-align: center;
-}
-.avatar-placeholder {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 6px;
-  background: linear-gradient(135deg, #ff99cc, #cc66ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  border: 2px solid #ff1493;
-}
-.about-me-mini .name {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: #cc0077;
-  letter-spacing: 1px;
-}
+            .about-me-mini {
+                text-align: center;
+            }
+            .avatar-placeholder {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 6px;
+                background: linear-gradient(135deg, #ff99cc, #cc66ff);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                border: 2px solid #ff1493;
+            }
+            .about-me-mini .name {
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: #cc0077;
+                letter-spacing: 1px;
+            }
 
-/* ---- FOOTER ---- */
-.site-footer {
-  border: 2px solid #ff1493;
-  border-top: none;
-  background: #1a001a;
-  color: #ff99cc;
-  text-align: center;
-  padding: 10px;
-  font-family: 'VT323', monospace;
-  font-size: 16px;
-  letter-spacing: 1px;
-  box-shadow: 4px 4px 0 #990055;
-}
-.site-footer a { color: var(--lime); text-decoration: none; }
+            /* ---- FOOTER ---- */
+            .site-footer {
+                border: 2px solid #ff1493;
+                border-top: none;
+                background: #1a001a;
+                color: #ff99cc;
+                text-align: center;
+                padding: 10px;
+                font-family: "VT323", monospace;
+                font-size: 16px;
+                letter-spacing: 1px;
+                box-shadow: 4px 4px 0 #990055;
+            }
+            .site-footer a {
+                color: var(--lime);
+                text-decoration: none;
+            }
 
-/* ---- SUCCESS MESSAGE ---- */
-.success-msg {
-  background: #ccffcc;
-  border: 2px solid #00aa00;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: #006600;
-  letter-spacing: 1px;
-  text-align: center;
-  display: none;
-}
+            /* ---- SUCCESS MESSAGE ---- */
+            .success-msg {
+                background: #ccffcc;
+                border: 2px solid #00aa00;
+                padding: 8px 12px;
+                margin-bottom: 12px;
+                font-family: "VT323", monospace;
+                font-size: 18px;
+                color: #006600;
+                letter-spacing: 1px;
+                text-align: center;
+                display: none;
+            }
 
-/* loading state */
-.loading-entries {
-  text-align: center;
-  padding: 20px;
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: #cc0077;
-  letter-spacing: 2px;
-}
+            /* loading state */
+            .loading-entries {
+                text-align: center;
+                padding: 20px;
+                font-family: "VT323", monospace;
+                font-size: 20px;
+                color: #cc0077;
+                letter-spacing: 2px;
+            }
 
-/* scrollbar */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #ffccee; }
-::-webkit-scrollbar-thumb { background: #ff69b4; border: 2px solid #cc0077; }
+            /* scrollbar */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #ffccee;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #ff69b4;
+                border: 2px solid #cc0077;
+            }
 
-/* mobile */
-@media (max-width: 600px) {
-  .main-layout { grid-template-columns: 1fr; }
-  .sidebar { border-top: 2px dashed #ffaadd; }
-  .form-grid { grid-template-columns: 1fr; }
-  .site-title { font-size: 36px; }
-}
-</style>
-</head>
-<body>
+            /* mobile */
+            @media (max-width: 600px) {
+                .main-layout {
+                    grid-template-columns: 1fr;
+                }
+                .sidebar {
+                    border-top: 2px dashed #ffaadd;
+                }
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+                .site-title {
+                    font-size: 36px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Star field -->
+        <div class="star-field" id="starField"></div>
 
-<!-- Star field -->
-<div class="star-field" id="starField"></div>
+        <div class="site-wrapper">
+            <!-- HEADER -->
+            <div class="site-header">
+                <div class="site-title">~*~ girlBLOG ~*~</div>
+                <div class="site-subtitle">
+                    a space for <span>✿ girls ✿</span> who think too much &amp; feel everything
+                </div>
+            </div>
 
-<div class="site-wrapper">
+            <div class="counter-bar">
+                ▓▓▓ VISITORS: <span id="visitorCount">002847</span> ▓▓▓ &nbsp;|&nbsp; YOU ARE VISITOR #<span
+                    id="yourNum"
+                    >002848</span
+                >
+                ▓▓▓
+            </div>
 
-  <!-- HEADER -->
-  <div class="site-header">
-    <div class="site-title">~*~ girlBLOG ~*~</div>
-    <div class="site-subtitle">
-      a space for <span>✿ girls ✿</span> who think too much &amp; feel everything
-    </div>
-  </div>
+            <div class="photo-cycler">
+                <img id="cyclerImg" src="../assets/pose1.png" />
+            </div>
 
-  <div class="counter-bar">
-    ▓▓▓ VISITORS: <span id="visitorCount">002847</span> ▓▓▓ &nbsp;|&nbsp; YOU ARE VISITOR #<span id="yourNum">002848</span> ▓▓▓
-  </div>
-    
-<div class="photo-cycler">
-  <img id="cyclerImg" src="../assets/pose1.png" >
-    
-</div>
-    
-    
-    
-  <div class="marquee-bar">
-    <marquee scrollamount="3">✿ welcome 2 my corner of the internet ✿ &nbsp;&nbsp;&nbsp; ♡ this site is best viewed in 800x600 ♡ &nbsp;&nbsp;&nbsp; ~*~ leave ur thoughts in the guestbook below ~*~ &nbsp;&nbsp;&nbsp; ✿ femininity is not a weakness ✿ &nbsp;&nbsp;&nbsp; ♡ girlhood is a practice ♡ &nbsp;&nbsp;&nbsp;</marquee>
-  </div>
+            <div class="marquee-bar">
+                <marquee scrollamount="3">
+                    ✿ welcome 2 my corner of the internet ✿ &nbsp;&nbsp;&nbsp; ♡ this site is best viewed in 800x600 ♡
+                    &nbsp;&nbsp;&nbsp; ~*~ leave ur thoughts in the guestbook below ~*~ &nbsp;&nbsp;&nbsp; ✿ femininity
+                    is not a weakness ✿ &nbsp;&nbsp;&nbsp; ♡ girlhood is a practice ♡ &nbsp;&nbsp;&nbsp;
+                </marquee>
+            </div>
 
-  <div class="site-nav">
-    <a href="#">✿ home</a>
-    <a href="#">♡ about</a>
-    <a href="#">☆ diary</a>
-    <a href="#">✦ links</a>
-    <a href="#">♪ playlist</a>
-    <a href="#">✉ contact</a>
-  </div>
+            <div class="site-nav">
+                <a href="#">✿ home</a>
+                <a href="#">♡ about</a>
+                <a href="#">☆ diary</a>
+                <a href="#">✦ links</a>
+                <a href="#">♪ playlist</a>
+                <a href="#">✉ contact</a>
+            </div>
 
-  <!-- MAIN -->
-  <div class="main-layout">
-    <div class="main-content">
+            <!-- MAIN -->
+            <div class="main-layout">
+                <div class="main-content">
+                    <!-- ABOUT BOX -->
+                    <div class="about-box">
+                        <p>
+                            welcome 2 girlblog!!! this is a space where girls (and anyone who has ever been a girl, felt
+                            like one, or wondered what it means) can write about their day, their feelings, their
+                            relationship to femininity and everything in between.
+                            <br /><br />
+                            inspired by early cyberfeminist thought — the idea that
+                            <strong>the internet belongs to us too</strong>, and that blogging is a form of knowing
+                            yourself 🌸 <br /><br />
+                            <span class="blink">✦ fill out the form below and join the diary! ✦</span>
+                        </p>
+                    </div>
 
-      <!-- ABOUT BOX -->
-      <div class="about-box">
-        <p>
-          welcome 2 girlblog!!! this is a space where girls (and anyone who has ever been a girl, felt like one, or wondered what it means) can write about their day, their feelings, their relationship to femininity and everything in between. 
-          <br><br>
-          inspired by early cyberfeminist thought — the idea that <strong>the internet belongs to us too</strong>, and that blogging is a form of knowing yourself 🌸
-          <br><br>
-          <span class="blink">✦ fill out the form below and join the diary! ✦</span>
-        </p>
-      </div>
+                    <!-- SUCCESS MESSAGE -->
+                    <div class="success-msg" id="successMsg">✿ ur entry has been posted!! thank u for sharing ✿</div>
 
-      <!-- SUCCESS MESSAGE -->
-      <div class="success-msg" id="successMsg">
-        ✿ ur entry has been posted!! thank u for sharing ✿
-      </div>
+                    <!-- WRITE FORM -->
+                    <div class="write-box">
+                        <div class="box-title">✏️ WRITE IN THE DIARY ✏️</div>
 
-      <!-- WRITE FORM -->
-      <div class="write-box">
-        <div class="box-title">✏️ WRITE IN THE DIARY ✏️</div>
+                        <div class="form-grid">
+                            <div class="form-row">
+                                <label>ur name / handle *</label>
+                                <input type="text" id="f-name" placeholder="xo_girl_2003" maxlength="30" />
+                            </div>
+                            <div class="form-row">
+                                <label>ur location</label>
+                                <input type="text" id="f-location" placeholder="somewhere on earth..." maxlength="40" />
+                            </div>
+                            <div class="form-row">
+                                <label>current mood</label>
+                                <select id="f-mood">
+                                    <option value="">pick one...</option>
+                                    <option>✨ sparkly</option>
+                                    <option>💭 thoughtful</option>
+                                    <option>🌧️ melancholy</option>
+                                    <option>🔥 passionate</option>
+                                    <option>🌸 soft</option>
+                                    <option>😤 annoyed</option>
+                                    <option>🌙 dreamy</option>
+                                    <option>💪 powerful</option>
+                                    <option>🥺 vulnerable</option>
+                                    <option>🎉 excited</option>
+                                    <option>😶 numb</option>
+                                    <option>🌿 grounded</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>ur relationship to femininity</label>
+                                <select id="f-fem">
+                                    <option value="">pick one...</option>
+                                    <option>✿ i embrace it fully</option>
+                                    <option>⚡ i resist it / reclaim it</option>
+                                    <option>🌊 complicated & ever-changing</option>
+                                    <option>💫 i'm figuring it out</option>
+                                    <option>🔮 it doesn't define me</option>
+                                    <option>🌸 i love it on my own terms</option>
+                                    <option>🦋 i'm outside it / beside it</option>
+                                    <option>💜 all of the above?</option>
+                                </select>
+                            </div>
+                            <div class="form-row full">
+                                <label>what did u do today?</label>
+                                <textarea id="f-today" placeholder="today i woke up and..."></textarea>
+                            </div>
+                            <div class="form-row full">
+                                <label>who are u? (tell us anything)</label>
+                                <textarea id="f-who" placeholder="i am someone who..."></textarea>
+                            </div>
+                            <div class="form-row full">
+                                <label>anything else u want to say? ♡</label>
+                                <textarea
+                                    id="f-extra"
+                                    placeholder="thoughts, feelings, a song lyric, a confession, a manifesto..."
+                                    style="min-height: 60px"></textarea>
+                            </div>
+                        </div>
 
-        <div class="form-grid">
-          <div class="form-row">
-            <label>ur name / handle *</label>
-            <input type="text" id="f-name" placeholder="xo_girl_2003" maxlength="30">
-          </div>
-          <div class="form-row">
-            <label>ur location</label>
-            <input type="text" id="f-location" placeholder="somewhere on earth..." maxlength="40">
-          </div>
-          <div class="form-row">
-            <label>current mood</label>
-            <select id="f-mood">
-              <option value="">pick one...</option>
-              <option>✨ sparkly</option>
-              <option>💭 thoughtful</option>
-              <option>🌧️ melancholy</option>
-              <option>🔥 passionate</option>
-              <option>🌸 soft</option>
-              <option>😤 annoyed</option>
-              <option>🌙 dreamy</option>
-              <option>💪 powerful</option>
-              <option>🥺 vulnerable</option>
-              <option>🎉 excited</option>
-              <option>😶 numb</option>
-              <option>🌿 grounded</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label>ur relationship to femininity</label>
-            <select id="f-fem">
-              <option value="">pick one...</option>
-              <option>✿ i embrace it fully</option>
-              <option>⚡ i resist it / reclaim it</option>
-              <option>🌊 complicated & ever-changing</option>
-              <option>💫 i'm figuring it out</option>
-              <option>🔮 it doesn't define me</option>
-              <option>🌸 i love it on my own terms</option>
-              <option>🦋 i'm outside it / beside it</option>
-              <option>💜 all of the above?</option>
-            </select>
-          </div>
-          <div class="form-row full">
-            <label>what did u do today?</label>
-            <textarea id="f-today" placeholder="today i woke up and..."></textarea>
-          </div>
-          <div class="form-row full">
-            <label>who are u? (tell us anything)</label>
-            <textarea id="f-who" placeholder="i am someone who..."></textarea>
-          </div>
-          <div class="form-row full">
-            <label>anything else u want to say? ♡</label>
-            <textarea id="f-extra" placeholder="thoughts, feelings, a song lyric, a confession, a manifesto..." style="min-height:60px;"></textarea>
-          </div>
+                        <button class="submit-btn" onclick="submitEntry()">✿ POST TO DIARY ✿</button>
+                    </div>
+
+                    <!-- ENTRIES -->
+                    <div class="write-box" style="background: white">
+                        <div class="box-title">📖 DIARY ENTRIES 📖</div>
+                        <div id="entriesContainer">
+                            <div class="loading-entries">loading entries... ✿</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR -->
+                <div class="sidebar">
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">✿ site owner</div>
+                        <div class="sidebar-widget-body about-me-mini">
+                            <div class="avatar-placeholder">🌸</div>
+                            <div class="name">~girlblogger~</div>
+                            <br />
+                            age: ageless<br />
+                            sign: ♓ pisces<br />
+                            status: thinking<br />
+                            <br />
+                            <em>"i contain multitudes"</em>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">💭 current mood</div>
+                        <div class="sidebar-widget-body">
+                            <ul class="mood-list">
+                                <li>☁️ introspective</li>
+                                <li>📚 reading theory</li>
+                                <li>🌸 being perceived</li>
+                                <li>✉ writing letters to nobody</li>
+                                <li>🫧 dissociating (lovingly)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">♪ now playing</div>
+                        <div class="sidebar-widget-body">
+                            <div class="playlist-item"><span class="note-icon">♪</span> yeah yeah yeahs</div>
+                            <div class="playlist-item"><span class="note-icon">♪</span> bikini kill</div>
+                            <div class="playlist-item"><span class="note-icon">♪</span> sleater-kinney</div>
+                            <div class="playlist-item"><span class="note-icon">♪</span> hole</div>
+                            <div class="playlist-item"><span class="note-icon">♪</span> le tigre</div>
+                            <div class="playlist-item"><span class="note-icon">♪</span> pj harvey</div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">🔗 web ring</div>
+                        <div class="sidebar-widget-body web-ring">
+                            <a href="#">✿ girlhood web ring ✿</a>
+                            <div class="ring-nav">
+                                <span>«</span>
+                                <span>★</span>
+                                <span>»</span>
+                            </div>
+                            <a href="#">other feminist blogs</a>
+                            <a href="#">zine collective</a>
+                            <a href="#">riot grrrl archive</a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">📋 recent tags</div>
+                        <div class="sidebar-widget-body">
+                            #girlhood #femininity #dailylife #thoughts #diary #cyberfem #selfcreation #wandering
+                            #feelings #internet
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="sidebar-widget-title">☆ diary stats</div>
+                        <div class="sidebar-widget-body" id="statsWidget">
+                            entries: loading...<br />
+                            most common mood: ...<br />
+                            most common relationship: ...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="site-footer">
+                best viewed at 800×600 · internet explorer 6 · <a href="#">♡ sign guestbook ♡</a> · made with love &amp;
+                html · <span class="blink">✿</span>
+                <br />
+                © 2003–forever · girlblog · "the personal is political is digital"
+            </div>
         </div>
 
-        <button class="submit-btn" onclick="submitEntry()">✿ POST TO DIARY ✿</button>
-      </div>
+        <script>
+            // ---- STARS ----
+            const starField = document.getElementById("starField");
+            const starChars = ["✿", "✦", "★", "♡", "☆", "♪", "✽", "❋", "✸"];
+            for (let i = 0; i < 25; i++) {
+                const s = document.createElement("div");
+                s.className = "star";
+                s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+                s.style.left = Math.random() * 100 + "vw";
+                s.style.top = Math.random() * 100 + "vh";
+                s.style.animationDelay = Math.random() * 3 + "s";
+                s.style.animationDuration = 1.5 + Math.random() * 2 + "s";
+                s.style.opacity = 0.3;
+                s.style.fontSize = 10 + Math.random() * 16 + "px";
+                starField.appendChild(s);
+            }
 
-      <!-- ENTRIES -->
-      <div class="write-box" style="background:white;">
-        <div class="box-title">📖 DIARY ENTRIES 📖</div>
-        <div id="entriesContainer">
-          <div class="loading-entries">loading entries... ✿</div>
-        </div>
-      </div>
+            // ---- VISITOR COUNTER (random-ish) ----
+            const baseCount = 2847;
+            const yourNum = baseCount + Math.floor(Math.random() * 50) + 1;
+            document.getElementById("visitorCount").textContent = String(yourNum - 1).padStart(6, "0");
+            document.getElementById("yourNum").textContent = String(yourNum).padStart(6, "0");
 
-    </div>
+            // ---- STORAGE KEY ----
+            const STORAGE_KEY = "girlblog-entries-v2";
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+            // ---- LOAD + RENDER ENTRIES ----
+            async function loadEntries() {
+                const container = document.getElementById("entriesContainer");
+                let entries = [];
+                try {
+                    const result = await window.storage.get(STORAGE_KEY, true);
+                    entries = result ? JSON.parse(result.value) : [];
+                } catch (e) {
+                    entries = [];
+                }
+                renderEntries(entries);
+                updateStats(entries);
+            }
 
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">✿ site owner</div>
-        <div class="sidebar-widget-body about-me-mini">
-          <div class="avatar-placeholder">🌸</div>
-          <div class="name">~girlblogger~</div>
-          <br>
-          age: ageless<br>
-          sign: ♓ pisces<br>
-          status: thinking<br>
-          <br>
-          <em>"i contain multitudes"</em>
-        </div>
-      </div>
+            function renderEntries(entries) {
+                const container = document.getElementById("entriesContainer");
+                if (!entries.length) {
+                    container.innerHTML = `<div class="no-entries"><span class="big">✿</span>no entries yet! be the first to write in the diary ♡</div>`;
+                    return;
+                }
+                // newest first
+                const sorted = [...entries].reverse();
+                container.innerHTML = sorted.map((e) => entryHTML(e)).join("");
+            }
 
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">💭 current mood</div>
-        <div class="sidebar-widget-body">
-          <ul class="mood-list">
-            <li>☁️ introspective</li>
-            <li>📚 reading theory</li>
-            <li>🌸 being perceived</li>
-            <li>✉ writing letters to nobody</li>
-            <li>🫧 dissociating (lovingly)</li>
-          </ul>
-        </div>
-      </div>
+            function entryHTML(e) {
+                const femBadge = e.fem ? `<span class="badge">${e.fem}</span>` : "";
+                const moodBadge = e.mood ? `<span class="badge">${e.mood}</span>` : "";
+                const locBadge = e.location ? `<span class="badge">📍 ${e.location}</span>` : "";
 
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">♪ now playing</div>
-        <div class="sidebar-widget-body">
-          <div class="playlist-item"><span class="note-icon">♪</span> yeah yeah yeahs</div>
-          <div class="playlist-item"><span class="note-icon">♪</span> bikini kill</div>
-          <div class="playlist-item"><span class="note-icon">♪</span> sleater-kinney</div>
-          <div class="playlist-item"><span class="note-icon">♪</span> hole</div>
-          <div class="playlist-item"><span class="note-icon">♪</span> le tigre</div>
-          <div class="playlist-item"><span class="note-icon">♪</span> pj harvey</div>
-        </div>
-      </div>
-
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">🔗 web ring</div>
-        <div class="sidebar-widget-body web-ring">
-          <a href="#">✿ girlhood web ring ✿</a>
-          <div class="ring-nav">
-            <span>«</span>
-            <span>★</span>
-            <span>»</span>
-          </div>
-          <a href="#">other feminist blogs</a>
-          <a href="#">zine collective</a>
-          <a href="#">riot grrrl archive</a>
-        </div>
-      </div>
-
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">📋 recent tags</div>
-        <div class="sidebar-widget-body">
-          #girlhood #femininity #dailylife #thoughts #diary #cyberfem #selfcreation #wandering #feelings #internet
-        </div>
-      </div>
-
-      <div class="sidebar-widget">
-        <div class="sidebar-widget-title">☆ diary stats</div>
-        <div class="sidebar-widget-body" id="statsWidget">
-          entries: loading...<br>
-          most common mood: ...<br>
-          most common relationship: ...
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="site-footer">
-    best viewed at 800×600 · internet explorer 6 · <a href="#">♡ sign guestbook ♡</a> · made with love &amp; html · <span class="blink">✿</span>
-    <br>
-    © 2003–forever · girlblog · "the personal is political is digital"
-  </div>
-
-</div>
-
-<script>
-// ---- STARS ----
-const starField = document.getElementById('starField');
-const starChars = ['✿', '✦', '★', '♡', '☆', '♪', '✽', '❋', '✸'];
-for (let i = 0; i < 25; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
-  s.style.left = Math.random() * 100 + 'vw';
-  s.style.top = Math.random() * 100 + 'vh';
-  s.style.animationDelay = Math.random() * 3 + 's';
-  s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
-  s.style.opacity = 0.3;
-  s.style.fontSize = (10 + Math.random() * 16) + 'px';
-  starField.appendChild(s);
-}
-
-// ---- VISITOR COUNTER (random-ish) ----
-const baseCount = 2847;
-const yourNum = baseCount + Math.floor(Math.random() * 50) + 1;
-document.getElementById('visitorCount').textContent = String(yourNum - 1).padStart(6, '0');
-document.getElementById('yourNum').textContent = String(yourNum).padStart(6, '0');
-
-// ---- STORAGE KEY ----
-const STORAGE_KEY = 'girlblog-entries-v2';
-
-// ---- LOAD + RENDER ENTRIES ----
-async function loadEntries() {
-  const container = document.getElementById('entriesContainer');
-  let entries = [];
-  try {
-    const result = await window.storage.get(STORAGE_KEY, true);
-    entries = result ? JSON.parse(result.value) : [];
-  } catch(e) {
-    entries = [];
-  }
-  renderEntries(entries);
-  updateStats(entries);
-}
-
-function renderEntries(entries) {
-  const container = document.getElementById('entriesContainer');
-  if (!entries.length) {
-    container.innerHTML = `<div class="no-entries"><span class="big">✿</span>no entries yet! be the first to write in the diary ♡</div>`;
-    return;
-  }
-  // newest first
-  const sorted = [...entries].reverse();
-  container.innerHTML = sorted.map(e => entryHTML(e)).join('');
-}
-
-function entryHTML(e) {
-  const femBadge = e.fem ? `<span class="badge">${e.fem}</span>` : '';
-  const moodBadge = e.mood ? `<span class="badge">${e.mood}</span>` : '';
-  const locBadge = e.location ? `<span class="badge">📍 ${e.location}</span>` : '';
-
-  return `
+                return `
   <div class="entry-card">
     <div class="entry-header">
-      <span class="entry-name">✿ ${esc(e.name || 'anonymous')}</span>
-      <span class="entry-meta">${e.date || ''}</span>
+      <span class="entry-name">✿ ${esc(e.name || "anonymous")}</span>
+      <span class="entry-meta">${e.date || ""}</span>
     </div>
     <div class="entry-badges" style="padding:5px 10px;background:#fff0f5;border-top:1px dashed #ffaadd;">
       ${moodBadge}${femBadge}${locBadge}
     </div>
-    ${e.today ? `<div class="entry-prompts"><div class="prompt-line"><strong>TODAY:</strong> ${esc(e.today)}</div></div>` : ''}
-    ${e.who ? `<div class="entry-prompts" style="border-top:none;padding-top:0;"><div class="prompt-line"><strong>I AM:</strong> ${esc(e.who)}</div></div>` : ''}
-    ${e.extra ? `<div class="entry-body">${esc(e.extra)}</div>` : ''}
-    <div class="entry-footer">posted via girlblog ✿ ${e.date || ''}</div>
+    ${e.today ? `<div class="entry-prompts"><div class="prompt-line"><strong>TODAY:</strong> ${esc(e.today)}</div></div>` : ""}
+    ${e.who ? `<div class="entry-prompts" style="border-top:none;padding-top:0;"><div class="prompt-line"><strong>I AM:</strong> ${esc(e.who)}</div></div>` : ""}
+    ${e.extra ? `<div class="entry-body">${esc(e.extra)}</div>` : ""}
+    <div class="entry-footer">posted via girlblog ✿ ${e.date || ""}</div>
   </div>`;
-}
+            }
 
-function esc(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
+            function esc(str) {
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/\n/g, "<br>");
+            }
 
-function updateStats(entries) {
-  const w = document.getElementById('statsWidget');
-  if (!entries.length) { w.innerHTML = 'entries: 0<br>be the first! ✿'; return; }
+            function updateStats(entries) {
+                const w = document.getElementById("statsWidget");
+                if (!entries.length) {
+                    w.innerHTML = "entries: 0<br>be the first! ✿";
+                    return;
+                }
 
-  const moods = {};
-  const fems = {};
-  entries.forEach(e => {
-    if (e.mood) moods[e.mood] = (moods[e.mood]||0)+1;
-    if (e.fem) fems[e.fem] = (fems[e.fem]||0)+1;
-  });
-  const topMood = Object.entries(moods).sort((a,b)=>b[1]-a[1])[0];
-  const topFem = Object.entries(fems).sort((a,b)=>b[1]-a[1])[0];
+                const moods = {};
+                const fems = {};
+                entries.forEach((e) => {
+                    if (e.mood) moods[e.mood] = (moods[e.mood] || 0) + 1;
+                    if (e.fem) fems[e.fem] = (fems[e.fem] || 0) + 1;
+                });
+                const topMood = Object.entries(moods).sort((a, b) => b[1] - a[1])[0];
+                const topFem = Object.entries(fems).sort((a, b) => b[1] - a[1])[0];
 
-  w.innerHTML = `entries: ${entries.length}<br>
-    top mood: ${topMood ? topMood[0] : 'n/a'}<br>
-    fem vibes: ${topFem ? topFem[0].substring(0,18)+'...' : 'n/a'}`;
-}
+                w.innerHTML = `entries: ${entries.length}<br>
+    top mood: ${topMood ? topMood[0] : "n/a"}<br>
+    fem vibes: ${topFem ? topFem[0].substring(0, 18) + "..." : "n/a"}`;
+            }
 
-// ---- SUBMIT ----
-async function submitEntry() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) {
-    alert('please enter ur name or handle! ✿');
-    return;
-  }
+            // ---- SUBMIT ----
+            async function submitEntry() {
+                const name = document.getElementById("f-name").value.trim();
+                if (!name) {
+                    alert("please enter ur name or handle! ✿");
+                    return;
+                }
 
-  const entry = {
-    name,
-    location: document.getElementById('f-location').value.trim(),
-    mood: document.getElementById('f-mood').value,
-    fem: document.getElementById('f-fem').value,
-    today: document.getElementById('f-today').value.trim(),
-    who: document.getElementById('f-who').value.trim(),
-    extra: document.getElementById('f-extra').value.trim(),
-    date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' }),
-    id: Date.now()
-  };
+                const entry = {
+                    name,
+                    location: document.getElementById("f-location").value.trim(),
+                    mood: document.getElementById("f-mood").value,
+                    fem: document.getElementById("f-fem").value,
+                    today: document.getElementById("f-today").value.trim(),
+                    who: document.getElementById("f-who").value.trim(),
+                    extra: document.getElementById("f-extra").value.trim(),
+                    date: new Date().toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }),
+                    id: Date.now()
+                };
 
-  // Load existing, append, save
-  let entries = [];
-  try {
-    const result = await window.storage.get(STORAGE_KEY, true);
-    entries = result ? JSON.parse(result.value) : [];
-  } catch(e) { entries = []; }
+                // Load existing, append, save
+                let entries = [];
+                try {
+                    const result = await window.storage.get(STORAGE_KEY, true);
+                    entries = result ? JSON.parse(result.value) : [];
+                } catch (e) {
+                    entries = [];
+                }
 
-  entries.push(entry);
+                entries.push(entry);
 
-  // Keep max 200 entries
-  if (entries.length > 200) entries = entries.slice(-200);
+                // Keep max 200 entries
+                if (entries.length > 200) entries = entries.slice(-200);
 
-  try {
-    await window.storage.set(STORAGE_KEY, JSON.stringify(entries), true);
-  } catch(e) {
-    console.error('storage error', e);
-  }
+                try {
+                    await window.storage.set(STORAGE_KEY, JSON.stringify(entries), true);
+                } catch (e) {
+                    console.error("storage error", e);
+                }
 
-  // Clear form
-  ['f-name','f-location','f-today','f-who','f-extra'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-mood').value = '';
-  document.getElementById('f-fem').value = '';
+                // Clear form
+                ["f-name", "f-location", "f-today", "f-who", "f-extra"].forEach(
+                    (id) => (document.getElementById(id).value = "")
+                );
+                document.getElementById("f-mood").value = "";
+                document.getElementById("f-fem").value = "";
 
-  // Show success
-  const msg = document.getElementById('successMsg');
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 4000);
+                // Show success
+                const msg = document.getElementById("successMsg");
+                msg.style.display = "block";
+                setTimeout(() => (msg.style.display = "none"), 4000);
 
-  // Re-render
-  renderEntries(entries);
-  updateStats(entries);
+                // Re-render
+                renderEntries(entries);
+                updateStats(entries);
 
-  // Scroll to entries
-  document.getElementById('entriesContainer').scrollIntoView({ behavior: 'smooth' });
-}
+                // Scroll to entries
+                document.getElementById("entriesContainer").scrollIntoView({ behavior: "smooth" });
+            }
 
-// ---- INIT ----
-loadEntries();
+            // ---- INIT ----
+            loadEntries();
 
-// Poll for new entries every 30s
-setInterval(loadEntries, 30000);
-    
-    const poses = ['../assets/pose1.png', '../assets/pose2.png', '../assets/pose3.png', '../assets/pose4.png'];
-let i = 0;
+            // Poll for new entries every 30s
+            setInterval(loadEntries, 30000);
 
-setInterval(function() {
-  i = (i + 1) % poses.length;
-  document.getElementById('cyclerImg').src = poses[i];
-}, 3000);
-    
-</script>
-</body>
+            const poses = ["../assets/pose1.png", "../assets/pose2.png", "../assets/pose3.png", "../assets/pose4.png"];
+            let i = 0;
+
+            setInterval(function () {
+                i = (i + 1) % poses.length;
+                document.getElementById("cyclerImg").src = poses[i];
+            }, 3000);
+        </script>
+    </body>
 </html>
