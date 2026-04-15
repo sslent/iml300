@@ -1,589 +1,673 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What is a Woman? — Theory</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
-             @font-face {
-  font-family: 'Titlefont';
-  src: url('assets/titlefont.ttf') format('truetype');
-}
-    
-                  @font-face {
-  font-family: 'Subtitlefont';
-  src: url('assets/Subtitle.ttf') format('truetype');
-}
-    
-    
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0d0b09;
-    --ink: #e8e2d8;
-    --pink: #b85c72;
-    --pink-light: #d4849a;
-    --muted: rgba(232,226,216,0.35);
-    --rule: rgba(232,226,216,0.12);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'EB Garamond', Georgia, serif;
-    min-height: 100vh;
-    cursor: none;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.05;
-    pointer-events: none;
-    z-index: 500;
-  }
-
-  #cursor {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(232,226,216,0.55);
-    pointer-events: none;
-    z-index: 999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, background 0.2s;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.1rem 2rem;
-    border-bottom: 1px solid var(--rule);
-    background: rgba(13,11,9,0.88);
-    backdrop-filter: blur(6px);
-  }
-
-  .nav-logo {
-    font-family: 'Subtitlefont';
-    font-size: 0.72rem;
-    font-weight: 300;
-    letter-spacing: 0.38em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.68rem;
-    font-weight: 300;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  .nav-links a:hover { color: var(--ink); }
-
-  /* ── INTRO SECTION ── */
-  .intro-section {
-    padding: 8rem 2rem 4rem;
-    max-width: 680px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .section-label {
-    font-family: 'Subtitlefont';
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--pink);
-    margin-bottom: 1.6rem;
-  }
-
-  .intro-section h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
-
-  .intro-section p {
-    font-size: 1rem;
-    line-height: 1.85;
-    color: rgba(232,226,216,0.72);
-    margin-bottom: 1.2rem;
-  }
-
-  .inline-rule {
-    width: 1px;
-    height: 60px;
-    background: var(--rule);
-    margin: 3rem auto;
-  }
-
-  /* ── SCIENCE COLUMNS ── */
-  .science-section {
-    padding: 2rem 0 6rem;
-  }
-
-  .science-header {
-    text-align: center;
-    padding: 0 2rem 3rem;
-  }
-
-  .science-header h2 {
-    font-family: 'Titlefont';
-    font-size: 20px
-    font-weight: 300;
-    font-style: italic;
-    letter-spacing: 0.15em;
-    color: rgba(232,226,216,0.4);
-  }
-
-  /* ── COLUMNS GRID ── */
-  .columns-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--rule);
-  }
-
-  .col {
-    border-right: 1px solid var(--rule);
-    padding: 2.4rem 2rem 3rem;
-    position: relative;
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
-    overflow: hidden;
-    transition: background 0.4s ease;
-    min-height: 70vh;
-  }
-
-  .col:last-child { border-right: none; }
-
-  .col::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--pink);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 0;
-  }
-
-  .col:hover::before { opacity: 1; }
-
-  .col-inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .col-tag {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.7rem;
-    display: block;
-    transition: color 0.3s;
-  }
-
-  .col:hover .col-tag { color: rgba(13,11,9,0.6); }
-
-  .col-name {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--ink);
-    margin-bottom: 0.3rem;
-    display: block;
-    transition: color 0.3s;
-    line-height: 1.25;
-  }
-
-  .col:hover .col-name { color: var(--bg); }
-
-  .col-subtitle {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.75rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(232,226,216,0.3);
-    margin-bottom: 2rem;
-    display: block;
-    transition: color 0.3s;
-  }
-
-  .col:hover .col-subtitle { color: rgba(13,11,9,0.5); }
-
-  /* ── JITTER TEXT ── */
-  .jitter-body {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 0.78rem;
-    line-height: 1.68;
-    color: rgba(232,226,216,0.55);
-    letter-spacing: 0.03em;
-    word-spacing: 0.08em;
-    transition: color 0.3s;
-    position: relative;
-  }
-
-  .col:hover .jitter-body { color: rgba(13,11,9,0.75); }
-
-  .jitter-body .word {
-    display: inline-block;
-    transition: transform 0.08s ease, color 0.3s;
-  }
-
-  .col:hover .jitter-body .word {
-    animation: none;
-  }
-
-  /* ── KEY QUOTE ── */
-  .col-quote {
-    margin-top: 2rem;
-    padding-top: 1.4rem;
-    border-top: 1px solid rgba(232,226,216,0.1);
-    font-family: 'TitleFont';
-    font-size: 0.92rem;
-    font-style: italic;
-    line-height: 1.7;
-    color: rgba(232,226,216,0.4);
-    transition: color 0.3s;
-  }
-
-  .col:hover .col-quote {
-    color: rgba(13,11,9,0.7);
-    border-color: rgba(13,11,9,0.15);
-  }
-
-  .col-source {
-    display: block;
-    margin-top: 0.6rem;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(232,226,216,0.2);
-    transition: color 0.3s;
-    font-style: normal;
-  }
-
-  .col:hover .col-source { color: rgba(13,11,9,0.45); }
-
-  /* ── CODA ── */
-  .coda-section {
-    padding: 5rem 2rem 8rem;
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    border-top: 1px solid var(--rule);
-  }
-
-  .coda-section h3 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.2rem, 2.5vw, 1.9rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--ink);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
-
-  .coda-section p {
-    font-size: 1rem;
-    line-height: 1.85;
-    color: rgba(232,226,216,0.6);
-    margin-bottom: 1.2rem;
-  }
-
-  .next-btn {
-    display: inline-block;
-    margin-top: 3rem;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.75rem;
-    font-weight: 300;
-    letter-spacing: 0.38em;
-    text-transform: uppercase;
-    color: rgba(232,226,216,0.55);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(232,226,216,0.22);
-    padding-bottom: 2px;
-    transition: letter-spacing 0.5s ease, color 0.3s;
-  }
-
-  .next-btn:hover {
-    letter-spacing: 0.55em;
-    color: var(--ink);
-  }
-
-  /* ── SCIENCE FACTS GRID ── */
-  .facts-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--rule);
-    border-left: 1px solid var(--rule);
-    margin: 0 0 6rem;
-  }
-
-  .fact-cell {
-    border-right: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 2rem;
-  }
-
-  .fact-label {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.6rem;
-    font-weight: 300;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: var(--pink);
-    margin-bottom: 0.8rem;
-    display: block;
-  }
-
-  .fact-cell p {
-    font-size: 0.88rem;
-    line-height: 1.78;
-    color: rgba(232,226,216,0.62);
-  }
-
-  .fact-cell strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  @media (max-width: 768px) {
-    .columns-grid { grid-template-columns: 1fr; }
-    .col { border-right: none; border-bottom: 1px solid var(--rule); }
-    .facts-grid { grid-template-columns: 1fr; }
-  }
-</style>
-</head>
-<body>
-
-<div id="cursor"></div>
-
-<nav>
-  <a href="index.html" class="nav-logo">What is a Woman?</a>
-  <ul class="nav-links">
-    <li><a href="index.html">Begin</a></li>
-    <li><a href="page2.html">Theory</a></li>
-    <li><a href="page3.html" style="color:var(--muted)">Continue →</a></li>
-  </ul>
-</nav>
-
-<!-- INTRO -->
-<section class="intro-section">
-  <p class="section-label">Part II — Biology &amp; Constructivism</p>
-  <h2>Sex and gender are not the same thing.</h2>
-  <p>One describes a set of physiological characteristics; the other is a social construction that varies across culture, history, and context. Understanding the difference does not diminish either — it clarifies both.</p>
-  <p>And yet even "sex," the supposedly stable biological category, turns out to be far more complicated than the XX/XY shorthand we were given in school.</p>
-  <div class="inline-rule"></div>
-</section>
-
-<!-- SCIENCE FACTS -->
-<section class="science-section">
-  <div class="science-header">
-    <h2>What the biology actually says</h2>
-  </div>
-
-  <div class="facts-grid">
-    <div class="fact-cell">
-      <span class="fact-label">Sex ≠ Gender</span>
-      <p><strong>Sex</strong> refers to physiological characteristics: chromosomes, gonads, hormones, anatomy. <strong>Gender</strong> is the social, cultural, and psychological framework built around those characteristics — and it varies enormously across human societies. Conflating them is a category error that has shaped centuries of bad science.</p>
-    </div>
-    <div class="fact-cell">
-      <span class="fact-label">The fly problem</span>
-      <p>The foundational research on sex chromosomes was conducted on <strong>Drosophila melanogaster</strong> — fruit flies. Thomas Hunt Morgan's early 20th-century work was extrapolated wholesale onto human biology. Many of its assumptions remain embedded in mainstream science despite decades of contrary evidence from human genetics and endocrinology.</p>
-    </div>
-    <div class="fact-cell">
-      <span class="fact-label">Chromosomal variation</span>
-      <p>Intersex conditions demonstrate that chromosomal sex is not binary. Variations include <strong>XXY (Klinefelter), XYY, X0 (Turner), XXX</strong>, and many others. Estimates suggest 1–2% of the population is intersex — roughly as common as red hair. The binary was never the full picture; it was a simplification.</p>
-    </div>
-    <div class="fact-cell">
-      <span class="fact-label">The X chromosome</span>
-      <p>The X chromosome is <strong>not "the female chromosome."</strong> All humans carry at least one X. It contains over 800 genes governing everything from colour vision to immune function. Its association with "femaleness" is a cultural overlay — the X is simply larger and gene-rich compared to the Y, which is small and mostly concerned with sex determination.</p>
-    </div>
-    <div class="fact-cell">
-      <span class="fact-label">Hormones are shared</span>
-      <p>Both <strong>oestrogen and testosterone</strong> are present and necessary in all bodies regardless of assigned sex. Testosterone is produced in ovaries as well as testes. Oestrogen is essential for bone density, cardiovascular health, and neurological function in all genders. "Male" and "female" hormones is a misnomer — they are human hormones that occur in different concentrations.</p>
-    </div>
-    <div class="fact-cell">
-      <span class="fact-label">Womanhood ≠ Uterus</span>
-      <p>We cannot define a woman as <strong>someone who produces eggs</strong>. Ovulation is affected by age, illness, endocrine conditions, surgical history, and more. Menopause ends egg production; this does not end womanhood. A definition that excludes post-menopausal women, women with PCOS or primary ovarian insufficiency, or women who have had hysterectomies, is not a definition — it is a gatekeeping mechanism.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FEMINIST COLUMNS -->
-<section class="science-section">
-  <div class="science-header">
-    <p class="section-label">Three feminist answers</p>
-    <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(1rem,2vw,1.4rem); font-weight:300; font-style:italic; letter-spacing:0.12em; color:rgba(232,226,216,0.45); margin-top:0.5rem;">Hover to inhabit. Click to continue.</h2>
-  </div>
-
-  <div class="columns-grid">
-
-    <!-- BEAUVOIR -->
-    <a class="col" href="beauvoir.html">
-      <div class="col-inner">
-        <span class="col-tag">France · 1949</span>
-        <span class="col-name">Simone de Beauvoir</span>
-        <span class="col-subtitle">The Second Sex</span>
-        <div class="jitter-body" id="jitter-0">
-ONE IS NOT BORN BUT RATHER BECOMES A WOMAN NO BIOLOGICAL PSYCHOLOGICAL OR ECONOMIC FATE DETERMINES THE FIGURE THAT THE HUMAN FEMALE PRESENTS IN SOCIETY IT IS CIVILISATION AS A WHOLE THAT PRODUCES THIS CREATURE INTERMEDIATE BETWEEN MALE AND EUNUCH WHICH IS DESCRIBED AS FEMININE IF WOMANHOOD WERE NATURAL WE WOULD NOT NEED TO SPEAK OF BECOMING IT IF FEMININITY WERE INNATE WE WOULD NOT REQUIRE INSTITUTIONS RITUALS PUNISHMENTS AND REWARDS TO PRODUCE IT THE VERY FACT THAT WE MUST LEARN TO BE WOMEN THAT CULTURE WORKS SO HARD TO MAKE US INTO WOMEN IS THE EVIDENCE THAT WOMANHOOD IS A SOCIAL CONSTRUCTION IMPOSED FROM WITHOUT NOT A CONDITION ARISING FROM WITHIN WOMAN IS DEFINED AND DIFFERENTIATED WITH REFERENCE TO MAN AND NOT HE WITH REFERENCE TO HER SHE IS THE INCIDENTAL THE INESSENTIAL AS OPPOSED TO THE ESSENTIAL HE IS THE SUBJECT HE IS THE ABSOLUTE SHE IS THE OTHER
-        </div>
-        <div class="col-quote">
-          "One is not born, but rather becomes, a woman."
-          <span class="col-source">— Le Deuxième Sexe, 1949</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- WITTIG -->
-    <a class="col" href="wittig.html">
-      <div class="col-inner">
-        <span class="col-tag">France · 1980</span>
-        <span class="col-name">Monique Wittig</span>
-        <span class="col-subtitle">The Straight Mind</span>
-        <div class="jitter-body" id="jitter-1">
-THE CATEGORY OF SEX IS THE POLITICAL CATEGORY THAT FOUNDS SOCIETY AS HETEROSEXUAL IT DOES NOT CONCERN BEING BUT RELATIONSHIPS FOR THE CATEGORY OF SEX IS THE PRODUCT OF A HETEROSEXUAL SOCIETY IN WHICH MEN APPROPRIATE FOR THEMSELVES THE REPRODUCTION AND PRODUCTION OF WOMEN AND ALSO THEIR PHYSICAL PERSONS BY MEANS OF A CONTRACT CALLED THE MARRIAGE CONTRACT LESBIANS ARE NOT WOMEN BECAUSE THE SOCIAL CONTRACT OF WOMANHOOD IS CONSTITUTED ENTIRELY BY OBLIGATION TO MAN WOMANHOOD IS NOT A NATURAL CATEGORY BUT A RELATIONSHIP OF DOMINATION NATURALIZED INTO WHAT APPEARS AS IDENTITY IF YOU STEP OUTSIDE THAT RELATIONSHIP YOU STEP OUTSIDE THE CATEGORY ITSELF GENDER IS AN IMAGINARY FORMATION THE STRAIGHT MIND CANNOT CONCEIVE OF A CULTURE A SOCIETY A LANGUAGE WITHOUT COMPULSORY HETEROSEXUALITY EMBEDDED IN ALL HUMAN RELATIONSHIPS IT PRESUPPOSES THAT THE FOUNDATION OF SOCIETY IS HETEROSEXUAL AND INTERPRETS EVERYTHING THROUGH THAT LENS
-        </div>
-        <div class="col-quote">
-          "Lesbians are not women."
-          <span class="col-source">— The Straight Mind and Other Essays, 1992</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- KOYAMA -->
-    <a class="col" href="koyama.html">
-      <div class="col-inner">
-        <span class="col-tag">USA · 2001</span>
-        <span class="col-name">Emi Koyama</span>
-        <span class="col-subtitle">The Transfeminist Manifesto</span>
-        <div class="jitter-body" id="jitter-2">
-TRANSFEMINISM IS ABOUT ALL WOMEN IT IS A MOVEMENT BY AND FOR TRANS WOMEN WHO VIEW THEIR LIBERATION TO BE INTRINSICALLY LINKED WITH THE LIBERATION OF ALL WOMEN AND BEYOND IT IS ALSO OPEN TO OTHER TRANS PEOPLE AND ANYONE WHO WISHES TO WORK IN SOLIDARITY TRANSFEMINISM DOES NOT SEE TRANS ISSUES AS MERELY ADDED ON TO FEMINISM BUT AS FUNDAMENTALLY FEMINIST ISSUES BODILY AUTONOMY IS THE FOUNDATION IF WE BELIEVE WOMEN HAVE THE RIGHT TO DEFINE AND DETERMINE WHAT HAPPENS TO THEIR BODIES THEN THAT RIGHT MUST EXTEND TO ALL WOMEN INCLUDING TRANS WOMEN BORDERS AND BINARIES ARE DRAWN OUT OF CONVENIENCE AND POLITICAL INTEREST NOT BIOLOGICAL NECESSITY GENDER SHOULD INSTEAD BE FLUID RESPONSIVE AND SELF-DEFINED IF YOU FREE THOSE AT THE BOTTOM OF THE POWER PYRAMID YOU FREE EVERYONE THE LOGIC FLOWS UPWARD LIBERATION IS NOT A FINITE RESOURCE THAT SOME MUST RELINQUISH FOR OTHERS TO GAIN ALL WOMEN MUST STAND UP FOR EACH OTHER OR THE CATEGORY ITSELF BECOMES ANOTHER CAGE
-        </div>
-        <div class="col-quote">
-          "If you free those at the bottom, you free everyone."
-          <span class="col-source">— The Transfeminist Manifesto, 2001</span>
-        </div>
-      </div>
-    </a>
-
-  </div>
-</section>
-
-<!-- CODA -->
-<section class="coda-section">
-  <h3>So, what is a woman?</h3>
-  <p>The biology is complicated. The philosophy is contested. The politics are ongoing. What these three thinkers share is a refusal to accept that the category is fixed, natural, or neutral.</p>
-  <p>Womanhood is not something you are born with intact — it is something produced, negotiated, imposed, refused, and reclaimed.</p>
-  <p>Which brings us back to your first answer.</p>
-  <a href="page3.html" class="next-btn">Continue →</a>
-</section>
-
-<script>
-/* ── Custom cursor ── */
-const cur = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-  cur.style.left = e.clientX + 'px';
-  cur.style.top  = e.clientY + 'px';
-});
-
-/* ── Jitter engine ── */
-function wrapWords(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const raw = el.textContent.trim();
-  const words = raw.split(/\s+/);
-  el.innerHTML = words.map(w =>
-    `<span class="word">${w}</span>`
-  ).join(' ');
-  return el;
-}
-
-const jitterEls = [
-  wrapWords('jitter-0'),
-  wrapWords('jitter-1'),
-  wrapWords('jitter-2'),
-].filter(Boolean);
-
-/* Continuous random drift on each word */
-function jitterLoop() {
-  jitterEls.forEach(el => {
-    const col = el.closest('.col');
-    const isHovered = col && col.matches(':hover');
-    if (isHovered) return; /* freeze on hover */
-
-    const words = el.querySelectorAll('.word');
-    words.forEach(w => {
-      if (Math.random() < 0.025) {
-        const dx = (Math.random() - 0.5) * 3.2;
-        const dy = (Math.random() - 0.5) * 2.4;
-        const rot = (Math.random() - 0.5) * 1.2;
-        w.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
-        setTimeout(() => {
-          w.style.transform = '';
-        }, 120 + Math.random() * 200);
-      }
-    });
-  });
-  requestAnimationFrame(jitterLoop);
-}
-
-jitterLoop();
-
-/* Occasionally glitch a random word's opacity */
-function glitchLoop() {
-  jitterEls.forEach(el => {
-    const col = el.closest('.col');
-    if (col && col.matches(':hover')) return;
-    const words = el.querySelectorAll('.word');
-    if (words.length === 0) return;
-    const w = words[Math.floor(Math.random() * words.length)];
-    const orig = w.style.opacity;
-    w.style.opacity = (Math.random() * 0.4).toString();
-    setTimeout(() => { w.style.opacity = orig; }, 60 + Math.random() * 120);
-  });
-  setTimeout(glitchLoop, 80 + Math.random() * 200);
-}
-
-glitchLoop();
-</script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>What is a Woman? — Theory</title>
+        <style>
+              @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+                         @font-face {
+              font-family: 'Titlefont';
+              src: url('assets/titlefont.ttf') format('truetype');
+            }
+
+                              @font-face {
+              font-family: 'Subtitlefont';
+              src: url('assets/Subtitle.ttf') format('truetype');
+            }
+
+
+              *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+              :root {
+                --bg: #0d0b09;
+                --ink: #e8e2d8;
+                --pink: #b85c72;
+                --pink-light: #d4849a;
+                --muted: rgba(232,226,216,0.35);
+                --rule: rgba(232,226,216,0.12);
+              }
+
+              html { scroll-behavior: smooth; }
+
+              body {
+                background: var(--bg);
+                color: var(--ink);
+                font-family: 'EB Garamond', Georgia, serif;
+                min-height: 100vh;
+                cursor: none;
+                overflow-x: hidden;
+              }
+
+              body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                opacity: 0.05;
+                pointer-events: none;
+                z-index: 500;
+              }
+
+              #cursor {
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: rgba(232,226,216,0.55);
+                pointer-events: none;
+                z-index: 999;
+                transform: translate(-50%, -50%);
+                transition: transform 0.1s ease, background 0.2s;
+              }
+
+              /* ── NAV ── */
+              nav {
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.1rem 2rem;
+                border-bottom: 1px solid var(--rule);
+                background: rgba(13,11,9,0.88);
+                backdrop-filter: blur(6px);
+              }
+
+              .nav-logo {
+                font-family: 'Subtitlefont';
+                font-size: 0.72rem;
+                font-weight: 300;
+                letter-spacing: 0.38em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+              }
+
+              .nav-links {
+                display: flex;
+                gap: 2rem;
+                list-style: none;
+              }
+
+              .nav-links a {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.68rem;
+                font-weight: 300;
+                letter-spacing: 0.3em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+                transition: color 0.3s;
+              }
+
+              .nav-links a:hover { color: var(--ink); }
+
+              /* ── INTRO SECTION ── */
+              .intro-section {
+                padding: 8rem 2rem 4rem;
+                max-width: 680px;
+                margin: 0 auto;
+                text-align: center;
+              }
+
+              .section-label {
+                font-family: 'Subtitlefont';
+                font-size: 0.65rem;
+                font-weight: 300;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--pink);
+                margin-bottom: 1.6rem;
+              }
+
+              .intro-section h2 {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: clamp(1.4rem, 3vw, 2.2rem);
+                font-weight: 300;
+                font-style: italic;
+                color: var(--ink);
+                line-height: 1.5;
+                margin-bottom: 2rem;
+              }
+
+              .intro-section p {
+                font-size: 1rem;
+                line-height: 1.85;
+                color: rgba(232,226,216,0.72);
+                margin-bottom: 1.2rem;
+              }
+
+              .inline-rule {
+                width: 1px;
+                height: 60px;
+                background: var(--rule);
+                margin: 3rem auto;
+              }
+
+              /* ── SCIENCE COLUMNS ── */
+              .science-section {
+                padding: 2rem 0 6rem;
+              }
+
+              .science-header {
+                text-align: center;
+                padding: 0 2rem 3rem;
+              }
+
+              .science-header h2 {
+                font-family: 'Titlefont';
+                font-size: 20px
+                font-weight: 300;
+                font-style: italic;
+                letter-spacing: 0.15em;
+                color: rgba(232,226,216,0.4);
+              }
+
+              /* ── COLUMNS GRID ── */
+              .columns-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                border-top: 1px solid var(--rule);
+              }
+
+              .col {
+                border-right: 1px solid var(--rule);
+                padding: 2.4rem 2rem 3rem;
+                position: relative;
+                cursor: pointer;
+                text-decoration: none;
+                display: block;
+                overflow: hidden;
+                transition: background 0.4s ease;
+                min-height: 70vh;
+              }
+
+              .col:last-child { border-right: none; }
+
+              .col::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: var(--pink);
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                z-index: 0;
+              }
+
+              .col:hover::before { opacity: 1; }
+
+              .col-inner {
+                position: relative;
+                z-index: 1;
+              }
+
+              .col-tag {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.62rem;
+                font-weight: 300;
+                letter-spacing: 0.45em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 0.7rem;
+                display: block;
+                transition: color 0.3s;
+              }
+
+              .col:hover .col-tag { color: rgba(13,11,9,0.6); }
+
+              .col-name {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+                font-weight: 400;
+                font-style: italic;
+                color: var(--ink);
+                margin-bottom: 0.3rem;
+                display: block;
+                transition: color 0.3s;
+                line-height: 1.25;
+              }
+
+              .col:hover .col-name { color: var(--bg); }
+
+              .col-subtitle {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.75rem;
+                font-weight: 300;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: rgba(232,226,216,0.3);
+                margin-bottom: 2rem;
+                display: block;
+                transition: color 0.3s;
+              }
+
+              .col:hover .col-subtitle { color: rgba(13,11,9,0.5); }
+
+              /* ── JITTER TEXT ── */
+              .jitter-body {
+                font-family: 'EB Garamond', Georgia, serif;
+                font-size: 0.78rem;
+                line-height: 1.68;
+                color: rgba(232,226,216,0.55);
+                letter-spacing: 0.03em;
+                word-spacing: 0.08em;
+                transition: color 0.3s;
+                position: relative;
+              }
+
+              .col:hover .jitter-body { color: rgba(13,11,9,0.75); }
+
+              .jitter-body .word {
+                display: inline-block;
+                transition: transform 0.08s ease, color 0.3s;
+              }
+
+              .col:hover .jitter-body .word {
+                animation: none;
+              }
+
+              /* ── KEY QUOTE ── */
+              .col-quote {
+                margin-top: 2rem;
+                padding-top: 1.4rem;
+                border-top: 1px solid rgba(232,226,216,0.1);
+                font-family: 'TitleFont';
+                font-size: 0.92rem;
+                font-style: italic;
+                line-height: 1.7;
+                color: rgba(232,226,216,0.4);
+                transition: color 0.3s;
+              }
+
+              .col:hover .col-quote {
+                color: rgba(13,11,9,0.7);
+                border-color: rgba(13,11,9,0.15);
+              }
+
+              .col-source {
+                display: block;
+                margin-top: 0.6rem;
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.62rem;
+                font-weight: 300;
+                letter-spacing: 0.28em;
+                text-transform: uppercase;
+                color: rgba(232,226,216,0.2);
+                transition: color 0.3s;
+                font-style: normal;
+              }
+
+              .col:hover .col-source { color: rgba(13,11,9,0.45); }
+
+              /* ── CODA ── */
+              .coda-section {
+                padding: 5rem 2rem 8rem;
+                max-width: 600px;
+                margin: 0 auto;
+                text-align: center;
+                border-top: 1px solid var(--rule);
+              }
+
+              .coda-section h3 {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: clamp(1.2rem, 2.5vw, 1.9rem);
+                font-weight: 300;
+                font-style: italic;
+                color: var(--ink);
+                line-height: 1.5;
+                margin-bottom: 2rem;
+              }
+
+              .coda-section p {
+                font-size: 1rem;
+                line-height: 1.85;
+                color: rgba(232,226,216,0.6);
+                margin-bottom: 1.2rem;
+              }
+
+              .next-btn {
+                display: inline-block;
+                margin-top: 3rem;
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.75rem;
+                font-weight: 300;
+                letter-spacing: 0.38em;
+                text-transform: uppercase;
+                color: rgba(232,226,216,0.55);
+                text-decoration: none;
+                border-bottom: 1px solid rgba(232,226,216,0.22);
+                padding-bottom: 2px;
+                transition: letter-spacing 0.5s ease, color 0.3s;
+              }
+
+              .next-btn:hover {
+                letter-spacing: 0.55em;
+                color: var(--ink);
+              }
+
+              /* ── SCIENCE FACTS GRID ── */
+              .facts-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0;
+                border-top: 1px solid var(--rule);
+                border-left: 1px solid var(--rule);
+                margin: 0 0 6rem;
+              }
+
+              .fact-cell {
+                border-right: 1px solid var(--rule);
+                border-bottom: 1px solid var(--rule);
+                padding: 2rem;
+              }
+
+              .fact-label {
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 0.6rem;
+                font-weight: 300;
+                letter-spacing: 0.45em;
+                text-transform: uppercase;
+                color: var(--pink);
+                margin-bottom: 0.8rem;
+                display: block;
+              }
+
+              .fact-cell p {
+                font-size: 0.88rem;
+                line-height: 1.78;
+                color: rgba(232,226,216,0.62);
+              }
+
+              .fact-cell strong {
+                color: var(--ink);
+                font-weight: 500;
+              }
+
+              @media (max-width: 768px) {
+                .columns-grid { grid-template-columns: 1fr; }
+                .col { border-right: none; border-bottom: 1px solid var(--rule); }
+                .facts-grid { grid-template-columns: 1fr; }
+              }
+        </style>
+    </head>
+    <body>
+        <div id="cursor"></div>
+
+        <nav>
+            <a href="index.html" class="nav-logo">What is a Woman?</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Begin</a></li>
+                <li><a href="page2.html">Theory</a></li>
+                <li><a href="page3.html" style="color: var(--muted)">Continue →</a></li>
+            </ul>
+        </nav>
+
+        <!-- INTRO -->
+        <section class="intro-section">
+            <p class="section-label">Part II — Biology &amp; Constructivism</p>
+            <h2>Sex and gender are not the same thing.</h2>
+            <p>
+                One describes a set of physiological characteristics; the other is a social construction that varies
+                across culture, history, and context. Understanding the difference does not diminish either — it
+                clarifies both.
+            </p>
+            <p>
+                And yet even "sex," the supposedly stable biological category, turns out to be far more complicated than
+                the XX/XY shorthand we were given in school.
+            </p>
+            <div class="inline-rule"></div>
+        </section>
+
+        <!-- SCIENCE FACTS -->
+        <section class="science-section">
+            <div class="science-header">
+                <h2>What the biology actually says</h2>
+            </div>
+
+            <div class="facts-grid">
+                <div class="fact-cell">
+                    <span class="fact-label">Sex ≠ Gender</span>
+                    <p>
+                        <strong>Sex</strong> refers to physiological characteristics: chromosomes, gonads, hormones,
+                        anatomy. <strong>Gender</strong> is the social, cultural, and psychological framework built
+                        around those characteristics — and it varies enormously across human societies. Conflating them
+                        is a category error that has shaped centuries of bad science.
+                    </p>
+                </div>
+                <div class="fact-cell">
+                    <span class="fact-label">The fly problem</span>
+                    <p>
+                        The foundational research on sex chromosomes was conducted on
+                        <strong>Drosophila melanogaster</strong> — fruit flies. Thomas Hunt Morgan's early 20th-century
+                        work was extrapolated wholesale onto human biology. Many of its assumptions remain embedded in
+                        mainstream science despite decades of contrary evidence from human genetics and endocrinology.
+                    </p>
+                </div>
+                <div class="fact-cell">
+                    <span class="fact-label">Chromosomal variation</span>
+                    <p>
+                        Intersex conditions demonstrate that chromosomal sex is not binary. Variations include
+                        <strong>XXY (Klinefelter), XYY, X0 (Turner), XXX</strong>, and many others. Estimates suggest
+                        1–2% of the population is intersex — roughly as common as red hair. The binary was never the
+                        full picture; it was a simplification.
+                    </p>
+                </div>
+                <div class="fact-cell">
+                    <span class="fact-label">The X chromosome</span>
+                    <p>
+                        The X chromosome is <strong>not "the female chromosome."</strong> All humans carry at least one
+                        X. It contains over 800 genes governing everything from colour vision to immune function. Its
+                        association with "femaleness" is a cultural overlay — the X is simply larger and gene-rich
+                        compared to the Y, which is small and mostly concerned with sex determination.
+                    </p>
+                </div>
+                <div class="fact-cell">
+                    <span class="fact-label">Hormones are shared</span>
+                    <p>
+                        Both <strong>oestrogen and testosterone</strong> are present and necessary in all bodies
+                        regardless of assigned sex. Testosterone is produced in ovaries as well as testes. Oestrogen is
+                        essential for bone density, cardiovascular health, and neurological function in all genders.
+                        "Male" and "female" hormones is a misnomer — they are human hormones that occur in different
+                        concentrations.
+                    </p>
+                </div>
+                <div class="fact-cell">
+                    <span class="fact-label">Womanhood ≠ Uterus</span>
+                    <p>
+                        We cannot define a woman as <strong>someone who produces eggs</strong>. Ovulation is affected by
+                        age, illness, endocrine conditions, surgical history, and more. Menopause ends egg production;
+                        this does not end womanhood. A definition that excludes post-menopausal women, women with PCOS
+                        or primary ovarian insufficiency, or women who have had hysterectomies, is not a definition — it
+                        is a gatekeeping mechanism.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEMINIST COLUMNS -->
+        <section class="science-section">
+            <div class="science-header">
+                <p class="section-label">Three feminist answers</p>
+                <h2
+                    style="
+                        font-family: &quot;Cormorant Garamond&quot;, serif;
+                        font-size: clamp(1rem, 2vw, 1.4rem);
+                        font-weight: 300;
+                        font-style: italic;
+                        letter-spacing: 0.12em;
+                        color: rgba(232, 226, 216, 0.45);
+                        margin-top: 0.5rem;
+                    ">
+                    Hover to inhabit. Click to continue.
+                </h2>
+            </div>
+
+            <div class="columns-grid">
+                <!-- BEAUVOIR -->
+                <a class="col" href="beauvoir.html">
+                    <div class="col-inner">
+                        <span class="col-tag">France · 1949</span>
+                        <span class="col-name">Simone de Beauvoir</span>
+                        <span class="col-subtitle">The Second Sex</span>
+                        <div class="jitter-body" id="jitter-0">
+                            ONE IS NOT BORN BUT RATHER BECOMES A WOMAN NO BIOLOGICAL PSYCHOLOGICAL OR ECONOMIC FATE
+                            DETERMINES THE FIGURE THAT THE HUMAN FEMALE PRESENTS IN SOCIETY IT IS CIVILISATION AS A
+                            WHOLE THAT PRODUCES THIS CREATURE INTERMEDIATE BETWEEN MALE AND EUNUCH WHICH IS DESCRIBED AS
+                            FEMININE IF WOMANHOOD WERE NATURAL WE WOULD NOT NEED TO SPEAK OF BECOMING IT IF FEMININITY
+                            WERE INNATE WE WOULD NOT REQUIRE INSTITUTIONS RITUALS PUNISHMENTS AND REWARDS TO PRODUCE IT
+                            THE VERY FACT THAT WE MUST LEARN TO BE WOMEN THAT CULTURE WORKS SO HARD TO MAKE US INTO
+                            WOMEN IS THE EVIDENCE THAT WOMANHOOD IS A SOCIAL CONSTRUCTION IMPOSED FROM WITHOUT NOT A
+                            CONDITION ARISING FROM WITHIN WOMAN IS DEFINED AND DIFFERENTIATED WITH REFERENCE TO MAN AND
+                            NOT HE WITH REFERENCE TO HER SHE IS THE INCIDENTAL THE INESSENTIAL AS OPPOSED TO THE
+                            ESSENTIAL HE IS THE SUBJECT HE IS THE ABSOLUTE SHE IS THE OTHER
+                        </div>
+                        <div class="col-quote">
+                            "One is not born, but rather becomes, a woman."
+                            <span class="col-source">— Le Deuxième Sexe, 1949</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- WITTIG -->
+                <a class="col" href="wittig.html">
+                    <div class="col-inner">
+                        <span class="col-tag">France · 1980</span>
+                        <span class="col-name">Monique Wittig</span>
+                        <span class="col-subtitle">The Straight Mind</span>
+                        <div class="jitter-body" id="jitter-1">
+                            THE CATEGORY OF SEX IS THE POLITICAL CATEGORY THAT FOUNDS SOCIETY AS HETEROSEXUAL IT DOES
+                            NOT CONCERN BEING BUT RELATIONSHIPS FOR THE CATEGORY OF SEX IS THE PRODUCT OF A HETEROSEXUAL
+                            SOCIETY IN WHICH MEN APPROPRIATE FOR THEMSELVES THE REPRODUCTION AND PRODUCTION OF WOMEN AND
+                            ALSO THEIR PHYSICAL PERSONS BY MEANS OF A CONTRACT CALLED THE MARRIAGE CONTRACT LESBIANS ARE
+                            NOT WOMEN BECAUSE THE SOCIAL CONTRACT OF WOMANHOOD IS CONSTITUTED ENTIRELY BY OBLIGATION TO
+                            MAN WOMANHOOD IS NOT A NATURAL CATEGORY BUT A RELATIONSHIP OF DOMINATION NATURALIZED INTO
+                            WHAT APPEARS AS IDENTITY IF YOU STEP OUTSIDE THAT RELATIONSHIP YOU STEP OUTSIDE THE CATEGORY
+                            ITSELF GENDER IS AN IMAGINARY FORMATION THE STRAIGHT MIND CANNOT CONCEIVE OF A CULTURE A
+                            SOCIETY A LANGUAGE WITHOUT COMPULSORY HETEROSEXUALITY EMBEDDED IN ALL HUMAN RELATIONSHIPS IT
+                            PRESUPPOSES THAT THE FOUNDATION OF SOCIETY IS HETEROSEXUAL AND INTERPRETS EVERYTHING THROUGH
+                            THAT LENS
+                        </div>
+                        <div class="col-quote">
+                            "Lesbians are not women."
+                            <span class="col-source">— The Straight Mind and Other Essays, 1992</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- KOYAMA -->
+                <a class="col" href="koyama.html">
+                    <div class="col-inner">
+                        <span class="col-tag">USA · 2001</span>
+                        <span class="col-name">Emi Koyama</span>
+                        <span class="col-subtitle">The Transfeminist Manifesto</span>
+                        <div class="jitter-body" id="jitter-2">
+                            TRANSFEMINISM IS ABOUT ALL WOMEN IT IS A MOVEMENT BY AND FOR TRANS WOMEN WHO VIEW THEIR
+                            LIBERATION TO BE INTRINSICALLY LINKED WITH THE LIBERATION OF ALL WOMEN AND BEYOND IT IS ALSO
+                            OPEN TO OTHER TRANS PEOPLE AND ANYONE WHO WISHES TO WORK IN SOLIDARITY TRANSFEMINISM DOES
+                            NOT SEE TRANS ISSUES AS MERELY ADDED ON TO FEMINISM BUT AS FUNDAMENTALLY FEMINIST ISSUES
+                            BODILY AUTONOMY IS THE FOUNDATION IF WE BELIEVE WOMEN HAVE THE RIGHT TO DEFINE AND DETERMINE
+                            WHAT HAPPENS TO THEIR BODIES THEN THAT RIGHT MUST EXTEND TO ALL WOMEN INCLUDING TRANS WOMEN
+                            BORDERS AND BINARIES ARE DRAWN OUT OF CONVENIENCE AND POLITICAL INTEREST NOT BIOLOGICAL
+                            NECESSITY GENDER SHOULD INSTEAD BE FLUID RESPONSIVE AND SELF-DEFINED IF YOU FREE THOSE AT
+                            THE BOTTOM OF THE POWER PYRAMID YOU FREE EVERYONE THE LOGIC FLOWS UPWARD LIBERATION IS NOT A
+                            FINITE RESOURCE THAT SOME MUST RELINQUISH FOR OTHERS TO GAIN ALL WOMEN MUST STAND UP FOR
+                            EACH OTHER OR THE CATEGORY ITSELF BECOMES ANOTHER CAGE
+                        </div>
+                        <div class="col-quote">
+                            "If you free those at the bottom, you free everyone."
+                            <span class="col-source">— The Transfeminist Manifesto, 2001</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- CODA -->
+        <section class="coda-section">
+            <h3>So, what is a woman?</h3>
+            <p>
+                The biology is complicated. The philosophy is contested. The politics are ongoing. What these three
+                thinkers share is a refusal to accept that the category is fixed, natural, or neutral.
+            </p>
+            <p>
+                Womanhood is not something you are born with intact — it is something produced, negotiated, imposed,
+                refused, and reclaimed.
+            </p>
+            <p>Which brings us back to your first answer.</p>
+            <a href="page3.html" class="next-btn">Continue →</a>
+        </section>
+
+        <script>
+            /* ── Custom cursor ── */
+            const cur = document.getElementById("cursor");
+            document.addEventListener("mousemove", (e) => {
+                cur.style.left = e.clientX + "px";
+                cur.style.top = e.clientY + "px";
+            });
+
+            /* ── Jitter engine ── */
+            function wrapWords(id) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const raw = el.textContent.trim();
+                const words = raw.split(/\s+/);
+                el.innerHTML = words.map((w) => `<span class="word">${w}</span>`).join(" ");
+                return el;
+            }
+
+            const jitterEls = [wrapWords("jitter-0"), wrapWords("jitter-1"), wrapWords("jitter-2")].filter(Boolean);
+
+            /* Continuous random drift on each word */
+            function jitterLoop() {
+                jitterEls.forEach((el) => {
+                    const col = el.closest(".col");
+                    const isHovered = col && col.matches(":hover");
+                    if (isHovered) return; /* freeze on hover */
+
+                    const words = el.querySelectorAll(".word");
+                    words.forEach((w) => {
+                        if (Math.random() < 0.025) {
+                            const dx = (Math.random() - 0.5) * 3.2;
+                            const dy = (Math.random() - 0.5) * 2.4;
+                            const rot = (Math.random() - 0.5) * 1.2;
+                            w.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+                            setTimeout(
+                                () => {
+                                    w.style.transform = "";
+                                },
+                                120 + Math.random() * 200
+                            );
+                        }
+                    });
+                });
+                requestAnimationFrame(jitterLoop);
+            }
+
+            jitterLoop();
+
+            /* Occasionally glitch a random word's opacity */
+            function glitchLoop() {
+                jitterEls.forEach((el) => {
+                    const col = el.closest(".col");
+                    if (col && col.matches(":hover")) return;
+                    const words = el.querySelectorAll(".word");
+                    if (words.length === 0) return;
+                    const w = words[Math.floor(Math.random() * words.length)];
+                    const orig = w.style.opacity;
+                    w.style.opacity = (Math.random() * 0.4).toString();
+                    setTimeout(
+                        () => {
+                            w.style.opacity = orig;
+                        },
+                        60 + Math.random() * 120
+                    );
+                });
+                setTimeout(glitchLoop, 80 + Math.random() * 200);
+            }
+
+            glitchLoop();
+        </script>
+    </body>
 </html>
