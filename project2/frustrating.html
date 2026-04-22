@@ -28,23 +28,25 @@
       font-family: 'BodyFont', Georgia, serif;
     }
 
-    /* frustrating repeated in the background faint */
     .bg-text {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      font-family: 'TitleFont', Georgia, serif;
-      font-size: 48px;
-      color: #d01010;
-      line-height: 2;
-      word-break: break-word;
-      z-index: 0;
-      padding: 20px;
-      pointer-events: none;
-      overflow: hidden;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'TitleFont', Georgia, serif;
+  font-size: 48px;
+  color: #d01010;
+  line-height: 2;
+  z-index: 0;
+  padding: 20px;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0;
+}
 
     .bg-text span {
       display: inline;
@@ -167,7 +169,7 @@
 
   <script>
     const bg = document.getElementById("bgText");
-    for (let i = 0; i < 300; i++) {
+for (let i = 0; i < 600; i++) {
       const word = document.createElement("span");
       word.textContent = "FRUSTRATING ";
       word.style.animationDelay = i * 0.05 + "s";

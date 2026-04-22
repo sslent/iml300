@@ -4,11 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Dear Miyoko</title>
+		<link rel="stylesheet" href="https://use.typekit.net/qxs5yrx.css" />
 		<style>
-			@font-face {
-				font-family: "TitleFont";
-				src: url("assets/Titlefont.ttf") format("truetype");
-			}
 			@font-face {
 				font-family: "BodyFont";
 				src: url("assets/bodyfont.ttf") format("truetype");
@@ -37,13 +34,39 @@
 				transform: translateY(-50%);
 				color: black;
 			}
-			h1 {
-				font-size: 150px;
-				font-family: "TitleFont", serif;
+			#title-svg {
+				width: 90vw;
+				max-width: 1100px;
+				overflow: visible;
 			}
-			p {
-				font-size: 20px;
-				margin-top: 20px;
+			#title-text {
+				font-family: "zapfino-extra-lt-pro", serif;
+				font-size: 200px;
+				fill: transparent;
+				stroke: #000;
+				stroke-width: 1px;
+				stroke-dasharray: 5000;
+				stroke-dashoffset: 5000;
+				animation: handwrite 8s ease forwards;
+				animation-delay: 0.5s;
+			}
+			/* After drawing, fill in the text */
+			#title-text.filled {
+				animation:
+					handwrite 4s ease forwards,
+					fillin 0.8s ease forwards;
+				animation-delay: 0.5s, 3s;
+			}
+			@keyframes handwrite {
+				to {
+					stroke-dashoffset: 0;
+				}
+			}
+			@keyframes fillin {
+				to {
+					fill: #000;
+					stroke-width: 0;
+				}
 			}
 			a {
 				font-family: "BodyFont", serif;
@@ -52,6 +75,14 @@
 				font-size: 25px;
 				margin-top: 20px;
 				display: inline-block;
+				opacity: 0;
+				animation: fadein 4s ease forwards;
+				animation-delay: 4s;
+			}
+			@keyframes fadein {
+				to {
+					opacity: 1;
+				}
 			}
 		</style>
 	</head>
@@ -60,8 +91,22 @@
 			<source src="assets/homepageanimation.mp4" type="video/mp4" />
 		</video>
 		<div class="content">
-			<h1>Dear Miyoko</h1>
+			<svg id="title-svg" viewBox="0 0 1100 180" xmlns="http://www.w3.org/2000/svg">
+				<text id="title-text" class="filled" x="50%" y="75%" dominant-baseline="middle" text-anchor="middle">
+					Dear Miyoko
+				</text>
+			</svg>
 			<a href="page1.html">Click to Begin</a>
 		</div>
+
+		<script>
+			// Measure the actual path length and set it dynamically
+			window.addEventListener("load", () => {
+				const text = document.getElementById("title-text");
+				const length = text.getTotalLength?.() ?? 5000;
+				text.style.strokeDasharray = length;
+				text.style.strokeDashoffset = length;
+			});
+		</script>
 	</body>
 </html>
