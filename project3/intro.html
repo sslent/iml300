@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intro</title>
+  <style>
+    @font-face {
+      font-family: 'Subtitle';
+      src: url('assets/Subtitle.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --pink: #f472b6;
+      --pink-dim: #e879a0;
+      --rule: rgba(244, 114, 182, 0.35);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Subtitle', Georgia, serif;
+      overflow: hidden;
+    }
+
+    /* Subtle grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.6;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100vh;
+    }
+
+    /* ── LEFT: image panel ── */
+    .image-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 70%, var(--bg) 100%);
+      pointer-events: none;
+    }
+
+    .photo-frame {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      animation: photoReveal 2s ease forwards 0.4s;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 96%;
+      object-fit: cover;
+      object-position: center top;
+      filter: sepia(20%) contrast(1.05);
+    }
+
+    @keyframes photoReveal {
+      from { opacity: 0; transform: scale(1.03); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── RIGHT: text panel ── */
+    .text-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5vw 6vw 5vw 4vw;
+      position: relative;
+    }
+
+    /* Decorative vertical rule */
+    .text-panel::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12%;
+      height: 76%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--pink) 30%, var(--pink) 70%, transparent);
+      opacity: 0.4;
+    }
+
+    .lines-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .line {
+      display: block;
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      line-height: 1.85;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+
+    .line.empty {
+      display: block;
+      height: 1em;
+    }
+
+    .line.italic {
+      font-style: italic;
+      color: var(--pink);
+    }
+
+    .line.visible {
+      opacity: 1;
+    }
+
+    /* ── Continue button ── */
+    .continue-wrap {
+      margin-top: 2.8rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .continue-wrap.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .continue-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      font-family: 'Subtitle', Georgia, serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.3s ease, gap 0.3s ease;
+    }
+
+    .continue-btn:hover {
+      color: var(--pink);
+      gap: 1rem;
+    }
+
+    .continue-btn .arrow {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      position: relative;
+      transition: width 0.3s ease;
+    }
+    .continue-btn:hover .arrow { width: 40px; }
+
+    .continue-btn .arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid currentColor;
+      border-top: 1px solid currentColor;
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="image-panel">
+    <div class="photo-frame">
+      <img src="../assets/babypic.png" alt="Baby photo">
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="text-panel">
+    <div class="lines-container" id="lines">
+
+      <div class="line">I was bald as a baby.</div>
+      <div class="line">At least that's what my mom says,</div>
+      <div class="line">that I barely had any hair.</div>
+      <div class="line empty">&nbsp;</div>
+
+      <div class="line">She jokes about how bad it was,</div>
+      <div class="line">that strangers thought I was a boy.</div>
+      <div class="line italic">She said she had to put me in pink after that.</div>
+      <div class="line empty">&nbsp;</div>
+
+      <div class="line">I've since had a difficult time explaining</div>
+      <div class="line">my relationship with my gender to my mom.</div>
+      <div class="line empty">&nbsp;</div>
+
+      <div class="line italic">I guess I've also had a hard time</div>
+      <div class="line italic">explaining it to myself.</div>
+      <div class="line empty">&nbsp;</div>
+
+      <div class="line">Maybe you can help me.</div>
+      <div class="line">Maybe we can learn from each other.</div>
+
+    </div>
+
+    <div class="continue-wrap" id="continueWrap">
+      <a class="continue-btn" href="prompt1.html">
+        continue <span class="arrow"></span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const lines = document.querySelectorAll('#lines .line');
+  const continueWrap = document.getElementById('continueWrap');
+  const totalLines = lines.length;
+  let revealed = 0;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const i = [...lines].indexOf(entry.target);
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+        revealed++;
+        if (revealed === totalLines) {
+          setTimeout(() => continueWrap.classList.add('visible'), 1800);
+        }
+      }, i * 2200);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.3 });
+
+  lines.forEach(line => observer.observe(line));
+</script>
+
+</body>
+</html>

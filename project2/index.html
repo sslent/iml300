@@ -30,8 +30,7 @@
 				z-index: 1;
 				position: relative;
 				text-align: center;
-				top: 60%;
-				transform: translateY(-50%);
+				padding-top: 40px;
 				color: black;
 			}
 			#title-svg {
@@ -41,7 +40,7 @@
 			}
 			#title-text {
 				font-family: "zapfino-extra-lt-pro", serif;
-				font-size: 200px;
+				font-size: 230px;
 				fill: transparent;
 				stroke: #000;
 				stroke-width: 1px;
@@ -50,7 +49,6 @@
 				animation: handwrite 8s ease forwards;
 				animation-delay: 0.5s;
 			}
-			/* After drawing, fill in the text */
 			#title-text.filled {
 				animation:
 					handwrite 4s ease forwards,
@@ -73,7 +71,7 @@
 				text-decoration: none;
 				color: #fbf8f8;
 				font-size: 25px;
-				margin-top: 20px;
+				margin-top: 10px;
 				display: inline-block;
 				opacity: 0;
 				animation: fadein 4s ease forwards;
@@ -91,16 +89,14 @@
 			<source src="assets/homepageanimation.mp4" type="video/mp4" />
 		</video>
 		<div class="content">
-			<svg id="title-svg" viewBox="0 0 1100 180" xmlns="http://www.w3.org/2000/svg">
+			<svg id="title-svg" viewBox="0 0 1100 220" xmlns="http://www.w3.org/2000/svg">
 				<text id="title-text" class="filled" x="50%" y="75%" dominant-baseline="middle" text-anchor="middle">
 					Dear Miyoko
 				</text>
 			</svg>
 			<a href="page1.html">Click to Begin</a>
 		</div>
-
 		<script>
-			// Measure the actual path length and set it dynamically
 			window.addEventListener("load", () => {
 				const text = document.getElementById("title-text");
 				const length = text.getTotalLength?.() ?? 5000;

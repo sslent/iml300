@@ -1,334 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>What is a Woman? — Define</title>
-        <style>
-            @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page 1</title>
+  <style>
+    @font-face {
+      font-family: 'Subtitle';
+      src: url('assets/Subtitle.ttf') format('truetype');
+    }
 
-            @font-face {
-                font-family: "Titlefont";
-                src: url("assets/titlefont.ttf") format("truetype");
-            }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-            @font-face {
-                font-family: "Subtitlefont";
-                src: url("assets/Subtitle.ttf") format("truetype");
-            }
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --pink: #f472b6;
+      --dim: rgba(255,255,255,0.45);
+      --rule: rgba(244,114,182,0.25);
+    }
 
-            *,
-            *::before,
-            *::after {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-            }
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Subtitle', Georgia, serif;
+      overflow: hidden;
+    }
 
-            body {
-                background: #0d0b09;
-                font-family: "EB Garamond", Georgia, serif;
-                min-height: 100vh;
-                overflow: hidden;
-                cursor: none;
-                position: relative;
-            }
+    /* ── Stage ── */
+    #stage {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-            body::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-                opacity: 0.06;
-                pointer-events: none;
-                z-index: 300;
-            }
+    /* ── Block ── */
+    .block {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6vh 8vw;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+      text-align: center;
+    }
 
-            #overlay {
-                position: fixed;
-                inset: 0;
-                z-index: 2;
-                pointer-events: none;
-            }
+    .block.active {
+      opacity: 1;
+      pointer-events: all;
+    }
 
-            #bg-scene {
-                z-index: 1;
-            }
+    .block.exit {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-            #bg-scene {
-                position: fixed;
-                inset: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 2.4rem;
-                z-index: 1;
-                padding: 2rem;
-                text-align: center;
-            }
+    /* ── Typography ── */
+    .block p {
+      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+      line-height: 2;
+      color: var(--text);
+      max-width: 640px;
+    }
 
-            .prompt-label {
-                font-family: "Subtitlefont";
-                font-size: 0.7rem;
-                font-weight: 300;
-                letter-spacing: 0.42em;
-                text-transform: uppercase;
-                color: rgba(232, 226, 216, 0.35);
-            }
+    .block p + p {
+      margin-top: 1.4em;
+    }
 
-            .typewriter-wrap h1 {
-                font-family: "Titlefont";
-                font-size: 30px;
-                font-weight: 300;
-                font-style: italic;
-                letter-spacing: 0.2em;
-                color: #e8e2d8;
-                overflow: hidden;
-                white-space: nowrap;
-                width: 0;
-                margin: 0 auto;
-                border-right: 1px solid rgba(232, 226, 216, 0.65);
-                animation:
-                    typing 5s steps(22, end) 1.2s forwards,
-                    blink-caret 0.75s step-end infinite;
-            }
+    .block .def-label {
+      font-style: italic;
+      color: var(--pink);
+      display: block;
+      margin-bottom: 0.3em;
+    }
 
-            @keyframes typing {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 22ch;
-                }
-            }
+    .block .def-body {
+      color: rgba(255,255,255,0.8);
+    }
 
-            @keyframes blink-caret {
-                from,
-                to {
-                    border-color: transparent;
-                }
-                50% {
-                    border-color: rgba(232, 226, 216, 0.65);
-                }
-            }
+    .def-block {
+      max-width: 640px;
+      text-align: left;
+      margin: 0 auto;
+    }
 
-            .input-area {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 1.4rem;
-                width: 100%;
-                max-width: 400px;
-                opacity: 0;
-                transform: translateY(10px);
-                transition:
-                    opacity 1.4s ease,
-                    transform 1.4s ease;
-            }
+    .def-block + .def-block {
+      margin-top: 2em;
+    }
 
-            .input-area.visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
+    /* Clickable highlight */
+    .highlight {
+      color: var(--pink);
+      cursor: pointer;
+      border-bottom: 1px solid rgba(244,114,182,0.4);
+      transition: border-color 0.3s, color 0.3s;
+      display: inline;
+    }
+    .highlight:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.6);
+    }
 
-            .input-rule {
-                width: 28px;
-                height: 1px;
-                background: rgba(232, 226, 216, 0.18);
-            }
+    /* ── Block 3: side-by-side ── */
+    .split-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5vw;
+      max-width: 860px;
+      width: 100%;
+      text-align: left;
+    }
 
-            textarea#answer {
-                width: 100%;
-                background: transparent;
-                border: none;
-                border-bottom: 1px solid rgba(232, 226, 216, 0.18);
-                outline: none;
-                resize: none;
-                padding: 0.6rem 0;
-                font-family: "Subtitlefont";
-                font-size: 1.1rem;
-                font-style: italic;
-                color: #e8e2d8;
-                line-height: 1.75;
-                min-height: 72px;
-                caret-color: #e8e2d8;
-                text-align: center;
-            }
+    .split-layout .split-text {
+      flex: 1;
+      min-width: 0;
+    }
 
-            textarea#answer::placeholder {
-                color: rgba(232, 226, 216, 0.22);
-                font-style: italic;
-            }
+    .split-layout .split-text p {
+      max-width: none;
+      text-align: left;
+    }
 
-            a {
-                color: pink;
-                text-decoration: none;
-            }
+    .split-layout .split-img {
+      flex: 0 0 auto;
+      width: clamp(160px, 22vw, 280px);
+    }
 
-            #cursor {
-                position: fixed;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: rgba(232, 226, 216, 0.55);
-                pointer-events: none;
-                z-index: 999;
-                transform: translate(-50%, -50%);
-            }
+    .split-layout .split-img img {
+      width: 100%;
+      border-radius: 2px;
+      opacity: 0.9;
+    }
 
-            .flash {
-                position: fixed;
-                inset: 0;
-                background: #e8e2d8;
-                z-index: 9999;
-                opacity: 0;
-                pointer-events: none;
-            }
+    /* ── Block 4: FAQ style ── */
+    .faq-wrap {
+      max-width: 680px;
+      width: 100%;
+      text-align: left;
+    }
 
-            .flash.go {
-                animation: flash-out 0.55s steps(1) forwards;
-            }
+    .faq-q {
+      font-style: italic;
+      color: var(--pink);
+      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+      line-height: 1.7;
+      margin-top: 1.6em;
+    }
 
-            @keyframes flash-out {
-                0% {
-                    opacity: 0;
-                }
-                15% {
-                    opacity: 0.9;
-                }
-                30% {
-                    opacity: 0;
-                }
-                52% {
-                    opacity: 0.6;
-                }
-                65% {
-                    opacity: 0;
-                }
-                82% {
-                    opacity: 0.85;
-                }
-                100% {
-                    opacity: 0;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div id="cursor"></div>
-        <div class="flash" id="flash"></div>
+    .faq-a {
+      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+      line-height: 1.9;
+      color: rgba(255,255,255,0.85);
+      margin-top: 0.4em;
+    }
 
-        <div id="bg-scene">
-            <p class="prompt-label">before you proceed</p>
-            <div class="typewriter-wrap">
-                <h1>What is a woman?</h1>
-            </div>
-            <div class="input-area" id="inputArea">
-                <div class="input-rule"></div>
-                <textarea
-                    id="answer"
-                    rows="3"
-                    placeholder="write your answer here…"
-                    autocomplete="off"
-                    spellcheck="false"></textarea>
-                <a href="page2.html">Continue</a>
-            </div>
-        </div>
+    .faq-a:first-child { margin-top: 0; }
 
-        <canvas id="overlay"></canvas>
+    .faq-closing {
+      margin-top: 2em;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      line-height: 2;
+      color: var(--text);
+      max-width: 640px;
+    }
 
-        <script>
-            const canvas = document.getElementById("overlay");
-            const ctx = canvas.getContext("2d");
-            const cursorEl = document.getElementById("cursor");
-            const inputArea = document.getElementById("inputArea");
-            const ta = document.getElementById("answer");
+    /* ── Progress dots ── */
+    #dots {
+      position: fixed;
+      bottom: 2.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
 
-            let W, H;
-            let overlayReady = false;
-            let hasMovedMouse = false;
-            let brushRadius = 88;
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: background 0.4s, transform 0.4s;
+    }
 
-            const overlayImage = new Image();
-            overlayImage.src = "assets/pinkoverlay.png";
+    .dot.active {
+      background: var(--pink);
+      transform: scale(1.4);
+    }
 
-            function drawOverlay() {
-                ctx.clearRect(0, 0, W, H);
-                ctx.globalCompositeOperation = "source-over";
-                ctx.drawImage(overlayImage, 0, 0, W, H);
-                overlayReady = true;
-            }
+    /* ── Next button ── */
+    #next-btn {
+      position: fixed;
+      bottom: 5rem;
+      right: 5vw;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Subtitle', Georgia, serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.3s ease, gap 0.3s ease, opacity 0.5s ease;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+    }
 
-            function resize() {
-                W = canvas.width = window.innerWidth;
-                H = canvas.height = window.innerHeight;
-                if (overlayImage.complete && overlayImage.naturalWidth > 0) drawOverlay();
-            }
+    #next-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
 
-            overlayImage.onload = () => {
-                W = canvas.width = window.innerWidth;
-                H = canvas.height = window.innerHeight;
-                drawOverlay();
-            };
+    #next-btn:hover {
+      color: var(--pink);
+      gap: 1rem;
+    }
 
-            resize();
-            window.addEventListener("resize", resize);
+    #next-btn .arrow {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      position: relative;
+      transition: width 0.3s;
+    }
 
-            document.addEventListener("mousemove", (e) => {
-                cursorEl.style.left = e.clientX + "px";
-                cursorEl.style.top = e.clientY + "px";
-                if (!overlayReady) return;
-                if (!hasMovedMouse) hasMovedMouse = true;
-                ctx.globalCompositeOperation = "destination-out";
-                ctx.beginPath();
-                ctx.arc(e.clientX, e.clientY, brushRadius, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(0,0,0,1)";
-                ctx.fill();
-            });
+    #next-btn:hover .arrow { width: 40px; }
 
-            document.addEventListener("mousedown", () => {
-                brushRadius = 140;
-            });
-            document.addEventListener("mouseup", () => {
-                brushRadius = 88;
-            });
+    #next-btn .arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid currentColor;
+      border-top: 1px solid currentColor;
+      transform: rotate(45deg);
+    }
 
-            document.addEventListener(
-                "touchmove",
-                (e) => {
-                    e.preventDefault();
-                    const t = e.touches[0];
-                    cursorEl.style.left = t.clientX + "px";
-                    cursorEl.style.top = t.clientY + "px";
-                    if (!overlayReady) return;
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.beginPath();
-                    ctx.arc(t.clientX, t.clientY, 110, 0, Math.PI * 2);
-                    ctx.fillStyle = "rgba(0,0,0,1)";
-                    ctx.fill();
-                },
-                { passive: false }
-            );
+    /* Scrollable block for block 4 */
+    .block.scrollable {
+      overflow-y: auto;
+      padding-top: 10vh;
+      padding-bottom: 10vh;
+      justify-content: flex-start;
+    }
+  </style>
+</head>
+<body>
 
-            setTimeout(() => {
-                inputArea.classList.add("visible");
-                ta.focus();
-            }, 5000);
+<div id="stage">
 
-            function handleSubmit() {
-                const val = ta.value.trim();
-                if (!val) return;
-                sessionStorage.setItem("firstDefinition", val);
-                document.getElementById("flash").classList.add("go");
-                setTimeout(() => {
-                    window.location.href = "page2.html";
-                }, 580);
-            }
+  <!-- BLOCK 1 -->
+  <div class="block" id="block-1">
+    <p>As I get older, I realize more and more that gender is something socially constructed. And yet we treat it as a biological fact, like something that inherently lives in the body.</p>
+    <p>I think the difficulty in unpacking these ideas lies not only in recognizing that gender is imagined but in the psychological weight of trying to unlearn them. Asking someone to question what they've been taught their entire life about how the world works is a lot.</p>
+    <p>It threatens our sense of identity and meaning.</p>
+   <span class="highlight" id="highlight-trigger" style="font-size:25px; font-style:italic;">Who do we become when we step outside everything we know to be true?</span>
+  </div>
 
-            ta.addEventListener("keydown", (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === "Enter") handleSubmit();
-            });
-        </script>
-    </body>
+  <!-- BLOCK 2 -->
+  <div class="block" id="block-2">
+    <div style="max-width:640px; width:100%; text-align:left;">
+      <p style="text-align:center; margin-bottom:2em;">Before we try to figure out what a woman is, we have to dig deeper into what we think we already know is objectively "true". Let's start with two different words that people use interchangeably.</p>
+
+      <div class="def-block">
+        <span class="def-label">Def. Sex</span>
+        <span class="def-body">A set of physiological characteristics — chromosomes, hormones, anatomy. Varies along a spectrum. Assigned at birth based on visible anatomy. But this is more complicated than it appears.</span>
+      </div>
+
+      <div class="def-block">
+        <span class="def-label">Def. Gender</span>
+        <span class="def-body">A social and cultural construct — the roles, behaviors, expressions, and identities that a society assigns to people. Learned, performed, enforced. Not the same as the body you inhabit.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 3 -->
+  <div class="block" id="block-3">
+    <div class="split-layout">
+      <div class="split-text">
+        <p>Think about it like this — my dog is female, but it'd be silly to call her a "woman", right?</p>
+      </div>
+      <div class="split-img">
+        <img src="assets/gracie.png" alt="Gracie the dog" />
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 4 -->
+  <div class="block scrollable" id="block-4">
+    <div class="faq-wrap">
+      <p class="faq-closing" style="margin-top:0; margin-bottom:0.5em;">But there are only two sexes!</p>
+      <p class="faq-a">Intersex conditions — variations in chromosomes, hormones, or anatomy — occur in roughly 1.7% of the population, comparable to the rate of red hair. The binary is a simplification, not a biological law.</p>
+
+      <p class="faq-q">But we've always understood sex this way!</p>
+      <p class="faq-a">The modern biological framework for sex was largely built in the late 19th and early 20th centuries, shaped by cultural assumptions of the time. It has been revised repeatedly — and is still being revised.</p>
+
+      <p class="faq-q">But XX means female. XY means male!</p>
+      <p class="faq-a">Chromosomal sex is more variable than the XX/XY shorthand suggests. People have XXY, XYY, X0, and other configurations. The same chromosomes can produce different phenotypes depending on gene expression and hormones.</p>
+
+      <p class="faq-q">But the science is natural, objective, TRUE!</p>
+      <p class="faq-a">Science is a process, not a verdict. Scientific studies are also conducted and written by humans who have their own conscious and unconscious biases. Feminist science scholars like Ann Fausto-Sterling have shown how cultural assumptions have shaped — and often distorted — scientific inquiry into sex.</p>
+
+      <p class="faq-closing">There's this idea that sex determines everything. However, the relationship between biological sex and lived experience is a lot more complicated than that. Hormones, social environment, culture, and individual psychology all shape who we become. Biology is one factor among many — but not a fixed destiny.</p>
+    </div>
+  </div>
+
+  <!-- BLOCK 5 -->
+  <div class="block" id="block-5">
+    <p style="max-width:560px;">So where do these ideas about the science of sex and gender come from?</p>
+    <a href="page2.html" id="continue-link" style="
+      display:inline-flex; align-items:center; gap:0.6rem;
+      margin-top:3rem;
+      font-family:'Subtitle',Georgia,serif;
+      font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase;
+      color:rgba(255,255,255,0.4); text-decoration:none;
+      transition:color 0.3s, gap 0.3s;
+    " onmouseover="this.style.color='#f472b6';this.style.gap='1rem'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.gap='0.6rem'">
+      continue <span style="display:inline-block;width:28px;height:1px;background:currentColor;position:relative;">
+        <span style="position:absolute;right:0;top:-3px;width:7px;height:7px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg);display:block;"></span>
+      </span>
+    </a>
+  </div>
+
+</div>
+
+<!-- Progress dots -->
+<div id="dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- Next button -->
+<button id="next-btn" aria-label="Next">
+  next <span class="arrow"></span>
+</button>
+
+<script>
+  const blocks = document.querySelectorAll('.block');
+  const dots   = document.querySelectorAll('.dot');
+  const nextBtn = document.getElementById('next-btn');
+  let current = 0;
+  const total = blocks.length;
+
+  function goTo(index) {
+    // Exit current
+    blocks[current].classList.remove('active');
+    blocks[current].classList.add('exit');
+    dots[current].classList.remove('active');
+
+    setTimeout(() => {
+      blocks[current].classList.remove('exit');
+      current = index;
+      blocks[current].classList.add('active');
+      dots[current].classList.add('active');
+
+      // Hide next btn on last block (has its own continue link)
+      if (current === total - 1) {
+        nextBtn.classList.remove('visible');
+      } else {
+        nextBtn.classList.add('visible');
+      }
+    }, 700);
+  }
+
+  // Show first block
+  blocks[0].classList.add('active');
+  nextBtn.classList.add('visible');
+
+  // Highlight on block 1 triggers block 2
+  document.getElementById('highlight-trigger').addEventListener('click', () => {
+    goTo(1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (current < total - 1) goTo(current + 1);
+  });
+</script>
+
+</body>
 </html>
