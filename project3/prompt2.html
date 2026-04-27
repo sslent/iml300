@@ -64,9 +64,9 @@
 
             .recall-label {
                 font-family: "Subtitlefont", sans-serif;
-                font-size: 0.6rem;
-                letter-spacing: 0.38em;
-                text-transform: uppercase;
+                font-size: 14px;
+
+              
                 color: rgba(232, 226, 216, 0.25);
                 margin-bottom: 0.6rem;
             }
@@ -190,9 +190,9 @@
             /* submit button */
             .submit-btn {
                 font-family: "Subtitlefont", sans-serif;
-                font-size: 0.62rem;
-                letter-spacing: 0.28em;
-                text-transform: uppercase;
+                font-size: 18px;
+                
+                
                 color: rgba(232, 226, 216, 0.55);
                 background: none;
                 border: none;
@@ -345,9 +345,8 @@
         <div class="flash" id="flash"></div>
 
         <nav>
-            <a href="page4.html">← Resources</a>
-            <span class="nav-center">what is a woman? — 05 / 05</span>
-            <a href="board.html">See all answers →</a>
+          
+            <a href="bulletin.html">See all answers →</a>
         </nav>
 
         <div id="bg-scene">
@@ -357,11 +356,10 @@
                 <p class="recall-answer" id="recallText">—</p>
             </div>
 
-            <div class="dot-divider"></div>
 
             <!-- new typewriter prompt -->
             <div class="typewriter-wrap">
-                <h1>Now, what is a woman?</h1>
+                <h1>So, what is a woman?</h1>
             </div>
 
             <!-- input -->
@@ -370,11 +368,11 @@
                 <textarea
                     id="answer2"
                     rows="3"
-                    placeholder="has anything shifted?"
+                    placeholder="this answer is just for you to see"
                     autocomplete="off"
                     spellcheck="false"></textarea>
-                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Add to the board</button>
-                <p class="success-msg" id="successMsg">✦ added — thank you</p>
+                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()"> Go to the board</button>
+              
             </div>
         </div>
 
@@ -403,7 +401,7 @@
             let brushRadius = 88;
 
             const overlayImage = new Image();
-            overlayImage.src = "assets/pinkoverlay.png";
+            overlayImage.src = "assets/p2overlay.gif";
 
             function drawOverlay() {
                 ctx.clearRect(0, 0, W, H);
@@ -473,12 +471,7 @@
                 const val = ta.value.trim();
                 if (!val) return;
 
-                // save second definition alongside first
-                const existing = JSON.parse(localStorage.getItem("boardEntries") || "[]");
-                existing.push({
-                    first: firstDef || null,
-                    second: val,
-                    ts: Date.now()
+              
                 });
                 localStorage.setItem("boardEntries", JSON.stringify(existing));
 
@@ -491,7 +484,7 @@
                 }, 800);
 
                 setTimeout(() => {
-                    window.location.href = "board.html";
+                    window.location.href = "bulletin.html";
                 }, 1380);
             }
 

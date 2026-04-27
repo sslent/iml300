@@ -5,24 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What is a Woman?</title>
 <style>
-    @font-face {
-  font-family: 'Titlefont';
-  src: url('assets/titlefont.ttf') format('truetype');
-}
+  @font-face {
+    font-family: 'Titlefont';
+    src: url('assets/titlefont.ttf') format('truetype');
+  }
 
-    @font-face {
-  font-family: 'EmbroiderFont';
-  src: url('assets/embroiderfont.ttf') format('truetype');
-}
-    
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap');
+  @font-face {
+    font-family: 'Subtitlefont';
+    src: url('assets/Subtitle.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Handwritten';
+    src: url('assets/handwritten.ttf') format('truetype');
+  }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     background: #e8e2d8;
     color: #1a1612;
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: 'Subtitlefont', Georgia, serif;
     min-height: 100vh;
     overflow: hidden;
     display: flex;
@@ -60,7 +63,7 @@
 
   .img-slide.active { opacity: 1; }
 
-  /* Glitch layer A — clips top slice, shifts left */
+  /* Glitch layer A */
   .img-slide.active::before {
     content: '';
     position: absolute;
@@ -72,7 +75,7 @@
     animation: glitch-a 4s infinite steps(1);
   }
 
-  /* Glitch layer B — clips bottom slice, shifts right */
+  /* Glitch layer B */
   .img-slide.active::after {
     content: '';
     position: absolute;
@@ -104,7 +107,7 @@
     74%  { clip-path: inset(100% 0 0 0); transform: translate(0); }
   }
 
-  /* Fog — clears center, fades edges */
+  /* Fog */
   .fog {
     position: fixed;
     inset: 0;
@@ -130,16 +133,15 @@
   }
 
   .eyebrow {
-  font-family: 'EmbroiderFont', serif;
-  font-size: 16px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
-  color: white;
-  text-transform: uppercase;
-}
-  
+    font-family: 'Subtitlefont', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: white;
+    text-transform: uppercase;
+  }
 
-  /* Circular title SVG */
+  /* Circular spinning title */
   .circle-title {
     width: clamp(220px, 40vw, 340px);
     height: clamp(220px, 40vw, 340px);
@@ -151,40 +153,39 @@
     to   { transform: rotate(360deg); }
   }
 
- .circle-title text {
-  font-family: 'Titlefont', serif;
-  font-size: 40px;
-  font-weight: 300;
-  font-style: italic;
-  fill: #1a1612;
-  letter-spacing: 0.18em;
-}
+  .circle-title text {
+    font-family: 'Titlefont', serif;
+    font-size: 40px;
+    font-weight: 300;
+    font-style: italic;
+    fill: #1a1612;
+    letter-spacing: 0.18em;
+  }
 
   .rule {
     width: 44px;
     height: 1px;
-    background: rgba(26,22,18,0.18);
+    background: rgba(255,255,255,0.35);
   }
 
- .tagline {
-  font-family: 'EmbroiderFont', serif;
-  font-size: clamp(1rem, 2vw, 1.18rem);
-  font-style: italic;
-  color: white;
-  line-height: 1.75;
-  max-width: 360px;
-}
+  .tagline {
+    font-family: 'Handwritten', Georgia, serif;
+    font-size: 23px;
+    color: white;
+    line-height: 1.75;
+    max-width: 360px;
+  }
 
   .start-btn {
     display: inline-block;
-    font-family: Titlefont;
-    font-size: 16px;
+    font-family: 'Titlefont', serif;
+    font-size: 0.75rem;
     font-weight: 300;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: white;
     text-decoration: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
     padding-bottom: 3px;
     margin-top: 0.4rem;
     transition: letter-spacing 0.5s ease, color 0.3s, border-color 0.3s;
@@ -205,7 +206,6 @@
 <div class="content">
   <p class="eyebrow">a meditation</p>
 
-  <!-- Circular title using SVG textPath -->
   <svg class="circle-title" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <path id="circlePath"

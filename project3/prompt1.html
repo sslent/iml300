@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>What is a Woman? — Now You Tell Us</title>
+        <title>What is a Woman? — Define</title>
         <style>
             @font-face {
                 font-family: "Titlefont";
@@ -14,9 +14,7 @@
                 src: url("assets/Subtitle.ttf") format("truetype");
             }
 
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 box-sizing: border-box;
                 margin: 0;
                 padding: 0;
@@ -31,7 +29,6 @@
                 position: relative;
             }
 
-            /* grain */
             body::before {
                 content: "";
                 position: fixed;
@@ -42,7 +39,6 @@
                 z-index: 300;
             }
 
-            /* background scene */
             #bg-scene {
                 position: fixed;
                 inset: 0;
@@ -56,50 +52,10 @@
                 text-align: center;
             }
 
-            /* first answer recall */
-            .recall-wrap {
-                opacity: 0;
-                animation: fade-up 1.2s ease 0.4s forwards;
-            }
-
-            .recall-label {
-                font-family: "Subtitlefont", sans-serif;
-                font-size: 0.6rem;
-                letter-spacing: 0.38em;
-                text-transform: uppercase;
-                color: rgba(232, 226, 216, 0.25);
-                margin-bottom: 0.6rem;
-            }
-
-            .recall-answer {
-                font-family: "Subtitlefont", sans-serif;
-                font-size: 1rem;
-                font-style: italic;
-                color: rgba(232, 226, 216, 0.35);
-                letter-spacing: 0.04em;
-                line-height: 1.6;
-                max-width: 420px;
-                margin: 0 auto;
-                border-top: 1px solid rgba(232, 226, 216, 0.08);
-                border-bottom: 1px solid rgba(232, 226, 216, 0.08);
-                padding: 0.7rem 1.2rem;
-            }
-
-            /* divider dot */
-            .dot-divider {
-                width: 4px;
-                height: 4px;
-                border-radius: 50%;
-                background: rgba(217, 79, 122, 0.5);
-                margin: 0 auto;
-                opacity: 0;
-                animation: fade-up 1s ease 1s forwards;
-            }
-
             /* typewriter title */
             .typewriter-wrap {
                 opacity: 0;
-                animation: fade-up 1s ease 1.4s forwards;
+                animation: fade-up 1s ease 0.4s forwards;
             }
 
             .typewriter-wrap h1 {
@@ -115,27 +71,18 @@
                 margin: 0 auto;
                 border-right: 1px solid rgba(232, 226, 216, 0.65);
                 animation:
-                    typing 3.5s steps(28, end) 2.2s forwards,
+                    typing 2.8s steps(22, end) 1.2s forwards,
                     blink-caret 0.75s step-end infinite;
             }
 
             @keyframes typing {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 28ch;
-                }
+                from { width: 0; }
+                to   { width: 22ch; }
             }
 
             @keyframes blink-caret {
-                from,
-                to {
-                    border-color: transparent;
-                }
-                50% {
-                    border-color: rgba(232, 226, 216, 0.65);
-                }
+                from, to { border-color: transparent; }
+                50%      { border-color: rgba(232, 226, 216, 0.65); }
             }
 
             /* input area */
@@ -148,9 +95,7 @@
                 max-width: 440px;
                 opacity: 0;
                 transform: translateY(10px);
-                transition:
-                    opacity 1.4s ease,
-                    transform 1.4s ease;
+                transition: opacity 1.4s ease, transform 1.4s ease;
             }
 
             .input-area.visible {
@@ -164,7 +109,7 @@
                 background: rgba(232, 226, 216, 0.18);
             }
 
-            textarea#answer2 {
+            textarea#answer1 {
                 width: 100%;
                 background: transparent;
                 border: none;
@@ -182,27 +127,22 @@
                 text-align: center;
             }
 
-            textarea#answer2::placeholder {
+            textarea#answer1::placeholder {
                 color: rgba(232, 226, 216, 0.22);
                 font-style: italic;
             }
 
-            /* submit button */
             .submit-btn {
                 font-family: "Subtitlefont", sans-serif;
-                font-size: 0.62rem;
-                letter-spacing: 0.28em;
-                text-transform: uppercase;
+                font-size: 18px;
+            
                 color: rgba(232, 226, 216, 0.55);
                 background: none;
                 border: none;
                 border-bottom: 1px solid rgba(232, 226, 216, 0.2);
                 padding-bottom: 3px;
                 cursor: none;
-                transition:
-                    color 0.3s,
-                    letter-spacing 0.4s,
-                    border-color 0.3s;
+                transition: color 0.3s, letter-spacing 0.4s, border-color 0.3s;
             }
 
             .submit-btn:hover {
@@ -211,7 +151,6 @@
                 border-color: rgba(217, 79, 122, 0.4);
             }
 
-            /* skip link — small and unobtrusive */
             .skip-link {
                 font-family: "Subtitlefont", sans-serif;
                 font-size: 0.55rem;
@@ -225,7 +164,6 @@
                 color: rgba(232, 226, 216, 0.45);
             }
 
-            /* canvas overlay */
             #overlay {
                 position: fixed;
                 inset: 0;
@@ -233,7 +171,6 @@
                 pointer-events: none;
             }
 
-            /* custom cursor */
             #cursor {
                 position: fixed;
                 width: 8px;
@@ -245,7 +182,6 @@
                 transform: translate(-50%, -50%);
             }
 
-            /* flash transition */
             .flash {
                 position: fixed;
                 inset: 0;
@@ -260,57 +196,20 @@
             }
 
             @keyframes flash-out {
-                0% {
-                    opacity: 0;
-                }
-                15% {
-                    opacity: 0.9;
-                }
-                30% {
-                    opacity: 0;
-                }
-                52% {
-                    opacity: 0.6;
-                }
-                65% {
-                    opacity: 0;
-                }
-                82% {
-                    opacity: 0.85;
-                }
-                100% {
-                    opacity: 0;
-                }
+                0%   { opacity: 0; }
+                15%  { opacity: 0.9; }
+                30%  { opacity: 0; }
+                52%  { opacity: 0.6; }
+                65%  { opacity: 0; }
+                82%  { opacity: 0.85; }
+                100% { opacity: 0; }
             }
 
-            /* success state */
-            .success-msg {
-                font-family: "Subtitlefont", sans-serif;
-                font-size: 0.75rem;
-                letter-spacing: 0.2em;
-                text-transform: uppercase;
-                color: rgba(217, 79, 122, 0.7);
-                opacity: 0;
-                transition: opacity 0.8s ease;
-                pointer-events: none;
-            }
-            .success-msg.show {
-                opacity: 1;
-            }
-
-            /* fade-up keyframe */
             @keyframes fade-up {
-                from {
-                    opacity: 0;
-                    transform: translateY(8px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(8px); }
+                to   { opacity: 1; transform: translateY(0); }
             }
 
-            /* nav */
             nav {
                 position: fixed;
                 top: 0;
@@ -332,12 +231,9 @@
                 text-decoration: none;
                 transition: color 0.2s;
             }
-            nav a:hover {
-                color: rgba(232, 226, 216, 0.6);
-            }
-            .nav-center {
-                color: rgba(232, 226, 216, 0.15);
-            }
+            nav a:hover { color: rgba(232, 226, 216, 0.6); }
+
+            .nav-center { color: rgba(232, 226, 216, 0.15); }
         </style>
     </head>
     <body>
@@ -345,61 +241,39 @@
         <div class="flash" id="flash"></div>
 
         <nav>
-            <a href="page4.html">← Resources</a>
-            <span class="nav-center">what is a woman? — 05 / 05</span>
-            <a href="board.html">See all answers →</a>
+            <span></span>
         </nav>
 
         <div id="bg-scene">
-            <!-- show their first answer back to them -->
-            <div class="recall-wrap" id="recallWrap">
-                <p class="recall-label">you began with</p>
-                <p class="recall-answer" id="recallText">—</p>
-            </div>
 
-            <div class="dot-divider"></div>
-
-            <!-- new typewriter prompt -->
             <div class="typewriter-wrap">
-                <h1>Now, what is a woman?</h1>
+                <h1>What is a woman?</h1>
             </div>
 
-            <!-- input -->
             <div class="input-area" id="inputArea">
                 <div class="input-rule"></div>
                 <textarea
-                    id="answer2"
+                    id="answer1"
                     rows="3"
-                    placeholder="has anything shifted?"
+                    placeholder="I'd like to hear from you. I promise it's not a trick question :)"
                     autocomplete="off"
                     spellcheck="false"></textarea>
-                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Add to the board</button>
-                <p class="success-msg" id="successMsg">✦ added — thank you</p>
+                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Continue</button>
             </div>
+
         </div>
 
         <canvas id="overlay"></canvas>
 
         <script>
-            // ── recall first definition ──
-            const firstDef = sessionStorage.getItem("firstDefinition");
-            const recallText = document.getElementById("recallText");
-            if (firstDef && firstDef.trim()) {
-                recallText.textContent = "\u201C" + firstDef.trim() + "\u201D";
-            } else {
-                document.getElementById("recallWrap").style.display = "none";
-            }
-
-            // ── canvas scratch overlay (same mechanic as page 1) ──
+            // ── canvas scratch overlay ──
             const canvas = document.getElementById("overlay");
             const ctx = canvas.getContext("2d");
             const cursorEl = document.getElementById("cursor");
             const inputArea = document.getElementById("inputArea");
-            const ta = document.getElementById("answer2");
+            const ta = document.getElementById("answer1");
 
-            let W,
-                H,
-                overlayReady = false;
+            let W, H, overlayReady = false;
             let brushRadius = 88;
 
             const overlayImage = new Image();
@@ -438,60 +312,39 @@
                 ctx.fill();
             });
 
-            document.addEventListener("mousedown", () => {
-                brushRadius = 140;
-            });
-            document.addEventListener("mouseup", () => {
-                brushRadius = 88;
-            });
+            document.addEventListener("mousedown", () => { brushRadius = 140; });
+            document.addEventListener("mouseup",   () => { brushRadius = 88; });
 
-            document.addEventListener(
-                "touchmove",
-                (e) => {
-                    e.preventDefault();
-                    const t = e.touches[0];
-                    cursorEl.style.left = t.clientX + "px";
-                    cursorEl.style.top = t.clientY + "px";
-                    if (!overlayReady) return;
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.beginPath();
-                    ctx.arc(t.clientX, t.clientY, 110, 0, Math.PI * 2);
-                    ctx.fillStyle = "rgba(0,0,0,1)";
-                    ctx.fill();
-                },
-                { passive: false }
-            );
+            document.addEventListener("touchmove", (e) => {
+                e.preventDefault();
+                const t = e.touches[0];
+                cursorEl.style.left = t.clientX + "px";
+                cursorEl.style.top  = t.clientY + "px";
+                if (!overlayReady) return;
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.beginPath();
+                ctx.arc(t.clientX, t.clientY, 110, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(0,0,0,1)";
+                ctx.fill();
+            }, { passive: false });
 
             // show input after typewriter finishes
             setTimeout(() => {
                 inputArea.classList.add("visible");
                 ta.focus();
-            }, 5800);
+            }, 4200);
 
-            // ── submit ──
+            // ── submit — saves to sessionStorage then navigates ──
             function handleSubmit() {
                 const val = ta.value.trim();
-                if (!val) return;
 
-                // save second definition alongside first
-                const existing = JSON.parse(localStorage.getItem("boardEntries") || "[]");
-                existing.push({
-                    first: firstDef || null,
-                    second: val,
-                    ts: Date.now()
-                });
-                localStorage.setItem("boardEntries", JSON.stringify(existing));
+                // save even if blank so prompt2 knows they visited
+                sessionStorage.setItem("firstDefinition", val);
 
-                // show confirmation then flash to board
-                document.getElementById("submitBtn").style.display = "none";
-                document.getElementById("successMsg").classList.add("show");
+                document.getElementById("flash").classList.add("go");
 
                 setTimeout(() => {
-                    document.getElementById("flash").classList.add("go");
-                }, 800);
-
-                setTimeout(() => {
-                    window.location.href = "board.html";
+                    window.location.href = "page2.html";
                 }, 1380);
             }
 

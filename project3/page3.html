@@ -13,9 +13,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #FFF281;
+      --bg: #c0c0c0;
       --black: #000;
-      --frame: #FFB8D0;
+      --frame: rgb(255, 123, 167);
     }
 
     html, body {
@@ -25,9 +25,7 @@
       overflow-x: hidden;
     }
 
-    /* ─────────────────────────────────
-       INTRO
-    ───────────────────────────────── */
+    /* ── INTRO ── */
     #intro {
       min-height: 100vh;
       display: flex;
@@ -66,15 +64,7 @@
       inset: 0;
       pointer-events: none;
       z-index: 3;
-    }
-
-    .orbit-ring svg {
       overflow: visible;
-    }
-
-    @keyframes spinRect {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
     }
 
     /* ── Intro body ── */
@@ -124,9 +114,7 @@
       transform: rotate(45deg);
     }
 
-    /* ─────────────────────────────────
-       STAGE
-    ───────────────────────────────── */
+    /* ── STAGE ── */
     #stage { display: none; position: relative; width: 100%; }
 
     .block {
@@ -336,18 +324,26 @@
       border-top: 1px solid currentColor;
       transform: rotate(45deg);
     }
+
+    /* ── Typewriter ── */
+    .tw-char {
+      opacity: 0;
+      animation: twReveal 1ms forwards;
+    }
+
+    @keyframes twReveal { to { opacity: 1; } }
   </style>
 </head>
 <body>
 
-<!-- ── INTRO ── -->
+<!-- INTRO -->
 <div id="intro">
   <div class="orbit-container">
     <img class="center-img" src="assets/confused.png" alt="confused" id="center-photo" />
     <div class="orbit-ring" id="orbit-ring"></div>
   </div>
 
-  <p class="intro-body">
+  <p class="intro-body" id="intro-body-text">
     It's hard to answer such an enormous question, one that many people have been trying to answer for a long time. It helps if we look at some of the theory out there. Here are some of my favorite perspectives:
   </p>
 
@@ -356,7 +352,7 @@
   </button>
 </div>
 
-<!-- ── STAGE ── -->
+<!-- STAGE -->
 <div id="stage">
 
   <!-- BLOCK 0: Beauvoir -->
@@ -449,33 +445,103 @@
   const total   = blocks.length;
   let current   = -1;
 
-  /* ── Build rectangular SVG orbit once image loads ── */
-  const photo = document.getElementById('center-photo');
+  /* ── Orbit: animate text along rectangular path via startOffset ── */
+  const photo     = document.getElementById('center-photo');
   const orbitRing = document.getElementById('orbit-ring');
 
   function buildOrbit() {
-    const w = photo.offsetWidth;
-    const h = photo.offsetHeight;
+    const w   = photo.offsetWidth;
+    const h   = photo.offsetHeight;
     const pad = 28;
-    const x0 = -pad, y0 = -pad;
-    const x1 = w + pad, y1 = h + pad;
+    const x0  = -pad, y0 = -pad;
+    const x1  = w + pad, y1 = h + pad;
     const perimeter = 2 * ((x1 - x0) + (y1 - y0));
-    const cx = w / 2, cy = h / 2;
+
+    // Path goes clockwise around the rectangle
     const d = `M${x0},${y0} L${x1},${y0} L${x1},${y1} L${x0},${y1} Z`;
-    const txt = 'what is a woman?? · what is a woman?? · what is a woman?? · what is a woman?? · ';
+
+    // Repeat text enough times to fill perimeter continuously
+    const unit = 'what is a woman?? · ';
+    const reps = Math.ceil((perimeter * 2) / (unit.length * 8)) + 2;
+    const txt  = unit.repeat(reps);
 
     orbitRing.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="overflow:visible;position:absolute;top:0;left:0;">
-        <defs><path id="rp" d="${d}"/></defs>
-        <g style="transform-origin:${cx}px ${cy}px;animation:spinRect 16s linear infinite;">
-          <text font-family="Subtitle,Georgia,serif" font-size="13" fill="#3b1f6e" letter-spacing="2">
-            <textPath href="#rp" textLength="${perimeter}" lengthAdjust="spacing">${txt}</textPath>
-          </text>
-        </g>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="${w}" height="${h}"
+           style="overflow:visible;position:absolute;top:0;left:0;">
+        <defs>
+          <path id="rp" d="${d}" />
+        </defs>
+        <text font-family="Subtitle,Georgia,serif" font-size="13"
+              fill="#3b1f6e" letter-spacing="2">
+          <textPath href="#rp" id="tp">${txt}</textPath>
+        </text>
       </svg>`;
+
+    // Animate startOffset from 0% to 100% so text marches along the path
+    const tp = orbitRing.querySelector('#tp');
+    let start = null;
+    const duration = 14000; // ms for one full loop
+
+    function march(ts) {
+      if (!start) start = ts;
+      const elapsed = (ts - start) % duration;
+      const pct = (elapsed / duration) * 100;
+      tp.setAttribute('startOffset', pct + '%');
+      requestAnimationFrame(march);
+    }
+
+    requestAnimationFrame(march);
   }
 
-  photo.complete && photo.naturalWidth ? buildOrbit() : photo.addEventListener('load', buildOrbit);
+  photo.complete && photo.naturalWidth
+    ? buildOrbit()
+    : photo.addEventListener('load', buildOrbit);
+
+  /* ── Typewriter (no cursor) ── */
+  // Walks text nodes only — child elements like <u> tags are preserved intact
+  function typewriterOn(container, selector, charDelay) {
+    charDelay = charDelay || 20;
+    let idx = 0;
+
+    function wrapTextNodes(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const frag = document.createDocumentFragment();
+        node.textContent.split('').forEach(ch => {
+          const s = document.createElement('span');
+          s.className = 'tw-char';
+          s.textContent = ch;
+          s.style.animationDelay = (idx * charDelay) + 'ms';
+          s.style.animationDuration = '1ms';
+          idx++;
+          frag.appendChild(s);
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        Array.from(node.childNodes).forEach(wrapTextNodes);
+      }
+    }
+
+    container.querySelectorAll(selector).forEach(el => wrapTextNodes(el));
+  }
+
+  // Selectors to type per block index (-1 = intro)
+  const twConfig = {
+    '-1': '.intro-body',
+     '0': '.big-quote, .attribution, .split-text p, .reflection .split-text p',
+     '1': '.big-quote, .attribution, .split-text p, .reflection .split-text p',
+     '2': '.big-quote, .attribution, .split-text p',
+  };
+
+  const typed = new Set();
+
+  function maybeType(index) {
+    const key = String(index);
+    if (typed.has(key) || !twConfig[key]) return;
+    typed.add(key);
+    const container = index === -1 ? document.getElementById('intro') : blocks[index];
+    setTimeout(() => typewriterOn(container, twConfig[key], 18), 200);
+  }
 
   /* ── Navigation ── */
   function showBlock(i) {
@@ -487,6 +553,7 @@
     current = i;
     nextBtn.classList.toggle('show', i < total - 1);
     window.scrollTo({ top: 0 });
+    maybeType(i);
   }
 
   function goTo(i) {
@@ -499,6 +566,9 @@
       showBlock(i);
     }, 1000);
   }
+
+  // Type intro text on load
+  maybeType(-1);
 
   document.getElementById('intro-next').addEventListener('click', () => {
     intro.classList.add('hidden');

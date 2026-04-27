@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflection</title>
+  <style>
+    @font-face {
+      font-family: 'Handwritten';
+      src: url('assets/handwritten.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Subtitlefont';
+      src: url('assets/Subtitle.ttf') format('truetype');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #0d0b09;
+      color: white;
+      cursor: none;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(217,79,122,0.6);
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: screen;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      font-family: 'Subtitlefont', Georgia, serif;
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    nav a { color: rgba(232,226,216,0.2); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: rgba(232,226,216,0.55); }
+    .nav-center { color: rgba(232,226,216,0.12); }
+
+    canvas#stage {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+
+    #continue-wrap {
+      position: fixed; bottom: 3rem; right: 5vw;
+      opacity: 0; transition: opacity 1.4s ease;
+      z-index: 200;
+    }
+    #continue-wrap.visible { opacity: 1; }
+    #continue-wrap a {
+      font-family: 'Subtitlefont', Georgia, serif;
+      font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(232,226,216,0.35); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      transition: color 0.3s, gap 0.3s;
+    }
+    #continue-wrap a:hover { color: #d94f7a; gap: 1rem; }
+    .arrow {
+      display: inline-block; width: 28px; height: 1px;
+      background: currentColor; position: relative;
+    }
+    .arrow::after {
+      content: ''; position: absolute;
+      right: 0; top: -3px; width: 7px; height: 7px;
+      border-right: 1px solid currentColor;
+      border-top: 1px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    .flash {
+      position: fixed; inset: 0;
+      background: white; z-index: 9999;
+      opacity: 0; pointer-events: none;
+    }
+    .flash.go { animation: flash-out 0.55s steps(1) forwards; }
+    @keyframes flash-out {
+      0%  { opacity:0; } 15% { opacity:0.9; }
+      30% { opacity:0; } 52% { opacity:0.6; }
+      65% { opacity:0; } 82% { opacity:0.85; }
+      100%{ opacity:0; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div class="flash" id="flash"></div>
+
+<nav>
+  <a href="page4.html">&larr; back</a>
+  <span class="nav-center">what is a woman?</span>
+  <a href="prompt2.html">next &rarr;</a>
+</nav>
+
+<canvas id="stage"></canvas>
+
+<div id="continue-wrap">
+  <a href="prompt2.html">continue <span class="arrow"></span></a>
+</div>
+
+<script>
+const canvas   = document.getElementById('stage');
+const ctx      = canvas.getContext('2d');
+const cursorEl = document.getElementById('cursor');
+
+let W, H;
+let globalT  = 0;
+let startTime = null;
+let ripples   = [];
+
+const LINES = [
+  { text: "Knowing all of this\u2026 are we closer to figuring out what a woman is..?", color: '#d94f7a', size: 26 },
+  { text: "", size: 0 },
+  { text: "I can't give you one definition. I'm still figuring it out.", color: 'rgba(232,226,216,0.6)', size: 21 },
+  { text: "All I can tell you is what it means to me.", color: 'rgba(232,226,216,0.6)', size: 21 },
+  { text: "", size: 0 },
+  { text: "I was born into \u201Cwomanhood\u201D the way rivers are born into their banks \u2014", color: '#e8e2d8', size: 22 },
+  { text: "never choosing the shape, only learning, slowly, that the shape is you.", color: '#e8e2d8', size: 22 },
+  { text: "It is the softest country I know and also the most hostile terrain I have ever stood on,", color: 'rgba(232,226,216,0.72)', size: 19 },
+  { text: "my mom\u2019s hands, and her mom\u2019s voice always a current running beneath me.", color: 'rgba(232,226,216,0.72)', size: 19 },
+  { text: "", size: 0 },
+  { text: "It requires a daily rehearsal, a daily reminder that I cannot control", color: '#e8e2d8', size: 22 },
+  { text: "the way others see me. I want to be beautiful,", color: '#e8e2d8', size: 22 },
+  { text: "which is to say, I wish you could see me how I see myself.", color: 'rgba(232,226,216,0.6)', size: 21 },
+  { text: "", size: 0 },
+  { text: "I have never known another road. I have only walked this one,", color: 'rgba(232,226,216,0.78)', size: 21 },
+  { text: "watching myself take the shape of whatever holds me,", color: 'rgba(232,226,216,0.78)', size: 21 },
+  { text: "and wondering \u2014 always wondering \u2014", color: 'rgba(232,226,216,0.5)', size: 20 },
+  { text: "what I might become in the open ocean.", color: '#d94f7a', size: 27 },
+];
+
+// Typewriter settings
+const CHARS_PER_SEC = 38;
+const LINE_PAUSE    = 0.32; // seconds between lines
+
+// Pre-compute when each line starts typing (in seconds)
+const lineStartTimes = [];
+let t = 0;
+for (let i = 0; i < LINES.length; i++) {
+  lineStartTimes[i] = t;
+  const len = LINES[i].text.length;
+  t += (len > 0 ? len / CHARS_PER_SEC : 0) + LINE_PAUSE;
+}
+const totalDuration = t;
+
+function addRipple(x, y) {
+  ripples.push({ x, y, r: 0, maxR: 160, born: globalT });
+}
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function linePositions() {
+  const lineH  = 48;
+  const emptyH = 20;
+  const totalH = LINES.reduce((a, l) => a + (l.size === 0 ? emptyH : lineH), 0);
+  let y = (H - totalH) / 2 + 28;
+  return LINES.map(l => {
+    const pos = { ...l, y };
+    y += l.size === 0 ? emptyH : lineH;
+    return pos;
+  });
+}
+
+function drawLine(text, centerX, centerY, fontSize, color, visibleChars) {
+  if (!text || visibleChars <= 0) return;
+
+  ctx.font = `${fontSize}px Handwritten, Georgia, serif`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+
+  const shown    = text.slice(0, Math.floor(visibleChars));
+  const totalW   = ctx.measureText(text).width;
+  let   charX    = centerX - totalW / 2;
+
+  for (let i = 0; i < shown.length; i++) {
+    const ch  = shown[i];
+    const chW = ctx.measureText(ch).width;
+    const cx  = charX + chW / 2;
+
+    let dx = 0, dy = 0;
+
+    for (const rip of ripples) {
+      const dist      = Math.hypot(cx - rip.x, centerY - rip.y);
+      const age       = globalT - rip.born;
+      const spread    = 32;
+      const proximity = Math.exp(-Math.pow(dist - rip.r, 2) / (2 * spread * spread));
+      const strength  = Math.exp(-age * 0.006) * 7;
+      if (dist > 0.01) {
+        dx += ((cx - rip.x) / dist) * proximity * strength;
+        dy += ((centerY - rip.y) / dist) * proximity * strength;
+      }
+    }
+
+    // gentle idle breath — smooth, no per-char jitter
+    dy += Math.sin(globalT * 0.001 + i * 0.18) * 0.5;
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle   = color || '#e8e2d8';
+    ctx.fillText(ch, charX + dx, centerY + dy);
+    charX += chW;
+  }
+
+  // blinking cursor on the actively-typing line
+  if (visibleChars > 0 && visibleChars < text.length) {
+    const partial  = text.slice(0, Math.floor(visibleChars));
+    const partialW = ctx.measureText(partial).width;
+    const curX     = (centerX - totalW / 2) + partialW;
+    if (Math.floor(globalT * 0.002) % 2 === 0) {
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle   = color || '#e8e2d8';
+      ctx.fillRect(curX + 2, centerY - fontSize * 0.5, 1.5, fontSize);
+    }
+  }
+
+  ctx.globalAlpha = 1;
+}
+
+function draw(ts) {
+  if (!startTime) startTime = ts;
+  globalT = ts;
+
+  const elapsed = (ts - startTime) / 1000; // seconds
+
+  ctx.clearRect(0, 0, W, H);
+
+  // advance ripples
+  ripples = ripples.filter(r => {
+    r.r += 3.5;
+    return r.r < r.maxR;
+  });
+
+  const positions = linePositions();
+
+  for (let i = 0; i < LINES.length; i++) {
+    const l = LINES[i];
+    if (!l.text) continue;
+    if (elapsed < lineStartTimes[i]) break; // not started yet
+    const lineElapsed = elapsed - lineStartTimes[i];
+    const visible     = Math.min(lineElapsed * CHARS_PER_SEC, l.text.length);
+    drawLine(l.text, W / 2, positions[i].y, l.size, l.color, visible);
+  }
+
+  // show continue link once everything is typed
+  if (elapsed >= totalDuration) {
+    document.getElementById('continue-wrap').classList.add('visible');
+  }
+
+  requestAnimationFrame(draw);
+}
+
+// load font before starting
+document.fonts.load('22px Handwritten').then(() => {
+  resize();
+  requestAnimationFrame(draw);
+});
+
+window.addEventListener('resize', resize);
+
+document.addEventListener('mousemove', e => {
+  cursorEl.style.left = e.clientX + 'px';
+  cursorEl.style.top  = e.clientY + 'px';
+  addRipple(e.clientX, e.clientY);
+});
+
+document.addEventListener('click', e => {
+  for (let k = 0; k < 4; k++) {
+    setTimeout(() => addRipple(e.clientX, e.clientY), k * 55);
+  }
+});
+</script>
+
+</body>
+</html>

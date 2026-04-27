@@ -13,11 +13,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #000;
+      --bg: #d5d5d5;
       --text: #fff;
       --pink: #f472b6;
-      --dim: rgba(255,255,255,0.45);
-      --rule: rgba(244,114,182,0.25);
     }
 
     html, body {
@@ -28,17 +26,13 @@
       overflow: hidden;
     }
 
-    /* ── Stage ── */
+    /* ── Blocks ── */
     #stage {
       position: relative;
       width: 100%;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* ── Block ── */
     .block {
       position: absolute;
       inset: 0;
@@ -53,63 +47,170 @@
       text-align: center;
     }
 
-    .block.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .block.active  { opacity: 1; pointer-events: all; }
+    .block.exit    { opacity: 0; pointer-events: none; }
 
-    .block.exit {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* ── Typography ── */
-    .block p {
-      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
-      line-height: 2;
-      color: var(--text);
-      max-width: 640px;
-    }
-
-    .block p + p {
-      margin-top: 1.4em;
-    }
-
-    .block .def-label {
-      font-style: italic;
-      color: var(--pink);
-      display: block;
-      margin-bottom: 0.3em;
-    }
-
-    .block .def-body {
-      color: rgba(255,255,255,0.8);
-    }
-
-    .def-block {
-      max-width: 640px;
-      text-align: left;
-      margin: 0 auto;
-    }
-
-    .def-block + .def-block {
-      margin-top: 2em;
-    }
-
-    /* Clickable highlight */
-    .highlight {
-      color: var(--pink);
-      cursor: pointer;
-      border-bottom: 1px solid rgba(244,114,182,0.4);
-      transition: border-color 0.3s, color 0.3s;
+    /* ── Annotated phrases ── */
+    .annotated {
+      position: relative;
       display: inline;
-    }
-    .highlight:hover {
-      color: #fff;
-      border-color: rgba(255,255,255,0.6);
+      color: var(--pink);
+      border-bottom: 1px solid rgba(244,114,182,0.4);
+      cursor: default;
+      transition: color 0.3s;
     }
 
-    /* ── Block 3: side-by-side ── */
+    .annotated:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+    .annotation-bubble {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20,10,20,0.96);
+      border: 1px solid rgba(244,114,182,0.3);
+      border-radius: 6px;
+      padding: 0.55em 0.9em;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      white-space: normal;
+      max-width: 280px;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 50;
+    }
+
+    .annotation-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: rgba(244,114,182,0.3);
+    }
+
+    .annotated:hover .annotation-bubble { opacity: 1; }
+
+    /* ── Block 1: Paper ── */
+    .paper-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .paper-wrap img.paper-bg {
+      display: block;
+      width: clamp(320px, 45vw, 560px);
+      height: auto;
+    }
+
+    .paper-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12% 14%;
+      text-align: center;
+    }
+
+    .paper-text p {
+        font-family: 'Handwritten';
+      font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+      line-height: 1.9;
+      color: #1a0a10;
+      max-width: none;
+    }
+
+    .paper-text p + p { margin-top: 0.9em; }
+
+    .paper-text .annotated { color: #9d174d; border-bottom-color: rgba(157,23,77,0.4); }
+    .paper-text .annotated:hover { color: #000; }
+
+    .paper-text .highlight {
+      color: #9d174d;
+      border-bottom: 1px solid rgba(157,23,77,0.4);
+      font-size: 1.15em;
+      font-style: italic;
+      display: inline-block;
+      margin-top: 0.6em;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .paper-text .highlight:hover { color: #000; }
+
+    /* ── Block 2: Envelopes ── */
+    .envelope-intro {
+      font-size: 25px; 
+    font-style: italic;
+      text-transform;
+      color: rgba(29, 0, 0, 0.6);
+      margin-bottom: 1.5rem;
+    }
+
+    .envelopes-row {
+      display: flex;
+      gap: clamp(3rem, 8vw, 7rem);
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .envelope-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .env-label {
+      font-style: italic;
+      color: #ff4f9d;
+      font-size:  18px;
+     
+    }
+
+    .env-img-wrap {
+      position: relative;
+      width: 220px;
+      cursor: pointer;
+    }
+
+    .env-img-wrap img {
+      width: 100%;
+      display: block;
+      transition: opacity 0.35s ease;
+      border-radius: 2px;
+    }
+
+    .env-closed { position: relative; opacity: 1; }
+    .env-open   { position: absolute; inset: 0; opacity: 0; }
+
+    .env-img-wrap:hover .env-closed { opacity: 0; }
+    .env-img-wrap:hover .env-open   { opacity: 1; }
+
+    .env-def-body {
+      max-width: 220px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: hotpink;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s 0.4s, transform 0.4s 0.4s;
+    }
+
+    .env-img-wrap:hover ~ .env-def-body {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Block 3: Split ── */
     .split-layout {
       display: flex;
       align-items: center;
@@ -117,84 +218,147 @@
       gap: 5vw;
       max-width: 860px;
       width: 100%;
-      text-align: left;
     }
 
-    .split-layout .split-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .split-layout .split-text p {
-      max-width: none;
-      text-align: left;
-    }
-
-    .split-layout .split-img {
-      flex: 0 0 auto;
-      width: clamp(160px, 22vw, 280px);
-    }
-
-    .split-layout .split-img img {
-      width: 100%;
-      border-radius: 2px;
-      opacity: 0.9;
-    }
-
-    /* ── Block 4: FAQ style ── */
-    .faq-wrap {
-      max-width: 680px;
-      width: 100%;
-      text-align: left;
-    }
-
-    .faq-q {
-      font-style: italic;
-      color: var(--pink);
-      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
-      line-height: 1.7;
-      margin-top: 1.6em;
-    }
-
-    .faq-a {
-      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
-      line-height: 1.9;
-      color: rgba(255,255,255,0.85);
-      margin-top: 0.4em;
-    }
-
-    .faq-a:first-child { margin-top: 0; }
-
-    .faq-closing {
-      margin-top: 2em;
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    .split-text { flex: 1; min-width: 0; text-align: left; }
+    .split-text p {
+      font-size: 18px; color: rgba(255, 51, 140, 0.78);
       line-height: 2;
-      color: var(--text);
-      max-width: 640px;
     }
 
-    /* ── Progress dots ── */
-    #dots {
-      position: fixed;
-      bottom: 2.8rem;
-      left: 50%;
-      transform: translateX(-50%);
+    .split-img { flex: 0 0 auto; width: clamp(160px, 22vw, 280px); }
+    .split-img img { width: 150%; border-radius: 2px; opacity: 0.9; }
+
+    /* ── Block 4: Sugar Cube ── */
+    .cube-wrapper {
       display: flex;
-      gap: 8px;
-      z-index: 20;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: background 0.4s, transform 0.4s;
+    .cube-box {
+      width: 280px;
+      height: 280px;
+      background-color: rgba(217, 79, 122, 0.92);
+      box-shadow: 22px 22px 18px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
     }
 
-    .dot.active {
-      background: var(--pink);
-      transform: scale(1.4);
+    .cube-text {
+      font-size: clamp(0.8rem, 1.3vw, 1rem);
+      line-height: 1.85;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .cube-continue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Subtitle', Georgia, serif;
+      font-size: 014px;
+
+      
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.3s, gap 0.3s;
+    }
+
+    .cube-continue:hover { color: #fff; gap: 0.9rem; }
+
+    .cube-arrow {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      position: relative;
+    }
+
+    .cube-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -3px;
+      width: 6px; height: 6px;
+      border-right: 1px solid currentColor;
+      border-top: 1px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    .cube-shadow {
+      width: 320px;
+      height: 24px;
+      margin-top: 4px;
+      border-radius: 100%;
+      background: radial-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.0));
+    }
+
+    /* ── Flies ── */
+    .fly {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      object-fit: contain;
+    }
+
+    #fly1 { left: 50%; bottom: -60%; animation: fly-1 8s infinite; }
+    #fly2 { left: 0;   bottom: -50%; animation: fly-2 9s infinite; }
+    #fly3 { left: 100%; bottom: -70%; animation: fly-3 12s infinite; animation-delay: 1s; }
+    #fly4 { left: 0;   bottom: -50%; animation: fly-2 12s infinite; animation-delay: 3s; }
+
+    @keyframes fly-1 {
+      0%  { left:50%; bottom:-60%; }
+      10% { left:50%; bottom:5%;  transform:rotate(0deg); }
+      12% { left:50%; bottom:5%;  transform:rotate(-90deg); }
+      20% { left:5%;  bottom:5%;  transform:rotate(-90deg); }
+      22% { transform:rotate(0); }
+      38% { left:5%;  bottom:87%; transform:rotate(90deg); }
+      50% { left:90%; bottom:87%; transform:rotate(90deg); }
+      55% { left:90%; bottom:87%; transform:rotate(230deg); }
+      72% { left:5%;  bottom:5%;  transform:rotate(230deg); }
+      78% { left:5%;  bottom:5%;  transform:rotate(90deg); }
+      85% { left:50%; bottom:5%;  transform:rotate(90deg); }
+      90% { left:50%; bottom:5%;  transform:rotate(180deg); }
+      100%{ left:50%; bottom:-60%;transform:rotate(180deg); }
+    }
+
+    @keyframes fly-2 {
+      0%  { left:0;   bottom:-50%; transform:rotate(45deg); }
+      15% { left:50%; bottom:5%;   transform:rotate(45deg); }
+      18% { left:50%; bottom:5%;   transform:rotate(90deg); }
+      28% { left:85%; bottom:5%;   transform:rotate(90deg); }
+      30% { left:85%; bottom:5%;   transform:rotate(0deg); }
+      40% { left:85%; bottom:85%;  transform:rotate(0deg); }
+      48% { left:85%; bottom:85%;  transform:rotate(-90deg); }
+      58% { left:5%;  bottom:85%;  transform:rotate(-90deg); }
+      68% { left:5%;  bottom:85%;  transform:rotate(-180deg); }
+      79% { left:5%;  bottom:5%;   transform:rotate(-180deg); }
+      81% { left:5%;  bottom:5%;   transform:rotate(-270deg); }
+      88% { left:50%; bottom:5%;   transform:rotate(-270deg); }
+      90% { left:50%; bottom:5%;   transform:rotate(-140deg); }
+      100%{ left:0%;  bottom:-50%; transform:rotate(-140deg); }
+    }
+
+    @keyframes fly-3 {
+      0%  { left:100%;  bottom:-70%;  transform:rotate(-45deg); }
+      15% { left:50%;   bottom:-15%;  transform:rotate(-45deg); }
+      18% { left:50%;   bottom:-15%;  transform:rotate(-90deg); }
+      28% { left:-10%;  bottom:-15%;  transform:rotate(-90deg); }
+      30% { left:-10%;  bottom:-15%;  transform:rotate(0deg); }
+      45% { left:-10%;  bottom:105%;  transform:rotate(0deg); }
+      48% { left:-10%;  bottom:105%;  transform:rotate(90deg); }
+      58% { left:105%;  bottom:105%;  transform:rotate(90deg); }
+      60% { left:105%;  bottom:105%;  transform:rotate(180deg); }
+      75% { left:105%;  bottom:-15%;  transform:rotate(180deg); }
+      81% { left:105%;  bottom:-15%;  transform:rotate(270deg); }
+      88% { left:50%;   bottom:-15%;  transform:rotate(270deg); }
+      90% { left:50%;   bottom:-15%;  transform:rotate(180deg); }
+      100%{ left:100%;  bottom:-70%;  transform:rotate(130deg); }
     }
 
     /* ── Next button ── */
@@ -209,26 +373,18 @@
       border: none;
       cursor: pointer;
       font-family: 'Subtitle', Georgia, serif;
-      font-size: 0.75rem;
+      font-size: 15px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      transition: color 0.3s ease, gap 0.3s ease, opacity 0.5s ease;
+      color: rgba(51, 37, 26, 0.86);
+      transition: color 0.3s, gap 0.3s, opacity 0.5s;
       z-index: 20;
       opacity: 0;
       pointer-events: none;
     }
 
-    #next-btn.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    #next-btn:hover {
-      color: var(--pink);
-      gap: 1rem;
-    }
+    #next-btn.visible { opacity: 1; pointer-events: all; }
+    #next-btn:hover { color: var(--pink); gap: 1rem; }
 
     #next-btn .arrow {
       display: inline-block;
@@ -244,21 +400,11 @@
     #next-btn .arrow::after {
       content: '';
       position: absolute;
-      right: 0;
-      top: -3px;
-      width: 7px;
-      height: 7px;
+      right: 0; top: -3px;
+      width: 7px; height: 7px;
       border-right: 1px solid currentColor;
       border-top: 1px solid currentColor;
       transform: rotate(45deg);
-    }
-
-    /* Scrollable block for block 4 */
-    .block.scrollable {
-      overflow-y: auto;
-      padding-top: 10vh;
-      padding-bottom: 10vh;
-      justify-content: flex-start;
     }
   </style>
 </head>
@@ -267,27 +413,49 @@
 <div id="stage">
 
   <!-- BLOCK 1 -->
-  <div class="block" id="block-1">
-    <p>As I get older, I realize more and more that gender is something socially constructed. And yet we treat it as a biological fact, like something that inherently lives in the body.</p>
-    <p>I think the difficulty in unpacking these ideas lies not only in recognizing that gender is imagined but in the psychological weight of trying to unlearn them. Asking someone to question what they've been taught their entire life about how the world works is a lot.</p>
-    <p>It threatens our sense of identity and meaning.</p>
-   <span class="highlight" id="highlight-trigger" style="font-size:25px; font-style:italic;">Who do we become when we step outside everything we know to be true?</span>
+  <div class="block active" id="block-1">
+    <div class="paper-wrap">
+      <img class="paper-bg" src="assets/p1paper.png" alt="" aria-hidden="true" />
+      <div class="paper-text">
+        <p>As I get older, I realize more and more that
+          <span class="annotated">gender is something socially constructed<span class="annotation-bubble">Simone de Beauvoir: "One is not born, but rather becomes, a woman."</span></span>.
+          And yet we treat it as a biological fact, like something that inherently lives in the body.
+        </p>
+        <p>I think the difficulty in unpacking these ideas lies not only in recognizing that gender is imagined but in the
+          <span class="annotated">psychological weight of trying to unlearn them<span class="annotation-bubble">Cognitive dissonance: the discomfort of holding a new belief that contradicts a deeply held one.</span></span>.
+          Asking someone to question what they've been taught their entire life about how the world works is a lot.
+        </p>
+        <p>It
+          <span class="annotated">threatens our sense of identity and meaning<span class="annotation-bubble">Terror Management Theory suggests we cling hard to our worldviews because they shield us from existential anxiety.</span></span>.
+        </p>
+        <span class="highlight" id="highlight-trigger">Who do we become when we step outside everything we know to be true?</span>
+      </div>
+    </div>
   </div>
 
   <!-- BLOCK 2 -->
   <div class="block" id="block-2">
-    <div style="max-width:640px; width:100%; text-align:left;">
-      <p style="text-align:center; margin-bottom:2em;">Before we try to figure out what a woman is, we have to dig deeper into what we think we already know is objectively "true". Let's start with two different words that people use interchangeably.</p>
+    <p class="envelope-intro">Hover to Open</p>
+    <div class="envelopes-row">
 
-      <div class="def-block">
-        <span class="def-label">Def. Sex</span>
-        <span class="def-body">A set of physiological characteristics — chromosomes, hormones, anatomy. Varies along a spectrum. Assigned at birth based on visible anatomy. But this is more complicated than it appears.</span>
+      <div class="envelope-unit">
+        <span class="env-label">Sex</span>
+        <div class="env-img-wrap">
+          <img class="env-closed" src="assets/sexclosed.png" alt="Sex envelope closed" />
+          <img class="env-open"   src="assets/sexopen.png"   alt="Sex envelope open" />
+        </div>
+        <div class="env-def-body">A set of physiological characteristics — chromosomes, hormones, anatomy. Varies along a spectrum. Assigned at birth based on visible anatomy. But this is more complicated than it appears.</div>
       </div>
 
-      <div class="def-block">
-        <span class="def-label">Def. Gender</span>
-        <span class="def-body">A social and cultural construct — the roles, behaviors, expressions, and identities that a society assigns to people. Learned, performed, enforced. Not the same as the body you inhabit.</span>
+      <div class="envelope-unit">
+        <span class="env-label">Gender</span>
+        <div class="env-img-wrap">
+          <img class="env-closed" src="assets/genderclosed.png" alt="Gender envelope closed" />
+          <img class="env-open"   src="assets/genderopen.png"   alt="Gender envelope open" />
+        </div>
+        <div class="env-def-body">A social and cultural construct — the roles, behaviors, expressions, and identities that a society assigns to people. Learned, performed, enforced. Not the same as the body you inhabit.</div>
       </div>
+
     </div>
   </div>
 
@@ -304,97 +472,48 @@
   </div>
 
   <!-- BLOCK 4 -->
-  <div class="block scrollable" id="block-4">
-    <div class="faq-wrap">
-      <p class="faq-closing" style="margin-top:0; margin-bottom:0.5em;">But there are only two sexes!</p>
-      <p class="faq-a">Intersex conditions — variations in chromosomes, hormones, or anatomy — occur in roughly 1.7% of the population, comparable to the rate of red hair. The binary is a simplification, not a biological law.</p>
-
-      <p class="faq-q">But we've always understood sex this way!</p>
-      <p class="faq-a">The modern biological framework for sex was largely built in the late 19th and early 20th centuries, shaped by cultural assumptions of the time. It has been revised repeatedly — and is still being revised.</p>
-
-      <p class="faq-q">But XX means female. XY means male!</p>
-      <p class="faq-a">Chromosomal sex is more variable than the XX/XY shorthand suggests. People have XXY, XYY, X0, and other configurations. The same chromosomes can produce different phenotypes depending on gene expression and hormones.</p>
-
-      <p class="faq-q">But the science is natural, objective, TRUE!</p>
-      <p class="faq-a">Science is a process, not a verdict. Scientific studies are also conducted and written by humans who have their own conscious and unconscious biases. Feminist science scholars like Ann Fausto-Sterling have shown how cultural assumptions have shaped — and often distorted — scientific inquiry into sex.</p>
-
-      <p class="faq-closing">There's this idea that sex determines everything. However, the relationship between biological sex and lived experience is a lot more complicated than that. Hormones, social environment, culture, and individual psychology all shape who we become. Biology is one factor among many — but not a fixed destiny.</p>
+  <div class="block" id="block-4">
+    <div class="cube-wrapper">
+      <div class="cube-box">
+        <p class="cube-text">But now I’m curious…. where do these ideas about the science of sex and gender come from?</p>
+        <a href="page2.html" class="cube-continue">
+          continue <span class="cube-arrow"></span>
+        </a>
+        <img id="fly1" class="fly" src="assets/fly.png" alt="" />
+        <img id="fly2" class="fly" src="assets/fly.png" alt="" />
+        <img id="fly3" class="fly" src="assets/fly.png" alt="" />
+        <img id="fly4" class="fly" src="assets/fly.png" alt="" />
+      </div>
+      <div class="cube-shadow"></div>
     </div>
   </div>
 
-  <!-- BLOCK 5 -->
-  <div class="block" id="block-5">
-    <p style="max-width:560px;">So where do these ideas about the science of sex and gender come from?</p>
-    <a href="page2.html" id="continue-link" style="
-      display:inline-flex; align-items:center; gap:0.6rem;
-      margin-top:3rem;
-      font-family:'Subtitle',Georgia,serif;
-      font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase;
-      color:rgba(255,255,255,0.4); text-decoration:none;
-      transition:color 0.3s, gap 0.3s;
-    " onmouseover="this.style.color='#f472b6';this.style.gap='1rem'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.gap='0.6rem'">
-      continue <span style="display:inline-block;width:28px;height:1px;background:currentColor;position:relative;">
-        <span style="position:absolute;right:0;top:-3px;width:7px;height:7px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg);display:block;"></span>
-      </span>
-    </a>
-  </div>
-
-</div>
-
-<!-- Progress dots -->
-<div id="dots">
-  <div class="dot active"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
 </div>
 
 <!-- Next button -->
-<button id="next-btn" aria-label="Next">
+<button id="next-btn" class="visible" aria-label="Next">
   next <span class="arrow"></span>
 </button>
 
 <script>
   const blocks = document.querySelectorAll('.block');
-  const dots   = document.querySelectorAll('.dot');
   const nextBtn = document.getElementById('next-btn');
   let current = 0;
-  const total = blocks.length;
 
   function goTo(index) {
-    // Exit current
-    blocks[current].classList.remove('active');
     blocks[current].classList.add('exit');
-    dots[current].classList.remove('active');
+    blocks[current].classList.remove('active');
 
     setTimeout(() => {
       blocks[current].classList.remove('exit');
       current = index;
       blocks[current].classList.add('active');
-      dots[current].classList.add('active');
-
-      // Hide next btn on last block (has its own continue link)
-      if (current === total - 1) {
-        nextBtn.classList.remove('visible');
-      } else {
-        nextBtn.classList.add('visible');
-      }
+      nextBtn.classList.toggle('visible', current < blocks.length - 1);
     }, 700);
   }
 
-  // Show first block
-  blocks[0].classList.add('active');
-  nextBtn.classList.add('visible');
-
-  // Highlight on block 1 triggers block 2
-  document.getElementById('highlight-trigger').addEventListener('click', () => {
-    goTo(1);
-  });
-
-  nextBtn.addEventListener('click', () => {
-    if (current < total - 1) goTo(current + 1);
-  });
+  document.getElementById('highlight-trigger').addEventListener('click', () => goTo(1));
+  nextBtn.addEventListener('click', () => { if (current < blocks.length - 1) goTo(current + 1); });
 </script>
 
 </body>

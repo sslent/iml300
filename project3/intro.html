@@ -12,10 +12,17 @@
       font-style: normal;
     }
 
+    @font-face {
+      font-family: 'Handwritten';
+      src: url('assets/handwritten.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #000000;
+      --bg: #808080;
       --text: #ffffff;
       --pink: #f472b6;
       --pink-dim: #e879a0;
@@ -30,7 +37,6 @@
       overflow: hidden;
     }
 
-    /* Subtle grain overlay */
     body::before {
       content: '';
       position: fixed;
@@ -90,7 +96,6 @@
       position: relative;
     }
 
-    /* Decorative vertical rule */
     .text-panel::before {
       content: '';
       position: absolute;
@@ -110,25 +115,22 @@
 
     .line {
       display: block;
-      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      font-family: 'Handwritten', Georgia, serif;
+      font-size: 25px;
       line-height: 1.85;
-      color: var(--text);
-      opacity: 0;
-      transition: opacity 1.8s ease;
+      color: blac;
+      min-height: 1.85em;
+      white-space: pre;
     }
 
     .line.empty {
-      display: block;
-      height: 1em;
+      height: 0.6em;
+      min-height: 0;
     }
 
     .line.italic {
       font-style: italic;
-      color: var(--pink);
-    }
-
-    .line.visible {
-      opacity: 1;
+      color: #ff98b5;
     }
 
     /* ── Continue button ── */
@@ -152,10 +154,10 @@
       cursor: pointer;
       padding: 0;
       font-family: 'Subtitle', Georgia, serif;
-      font-size: 0.8rem;
+      font-size: 18px;
       font-weight: 300;
       letter-spacing: 0.22em;
-      text-transform: uppercase;
+
       color: rgba(255,255,255,0.45);
       text-decoration: none;
       transition: color 0.3s ease, gap 0.3s ease;
@@ -204,26 +206,26 @@
   <div class="text-panel">
     <div class="lines-container" id="lines">
 
-      <div class="line">I was bald as a baby.</div>
-      <div class="line">At least that's what my mom says,</div>
-      <div class="line">that I barely had any hair.</div>
-      <div class="line empty">&nbsp;</div>
+      <div class="line" data-text="I was bald as a baby."></div>
+      <div class="line" data-text="At least that's what my mom says,"></div>
+      <div class="line" data-text="that I barely had any hair."></div>
+      <div class="line empty"></div>
 
-      <div class="line">She jokes about how bad it was,</div>
-      <div class="line">that strangers thought I was a boy.</div>
-      <div class="line italic">She said she had to put me in pink after that.</div>
-      <div class="line empty">&nbsp;</div>
+      <div class="line" data-text="She jokes about how bad it was,"></div>
+      <div class="line" data-text="that strangers thought I was a boy."></div>
+      <div class="line italic" data-text="She said she had to put me in pink after that."></div>
+      <div class="line empty"></div>
 
-      <div class="line">I've since had a difficult time explaining</div>
-      <div class="line">my relationship with my gender to my mom.</div>
-      <div class="line empty">&nbsp;</div>
+      <div class="line" data-text="I've since had a difficult time explaining"></div>
+      <div class="line" data-text="my relationship with my gender to my mom."></div>
+      <div class="line empty"></div>
 
-      <div class="line italic">I guess I've also had a hard time</div>
-      <div class="line italic">explaining it to myself.</div>
-      <div class="line empty">&nbsp;</div>
+      <div class="line italic" data-text="I guess I've also had a hard time"></div>
+      <div class="line italic" data-text="explaining it to myself."></div>
+      <div class="line empty"></div>
 
-      <div class="line">Maybe you can help me.</div>
-      <div class="line">Maybe we can learn from each other.</div>
+      <div class="line" data-text="Maybe you can help me."></div>
+      <div class="line" data-text="Maybe we can learn from each other."></div>
 
     </div>
 
@@ -237,27 +239,50 @@
 </div>
 
 <script>
-  const lines = document.querySelectorAll('#lines .line');
+  const lines       = [...document.querySelectorAll('#lines .line')];
   const continueWrap = document.getElementById('continueWrap');
-  const totalLines = lines.length;
-  let revealed = 0;
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const i = [...lines].indexOf(entry.target);
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-        revealed++;
-        if (revealed === totalLines) {
-          setTimeout(() => continueWrap.classList.add('visible'), 1800);
-        }
-      }, i * 2200);
-      observer.unobserve(entry.target);
+  // Typing speed (ms per character) and pause between lines (ms)
+  const CHAR_SPEED   = 38;
+  const LINE_PAUSE   = 320;
+  const EMPTY_PAUSE  = 480;
+
+  function typeLine(el, text, done) {
+    let i = 0;
+    function tick() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(tick, CHAR_SPEED);
+      } else {
+        done();
+      }
+    }
+    tick();
+  }
+
+  function runLines(index) {
+    if (index >= lines.length) {
+      setTimeout(() => continueWrap.classList.add('visible'), 600);
+      return;
+    }
+
+    const el   = lines[index];
+    const text = el.dataset.text;
+
+    if (!text) {
+      // empty spacer line — just pause
+      setTimeout(() => runLines(index + 1), EMPTY_PAUSE);
+      return;
+    }
+
+    typeLine(el, text, () => {
+      setTimeout(() => runLines(index + 1), LINE_PAUSE);
     });
-  }, { threshold: 0.3 });
+  }
 
-  lines.forEach(line => observer.observe(line));
+  // Start after image reveal
+  setTimeout(() => runLines(0), 1200);
 </script>
 
 </body>
