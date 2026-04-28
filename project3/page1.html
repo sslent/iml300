@@ -9,11 +9,15 @@
       font-family: 'Subtitle';
       src: url('assets/Subtitle.ttf') format('truetype');
     }
+    @font-face {
+      font-family: 'Handwritten';
+      src: url('assets/handwritten.ttf') format('truetype');
+    }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #d5d5d5;
+      --bg: #2f2f2f;
       --text: #fff;
       --pink: #f472b6;
     }
@@ -22,7 +26,7 @@
       height: 100%;
       background: var(--bg);
       color: var(--text);
-      font-family: 'Subtitle', Georgia, serif;
+      font-family: 'Handwritten', Georgia, serif;
       overflow: hidden;
     }
 
@@ -50,17 +54,16 @@
     .block.active  { opacity: 1; pointer-events: all; }
     .block.exit    { opacity: 0; pointer-events: none; }
 
-    /* ── Annotated phrases ── */
+    /* ── Annotated phrases — NO underline ── */
     .annotated {
       position: relative;
       display: inline;
       color: var(--pink);
-      border-bottom: 1px solid rgba(244,114,182,0.4);
       cursor: default;
       transition: color 0.3s;
     }
 
-    .annotated:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+    .annotated:hover { color: #fff; }
 
     .annotation-bubble {
       position: absolute;
@@ -81,6 +84,7 @@
       opacity: 0;
       transition: opacity 0.25s ease;
       z-index: 50;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
     .annotation-bubble::after {
@@ -105,8 +109,9 @@
 
     .paper-wrap img.paper-bg {
       display: block;
-      width: clamp(320px, 45vw, 560px);
+      width: clamp(1000px, 55vw, 860px);
       height: auto;
+        margin-top: -80px;
     }
 
     .paper-text {
@@ -121,8 +126,8 @@
     }
 
     .paper-text p {
-        font-family: 'Handwritten';
-      font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+      font-family: 'Handwritten', Georgia, serif;
+      font-size: 25px;
       line-height: 1.9;
       color: #1a0a10;
       max-width: none;
@@ -130,28 +135,28 @@
 
     .paper-text p + p { margin-top: 0.9em; }
 
-    .paper-text .annotated { color: #9d174d; border-bottom-color: rgba(157,23,77,0.4); }
+    .paper-text .annotated { color: #9d174d; }
     .paper-text .annotated:hover { color: #000; }
 
     .paper-text .highlight {
       color: #9d174d;
-      border-bottom: 1px solid rgba(157,23,77,0.4);
-      font-size: 1.15em;
-      font-style: italic;
+      font-size: 35px;
+      font-style: bold;
       display: inline-block;
       margin-top: 0.6em;
       cursor: pointer;
       transition: color 0.3s;
+      font-family: 'Handwritten', Georgia, serif;
     }
     .paper-text .highlight:hover { color: #000; }
 
     /* ── Block 2: Envelopes ── */
     .envelope-intro {
-      font-size: 25px; 
-    font-style: italic;
-      text-transform;
-      color: rgba(29, 0, 0, 0.6);
+      font-size: 60px;
+      font-style: bold;
+      color: #fff;
       margin-bottom: 1.5rem;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
     .envelopes-row {
@@ -171,22 +176,25 @@
     .env-label {
       font-style: italic;
       color: #ff4f9d;
-      font-size:  18px;
-     
+      font-size: 30px;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
-    .env-img-wrap {
-      position: relative;
-      width: 220px;
-      cursor: pointer;
-    }
+  .env-img-wrap {
+  position: relative;
+  width: 220px;
+  height: 160px; 
+  cursor: pointer;
+}
 
-    .env-img-wrap img {
-      width: 100%;
-      display: block;
-      transition: opacity 0.35s ease;
-      border-radius: 2px;
-    }
+.env-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; 
+  display: block;
+  transition: opacity 0.35s ease;
+  border-radius: 2px;
+}
 
     .env-closed { position: relative; opacity: 1; }
     .env-open   { position: absolute; inset: 0; opacity: 0; }
@@ -196,13 +204,14 @@
 
     .env-def-body {
       max-width: 220px;
-      font-size: 16px;
+      font-size: 20px;
       line-height: 1.7;
       color: hotpink;
       text-align: center;
       opacity: 0;
       transform: translateY(6px);
       transition: opacity 0.4s 0.4s, transform 0.4s 0.4s;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
     .env-img-wrap:hover ~ .env-def-body {
@@ -222,8 +231,10 @@
 
     .split-text { flex: 1; min-width: 0; text-align: left; }
     .split-text p {
-      font-size: 18px; color: rgba(255, 51, 140, 0.78);
+      font-size: 35px;
+      color: rgba(255, 121, 170, 0.78);
       line-height: 2;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
     .split-img { flex: 0 0 auto; width: clamp(160px, 22vw, 280px); }
@@ -250,21 +261,21 @@
     }
 
     .cube-text {
-      font-size: clamp(0.8rem, 1.3vw, 1rem);
+      font-size: 25px;
       line-height: 1.85;
       color: #fff;
       text-align: center;
       margin-bottom: 1.2rem;
+      font-family: 'Handwritten', Georgia, serif;
     }
 
+    /* ── Continue / Next buttons stay in Subtitle font ── */
     .cube-continue {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       font-family: 'Subtitle', Georgia, serif;
-      font-size: 014px;
-
-      
+      font-size: 14px;
       color: rgba(255,255,255,0.6);
       text-decoration: none;
       transition: color 0.3s, gap 0.3s;
@@ -361,7 +372,7 @@
       100%{ left:100%;  bottom:-70%;  transform:rotate(130deg); }
     }
 
-    /* ── Next button ── */
+    /* ── Next button stays in Subtitle font ── */
     #next-btn {
       position: fixed;
       bottom: 5rem;
@@ -373,10 +384,8 @@
       border: none;
       cursor: pointer;
       font-family: 'Subtitle', Georgia, serif;
-      font-size: 15px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(51, 37, 26, 0.86);
+      font-size: 19px;
+      color: #fff;
       transition: color 0.3s, gap 0.3s, opacity 0.5s;
       z-index: 20;
       opacity: 0;
@@ -406,6 +415,16 @@
       border-top: 1px solid currentColor;
       transform: rotate(45deg);
     }
+
+    /* ── Typing animation ── */
+    
+    .typed-char {
+      display: inline;
+      opacity: 0;
+    }
+    .typed-char.revealed {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -415,7 +434,7 @@
   <!-- BLOCK 1 -->
   <div class="block active" id="block-1">
     <div class="paper-wrap">
-      <img class="paper-bg" src="assets/p1paper.png" alt="" aria-hidden="true" />
+      <img class="paper-bg" src="assets/p1paper.png" />
       <div class="paper-text">
         <p>As I get older, I realize more and more that
           <span class="annotated">gender is something socially constructed<span class="annotation-bubble">Simone de Beauvoir: "One is not born, but rather becomes, a woman."</span></span>.
@@ -463,7 +482,7 @@
   <div class="block" id="block-3">
     <div class="split-layout">
       <div class="split-text">
-        <p>Think about it like this — my dog is female, but it'd be silly to call her a "woman", right?</p>
+        <p>Its easy to assume that "female" correlates with "woman". But think about it like this — my dog is female, but it'd be silly to call her a "woman", right? Thus, the concept of a "woman" must be a role— and roles are written by people, not nature.</p>
       </div>
       <div class="split-img">
         <img src="assets/gracie.png" alt="Gracie the dog" />
@@ -475,7 +494,7 @@
   <div class="block" id="block-4">
     <div class="cube-wrapper">
       <div class="cube-box">
-        <p class="cube-text">But now I’m curious…. where do these ideas about the science of sex and gender come from?</p>
+        <p class="cube-text">But now I'm curious…. where do these ideas about the science of sex and gender come from?</p>
         <a href="page2.html" class="cube-continue">
           continue <span class="cube-arrow"></span>
         </a>
@@ -496,11 +515,88 @@
 </button>
 
 <script>
-  const blocks = document.querySelectorAll('.block');
+  const blocks  = document.querySelectorAll('.block');
   const nextBtn = document.getElementById('next-btn');
-  let current = 0;
+  let current   = 0;
+  let typingInProgress = false;
 
+  /* ─────────────────────────────────────────────
+     Typing animation
+     Wraps every text node (excluding annotation
+     bubbles and buttons) in .typed-char spans,
+     then reveals them one-by-one.
+  ───────────────────────────────────────────── */
+  const CHAR_DELAY = 18; // ms per character — adjust for speed
+
+  function wrapTextNodes(root) {
+    // Walk all text nodes that are NOT inside annotation bubbles or buttons
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          // Skip empty / whitespace-only nodes
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          // Skip annotation bubbles
+          if (node.parentElement.closest('.annotation-bubble')) return NodeFilter.FILTER_REJECT;
+          // Skip buttons / links (keep Subtitle font elements unaffected)
+          if (node.parentElement.closest('.cube-continue, #next-btn')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) nodes.push(n);
+
+    nodes.forEach(node => {
+      const frag = document.createDocumentFragment();
+      for (const ch of node.nodeValue) {
+        const span = document.createElement('span');
+        span.className = 'typed-char';
+        span.textContent = ch;
+        frag.appendChild(span);
+      }
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function revealChars(block, onDone) {
+    const chars = block.querySelectorAll('.typed-char');
+    if (!chars.length) { onDone && onDone(); return; }
+
+    // Reset all to hidden first (for re-entry safety)
+    chars.forEach(c => c.classList.remove('revealed'));
+
+    let i = 0;
+    typingInProgress = true;
+
+    function next() {
+      if (i >= chars.length) {
+        typingInProgress = false;
+        onDone && onDone();
+        return;
+      }
+      chars[i].classList.add('revealed');
+      i++;
+      setTimeout(next, CHAR_DELAY);
+    }
+    next();
+  }
+
+  // Wrap text nodes in every block on load
+  blocks.forEach(b => wrapTextNodes(b));
+
+  // Kick off typing for block 1 immediately
+  revealChars(blocks[0]);
+
+  /* ─────────────────────────────────────────────
+     Block navigation
+  ───────────────────────────────────────────── */
   function goTo(index) {
+    if (typingInProgress) return; // don't interrupt mid-type
+
     blocks[current].classList.add('exit');
     blocks[current].classList.remove('active');
 
@@ -509,11 +605,17 @@
       current = index;
       blocks[current].classList.add('active');
       nextBtn.classList.toggle('visible', current < blocks.length - 1);
+      // Start typing animation for the new block
+      revealChars(blocks[current]);
     }, 700);
   }
 
-  document.getElementById('highlight-trigger').addEventListener('click', () => goTo(1));
-  nextBtn.addEventListener('click', () => { if (current < blocks.length - 1) goTo(current + 1); });
+  document.getElementById('highlight-trigger').addEventListener('click', () => {
+    if (!typingInProgress) goTo(1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (current < blocks.length - 1 && !typingInProgress) goTo(current + 1);
+  });
 </script>
 
 </body>

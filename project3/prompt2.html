@@ -42,7 +42,6 @@
                 z-index: 300;
             }
 
-            /* background scene */
             #bg-scene {
                 position: fixed;
                 inset: 0;
@@ -56,7 +55,6 @@
                 text-align: center;
             }
 
-            /* first answer recall */
             .recall-wrap {
                 opacity: 0;
                 animation: fade-up 1.2s ease 0.4s forwards;
@@ -65,8 +63,6 @@
             .recall-label {
                 font-family: "Subtitlefont", sans-serif;
                 font-size: 14px;
-
-              
                 color: rgba(232, 226, 216, 0.25);
                 margin-bottom: 0.6rem;
             }
@@ -85,7 +81,6 @@
                 padding: 0.7rem 1.2rem;
             }
 
-            /* divider dot */
             .dot-divider {
                 width: 4px;
                 height: 4px;
@@ -96,7 +91,6 @@
                 animation: fade-up 1s ease 1s forwards;
             }
 
-            /* typewriter title */
             .typewriter-wrap {
                 opacity: 0;
                 animation: fade-up 1s ease 1.4s forwards;
@@ -120,25 +114,15 @@
             }
 
             @keyframes typing {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 28ch;
-                }
+                from { width: 0; }
+                to   { width: 28ch; }
             }
 
             @keyframes blink-caret {
-                from,
-                to {
-                    border-color: transparent;
-                }
-                50% {
-                    border-color: rgba(232, 226, 216, 0.65);
-                }
+                from, to { border-color: transparent; }
+                50%      { border-color: rgba(232, 226, 216, 0.65); }
             }
 
-            /* input area */
             .input-area {
                 display: flex;
                 flex-direction: column;
@@ -148,9 +132,7 @@
                 max-width: 440px;
                 opacity: 0;
                 transform: translateY(10px);
-                transition:
-                    opacity 1.4s ease,
-                    transform 1.4s ease;
+                transition: opacity 1.4s ease, transform 1.4s ease;
             }
 
             .input-area.visible {
@@ -187,22 +169,16 @@
                 font-style: italic;
             }
 
-            /* submit button */
             .submit-btn {
                 font-family: "Subtitlefont", sans-serif;
                 font-size: 18px;
-                
-                
                 color: rgba(232, 226, 216, 0.55);
                 background: none;
                 border: none;
                 border-bottom: 1px solid rgba(232, 226, 216, 0.2);
                 padding-bottom: 3px;
                 cursor: none;
-                transition:
-                    color 0.3s,
-                    letter-spacing 0.4s,
-                    border-color 0.3s;
+                transition: color 0.3s, letter-spacing 0.4s, border-color 0.3s;
             }
 
             .submit-btn:hover {
@@ -211,7 +187,6 @@
                 border-color: rgba(217, 79, 122, 0.4);
             }
 
-            /* skip link — small and unobtrusive */
             .skip-link {
                 font-family: "Subtitlefont", sans-serif;
                 font-size: 0.55rem;
@@ -225,7 +200,6 @@
                 color: rgba(232, 226, 216, 0.45);
             }
 
-            /* canvas overlay */
             #overlay {
                 position: fixed;
                 inset: 0;
@@ -233,7 +207,6 @@
                 pointer-events: none;
             }
 
-            /* custom cursor */
             #cursor {
                 position: fixed;
                 width: 8px;
@@ -245,7 +218,6 @@
                 transform: translate(-50%, -50%);
             }
 
-            /* flash transition */
             .flash {
                 position: fixed;
                 inset: 0;
@@ -260,30 +232,15 @@
             }
 
             @keyframes flash-out {
-                0% {
-                    opacity: 0;
-                }
-                15% {
-                    opacity: 0.9;
-                }
-                30% {
-                    opacity: 0;
-                }
-                52% {
-                    opacity: 0.6;
-                }
-                65% {
-                    opacity: 0;
-                }
-                82% {
-                    opacity: 0.85;
-                }
-                100% {
-                    opacity: 0;
-                }
+                0%   { opacity: 0; }
+                15%  { opacity: 0.9; }
+                30%  { opacity: 0; }
+                52%  { opacity: 0.6; }
+                65%  { opacity: 0; }
+                82%  { opacity: 0.85; }
+                100% { opacity: 0; }
             }
 
-            /* success state */
             .success-msg {
                 font-family: "Subtitlefont", sans-serif;
                 font-size: 0.75rem;
@@ -298,19 +255,11 @@
                 opacity: 1;
             }
 
-            /* fade-up keyframe */
             @keyframes fade-up {
-                from {
-                    opacity: 0;
-                    transform: translateY(8px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(8px); }
+                to   { opacity: 1; transform: translateY(0); }
             }
 
-            /* nav */
             nav {
                 position: fixed;
                 top: 0;
@@ -332,12 +281,8 @@
                 text-decoration: none;
                 transition: color 0.2s;
             }
-            nav a:hover {
-                color: rgba(232, 226, 216, 0.6);
-            }
-            .nav-center {
-                color: rgba(232, 226, 216, 0.15);
-            }
+            nav a:hover { color: rgba(232, 226, 216, 0.6); }
+            .nav-center { color: rgba(232, 226, 216, 0.15); }
         </style>
     </head>
     <body>
@@ -345,24 +290,18 @@
         <div class="flash" id="flash"></div>
 
         <nav>
-          
-            <a href="bulletin.html">See all answers →</a>
         </nav>
 
         <div id="bg-scene">
-            <!-- show their first answer back to them -->
             <div class="recall-wrap" id="recallWrap">
                 <p class="recall-label">you began with</p>
                 <p class="recall-answer" id="recallText">—</p>
             </div>
 
-
-            <!-- new typewriter prompt -->
             <div class="typewriter-wrap">
                 <h1>So, what is a woman?</h1>
             </div>
 
-            <!-- input -->
             <div class="input-area" id="inputArea">
                 <div class="input-rule"></div>
                 <textarea
@@ -371,15 +310,16 @@
                     placeholder="this answer is just for you to see"
                     autocomplete="off"
                     spellcheck="false"></textarea>
-                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()"> Go to the board</button>
-              
+                <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Go to the board</button>
+                <!-- FIX: successMsg element was referenced in JS but missing from HTML -->
+                <p class="success-msg" id="successMsg">saved</p>
             </div>
         </div>
 
         <canvas id="overlay"></canvas>
 
         <script>
-            // ── recall first definition ──
+            // ── recall first definition from sessionStorage (set by prompt1.html) ──
             const firstDef = sessionStorage.getItem("firstDefinition");
             const recallText = document.getElementById("recallText");
             if (firstDef && firstDef.trim()) {
@@ -388,16 +328,14 @@
                 document.getElementById("recallWrap").style.display = "none";
             }
 
-            // ── canvas scratch overlay (same mechanic as page 1) ──
+            // ── canvas scratch overlay ──
             const canvas = document.getElementById("overlay");
             const ctx = canvas.getContext("2d");
             const cursorEl = document.getElementById("cursor");
             const inputArea = document.getElementById("inputArea");
             const ta = document.getElementById("answer2");
 
-            let W,
-                H,
-                overlayReady = false;
+            let W, H, overlayReady = false;
             let brushRadius = 88;
 
             const overlayImage = new Image();
@@ -436,29 +374,21 @@
                 ctx.fill();
             });
 
-            document.addEventListener("mousedown", () => {
-                brushRadius = 140;
-            });
-            document.addEventListener("mouseup", () => {
-                brushRadius = 88;
-            });
+            document.addEventListener("mousedown", () => { brushRadius = 140; });
+            document.addEventListener("mouseup",   () => { brushRadius = 88; });
 
-            document.addEventListener(
-                "touchmove",
-                (e) => {
-                    e.preventDefault();
-                    const t = e.touches[0];
-                    cursorEl.style.left = t.clientX + "px";
-                    cursorEl.style.top = t.clientY + "px";
-                    if (!overlayReady) return;
-                    ctx.globalCompositeOperation = "destination-out";
-                    ctx.beginPath();
-                    ctx.arc(t.clientX, t.clientY, 110, 0, Math.PI * 2);
-                    ctx.fillStyle = "rgba(0,0,0,1)";
-                    ctx.fill();
-                },
-                { passive: false }
-            );
+            document.addEventListener("touchmove", (e) => {
+                e.preventDefault();
+                const t = e.touches[0];
+                cursorEl.style.left = t.clientX + "px";
+                cursorEl.style.top = t.clientY + "px";
+                if (!overlayReady) return;
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.beginPath();
+                ctx.arc(t.clientX, t.clientY, 110, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(0,0,0,1)";
+                ctx.fill();
+            }, { passive: false });
 
             // show input after typewriter finishes
             setTimeout(() => {
@@ -471,7 +401,13 @@
                 const val = ta.value.trim();
                 if (!val) return;
 
-              
+                // FIX: reconstruct the missing localStorage block
+                // Read existing entries (or start fresh), append the new one, save back
+                const existing = JSON.parse(localStorage.getItem("boardEntries") || "[]");
+                existing.push({
+                    text: val,
+                    first: firstDef || "",
+                    ts: Date.now()
                 });
                 localStorage.setItem("boardEntries", JSON.stringify(existing));
 

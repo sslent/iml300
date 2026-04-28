@@ -9,11 +9,15 @@
       font-family: 'Subtitle';
       src: url('assets/Subtitle.ttf') format('truetype');
     }
+    @font-face {
+      font-family: 'Handwritten';
+      src: url('assets/handwritten.ttf') format('truetype');
+    }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: rgba(217, 79, 122, 0.7);
+      --bg: rgba(228, 101, 141, 0.7);
       --text: #fff;
       --white-dim: rgba(255,255,255,0.85);
       --white-muted: rgba(255,255,255,0.55);
@@ -24,21 +28,21 @@
       height: 100%;
       background: rgb(160, 40, 80);
       color: var(--text);
-      font-family: 'Subtitle', Georgia, serif;
+      font-family: 'Handwritten', Georgia, serif;
       overflow: hidden;
-      cursor: url('assets/fly.png'), auto;
+      /* FIX 1: cursor needs hotspot coordinates */
+      cursor: url('assets/fly.png') 16 16, auto;
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background: rgba(217, 79, 122, 0.7);
+      background: rgba(255, 133, 171, 0.95);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ── Stage ── */
     #stage {
       position: relative;
       z-index: 1;
@@ -49,7 +53,6 @@
       justify-content: center;
     }
 
-    /* ── Block ── */
     .block {
       position: absolute;
       inset: 0;
@@ -64,15 +67,8 @@
       text-align: center;
     }
 
-    .block.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .block.exit {
-      opacity: 0;
-      pointer-events: none;
-    }
+    .block.active  { opacity: 1; pointer-events: all; }
+    .block.exit    { opacity: 0; pointer-events: none; }
 
     .block.scrollable {
       overflow-y: auto;
@@ -81,9 +77,17 @@
       padding-bottom: 10vh;
     }
 
-    /* ── Typography ── */
+    .block p,
+    .block em,
+    .block strong,
+    .opener,
+    .question-line,
+    .delayed {
+      font-family: 'Handwritten', Georgia, serif;
+    }
+
     .block p {
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      font-size: 25px;
       line-height: 2;
       color: var(--text);
       max-width: 640px;
@@ -91,15 +95,8 @@
 
     .block p + p { margin-top: 1.2em; }
 
-    em, .italic { font-style: italic; }
-    strong, .bold { font-weight: normal; text-decoration: underline; text-underline-offset: 3px; }
-
-    .pink-text {
-      color: #fff;
-      font-style: italic;
-      font-size: 1.1em;
-      opacity: 0.9;
-    }
+    em { font-style: italic; }
+    strong { font-weight: normal; text-decoration: underline; text-underline-offset: 3px; }
 
     .opener {
       font-size: clamp(1.4rem, 2.8vw, 2.2rem);
@@ -116,7 +113,7 @@
     }
     .delayed.visible { opacity: 1; }
 
-    /* ── Block 1 split layout ── */
+    /* ── Block 1 ── */
     .split-layout {
       display: flex;
       align-items: center;
@@ -126,12 +123,7 @@
       width: 100%;
     }
 
-    .split-text {
-      flex: 1;
-      min-width: 0;
-      text-align: left;
-    }
-
+    .split-text { flex: 1; min-width: 0; text-align: left; }
     .split-text p { max-width: none; text-align: left; }
 
     .fly-frame {
@@ -144,16 +136,13 @@
       box-shadow: 0 0 40px rgba(255,255,255,0.1);
     }
 
-    .fly-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .fly-frame img { width: 100%; height: 100%; object-fit: cover; }
 
     /* ── Block 2 ── */
     .block2-inner {
       max-width: 740px;
-      width: 150%;
+      /* FIX 2: was "width: 150%" — caused horizontal overflow */
+      width: 100%;
       text-align: left;
     }
 
@@ -168,21 +157,24 @@
       margin-bottom: 0.3em;
     }
 
-    /* ── Image Gallery ── */
+    /* ── Gallery ── */
     .gallery-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 2.5em 0;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .gallery-frame {
       position: relative;
+      /* FIX 3: was "width: 200%" — blew the gallery completely off screen */
       width: 100%;
-      max-width: 800px;
-      height: clamp(440px, 55vh, 580px);
-      overflow: hidden;
+      max-width: 680px;
+      height: clamp(340px, 44vh, 480px);
+      /* FIX 1: hotspot coordinates */
+      cursor: url('assets/fly.png') 16 16, pointer;
+      user-select: none;
     }
 
     .gallery-frame img {
@@ -192,72 +184,43 @@
       height: 100%;
       object-fit: contain;
       opacity: 0;
-      transition: opacity 0.15s ease;
-    }
-
-    .gallery-frame img.shown {
-      opacity: 1;
-    }
-
-    /* Glitch overlay layers */
-    .gallery-frame::before,
-    .gallery-frame::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+      transition: opacity 0.6s ease;
       pointer-events: none;
-      opacity: 0;
-      z-index: 10;
     }
-
-    .gallery-frame.glitching::before {
-      animation: glitch-r 0.35s steps(1) forwards;
-    }
-
-    .gallery-frame.glitching::after {
-      animation: glitch-b 0.35s steps(1) forwards;
-    }
-.glitch-clone {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 8;
-  mix-blend-mode: screen;
+      .gallery-paper {
+  object-fit: fill;
+  opacity: 1 !important;
+  z-index: 0;
 }
 
-@keyframes glitch-r {
-  0%   { opacity: 0; transform: translateX(0); }
-  25%  { opacity: 0.3; clip-path: inset(20% 0 55% 0); transform: translateX(-3px); }
-  50%  { opacity: 0.2; clip-path: inset(60% 0 15% 0); transform: translateX(3px); }
-  75%  { opacity: 0.15; clip-path: inset(35% 0 40% 0); transform: translateX(-2px); }
-  100% { opacity: 0; transform: translateX(0); }
+.gallery-frame img:not(.gallery-paper) {
+  z-index: 1;
 }
 
-@keyframes glitch-b {
-  0%   { opacity: 0; transform: translateX(0); }
-  25%  { opacity: 0.2; clip-path: inset(50% 0 10% 0); transform: translateX(2px); }
-  50%  { opacity: 0.15; clip-path: inset(10% 0 65% 0); transform: translateX(-2px); }
-  75%  { opacity: 0.1; clip-path: inset(75% 0 5% 0); transform: translateX(2px); }
-  100% { opacity: 0; transform: translateX(0); }
-}
+    .gallery-frame img.shown { opacity: 1; }
 
-@keyframes glitch-slice {
-  0%   { opacity: 0; }
-  30%  { opacity: 0.25; top: 40%; transform: translateX(-5px); height: 2px; }
-  60%  { opacity: 0.15; top: 70%; transform: translateX(4px); }
-  100% { opacity: 0; }
-}
+    .gallery-hint {
+      font-family: 'Subtitle', Georgia, serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      transition: opacity 0.6s ease;
     }
 
-    .gallery-frame.glitching .glitch-scan {
-      animation: glitch-slice 0.35s steps(2) forwards;
+    /* FIX 4: .hidden was never defined so hint never disappeared */
+    .gallery-hint.hidden { opacity: 0; pointer-events: none; }
+
+    .gallery-dots { display: flex; gap: 6px; margin-top: 0.25rem; }
+
+    .gdot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transition: background 0.3s, transform 0.3s;
     }
-
-
+    .gdot.active { background: #fff; transform: scale(1.4); }
 
     /* ── Progress dots ── */
     #dots {
@@ -265,7 +228,8 @@
       bottom: 2.8rem;
       left: 50%;
       transform: translateX(-50%);
-      display: ex;
+      /* FIX 5: was "display: ex" — not valid CSS, nothing rendered */
+      display: flex;
       gap: 8px;
       z-index: 20;
     }
@@ -277,11 +241,7 @@
       background: rgba(255,255,255,0.3);
       transition: background 0.4s, transform 0.4s;
     }
-
-    .dot.active {
-      background: #fff;
-      transform: scale(1.4);
-    }
+    .dot.active { background: #fff; transform: scale(1.4); }
 
     /* ── Next button ── */
     #next-btn {
@@ -293,11 +253,10 @@
       gap: 0.6rem;
       background: none;
       border: none;
-      cursor: url('assets/fly.png'),16 16, auto, pointer;
+      /* FIX 1: hotspot coordinates */
+      cursor: url('assets/fly.png') 16 16, pointer;
       font-family: 'Subtitle', Georgia, serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
+      font-size: 25px;
       color: rgba(255,255,255,0.5);
       text-decoration: none;
       transition: color 0.3s ease, gap 0.3s ease, opacity 0.5s ease;
@@ -306,12 +265,8 @@
       pointer-events: none;
     }
 
-    #next-btn.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    #next-btn:hover { color: #fff; gap: 1rem; }
+    #next-btn.visible { opacity: 1; pointer-events: all; }
+    #next-btn:hover   { color: #fff; gap: 1rem; }
 
     #next-btn .arrow {
       display: inline-block;
@@ -321,35 +276,55 @@
       position: relative;
       transition: width 0.3s;
     }
-
     #next-btn:hover .arrow { width: 40px; }
-
     #next-btn .arrow::after {
       content: '';
       position: absolute;
-      right: 0;
-      top: -3px;
-      width: 7px;
-      height: 7px;
+      right: 0; top: -3px;
+      width: 7px; height: 7px;
       border-right: 1px solid currentColor;
       border-top: 1px solid currentColor;
       transform: rotate(45deg);
     }
+
+    .continue-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      font-family: 'Subtitle', Georgia, serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.3s, gap 0.3s;
+    }
+    .continue-link:hover { color: #fff; gap: 1rem; }
+    .continue-link .arrow {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      position: relative;
+    }
+    .continue-link .arrow::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -3px;
+      width: 7px; height: 7px;
+      border-right: 1px solid currentColor;
+      border-top: 1px solid currentColor;
+      transform: rotate(45deg);
+      display: block;
+    }
+
+    /* ── Typing animation ── */
+    .typed-char { display: inline; opacity: 0; }
+    .typed-char.revealed { opacity: 1; }
   </style>
 </head>
 <body>
-
-<!-- SVG filters for RGB channel split -->
-<svg width="0" height="0" style="position:absolute;">
-  <defs>
-    <filter id="red-channel">
-      <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
-    </filter>
-    <filter id="blue-channel">
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
-    </filter>
-  </defs>
-</svg>
 
 <div id="stage">
 
@@ -357,8 +332,7 @@
   <div class="block" id="block-1">
     <div class="split-layout">
       <div class="split-text">
-        <p class="opener">As I researched this topic, trying to find an answer to what a woman is, I found something I couldn't believe. 
-            The science was actually built on flies. Not on us.</p>
+        <p class="opener">As I researched this topic, trying to find an answer to what a woman is, I found something I couldn't believe. The science was actually built on flies. Not on us.</p>
 
         <p class="delayed" id="fly-text-1" style="margin-top:2em;">
           In the early 20th century, biologist Thomas Hunt Morgan conducted foundational sex chromosome research — not on humans, but on <em>Drosophila melanogaster</em>, the common fruit fly. His work on X and Y chromosomes in flies became the template for how we understand biological sex in all organisms, including humans. This research earned him the Nobel Prize in 1933 — and its framework became the foundation of modern genetics.
@@ -379,20 +353,15 @@
     <div class="block2-inner">
       <p>Maybe you thought like I did — a woman is a person with a uterus, someone who menstruates. But this definition excludes a lot of people. Relying on biology to define "woman" typically excludes transgender women, intersex people, and those with reproductive diseases.</p>
 
-      <!-- Image Gallery -->
       <div class="gallery-wrap">
-        <div class="gallery-frame" id="gallery-frame">
-          <img src="assets/page2-1.png" alt="" class="shown" id="gimg-0" />
-          <img src="assets/page2-2.png" alt="" id="gimg-1" />
-          <img src="assets/page2-3.png" alt="" id="gimg-2" />
-          <img src="assets/page2-4.png" alt="" id="gimg-3" />
-          <!-- Red and blue channel clones for glitch effect -->
-          <img src="assets/page2-1.png" alt="" class="glitch-clone red-shift" id="gclone-red" />
-          <img src="assets/page2-1.png" alt="" class="glitch-clone blue-shift" id="gclone-blue" />
-          <!-- Scan line -->
-          <div class="glitch-scan" id="glitch-scan"></div>
+        <div class="gallery-frame" id="gallery-frame" title="Click to see next">
+          <img src="assets/page2-1.png" alt="" class="shown" />
+          <img src="assets/page2-2.png" alt="" />
+          <img src="assets/page2-3.png" alt="" />
+          <img src="assets/page2-4.png" alt="" />
         </div>
-
+        <p class="gallery-hint" id="gallery-hint">click on me</p>
+        <div class="gallery-dots" id="gallery-dots"></div>
       </div>
 
       <p class="question-line">So… if not chromosomes, then it's estrogen right?</p>
@@ -405,33 +374,11 @@
 
       <p>So it's not really that men have all the testosterone and women have all the estrogen. Levels of both vary enormously between individuals — and the overlap between ranges is significant.</p>
 
-        
-              <p style="
-  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
-  line-height: 1.6;
-  font-style: italic;
-  color: #fff;
-  max-width: none;
-  margin-top: 2.5em;
-  opacity: 0.92;
-">There is no single site in the body where gender lives. Not in the chromosomes. Not in the hormones. Not in the anatomy. The certainty we feel about gender being 'natural' or 'obvious' isn't coming from biology but rather how we were taught to read our bodies.</p>
-        
-        
-      <a href="page3.html" style="
-        display:inline-flex; align-items:center; gap:0.6rem;
-        margin-top:2.5rem;
-        font-family:'Subtitle',Georgia,serif;
-        font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase;
-        color:rgba(255,255,255,0.5); text-decoration:none;
-        transition:color 0.3s, gap 0.3s;
-      " onmouseover="this.style.color='#fff';this.style.gap='1rem'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.gap='0.6rem'">
-        continue <span style="display:inline-block;width:28px;height:1px;background:currentColor;position:relative;">
-          <span style="position:absolute;right:0;top:-3px;width:7px;height:7px;border-right:1px solid currentColor;border-top:1px solid currentColor;transform:rotate(45deg);display:block;"></span>
-          
-        </span>
+      <p style="font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.6;font-style:italic;color:#fff;max-width:none;margin-top:2.5em;opacity:0.92;font-family:'Handwritten',Georgia,serif;">There is no single site in the body where gender lives. Not in the chromosomes. Not in the hormones. Not in the anatomy. The certainty we feel about gender being 'natural' or 'obvious' isn't coming from biology but rather how we were taught to read our bodies.</p>
+
+      <a href="page3.html" class="continue-link">
+        continue <span class="arrow"></span>
       </a>
-        
-  
     </div>
   </div>
 
@@ -449,128 +396,115 @@
 </button>
 
 <script>
-  /* ── Page blocks ── */
-  const blocks  = document.querySelectorAll('.block');
-  const dots    = document.querySelectorAll('.dot');
-  const nextBtn = document.getElementById('next-btn');
-  let current   = 0;
-  const total   = blocks.length;
+  const CHAR_DELAY = 18;
+  let typingInProgress = false;
+
+  function wrapTextNodes(root) {
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          if (node.parentElement.closest('#next-btn, .continue-link, .gallery-hint, .gallery-dots, #dots')) return NodeFilter.FILTER_REJECT;
+          if (node.parentElement.closest('.delayed')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(node => {
+      const frag = document.createDocumentFragment();
+      for (const ch of node.nodeValue) {
+        const span = document.createElement('span');
+        span.className = 'typed-char';
+        span.textContent = ch;
+        frag.appendChild(span);
+      }
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function revealChars(block, onDone) {
+    const chars = block.querySelectorAll('.typed-char');
+    if (!chars.length) { onDone && onDone(); return; }
+    chars.forEach(c => c.classList.remove('revealed'));
+    let i = 0;
+    typingInProgress = true;
+    function next() {
+      if (i >= chars.length) { typingInProgress = false; onDone && onDone(); return; }
+      chars[i].classList.add('revealed');
+      i++;
+      setTimeout(next, CHAR_DELAY);
+    }
+    next();
+  }
+
+  /* ── Navigation ── */
+  const blocks   = document.querySelectorAll('.block');
+ 
+  const pageDots = document.querySelectorAll('#dots .dot');
+  const nextBtn  = document.getElementById('next-btn');
+  let current    = 0;
+  const total    = blocks.length;
+
+  blocks.forEach(b => wrapTextNodes(b));
+
+  blocks[0].classList.add('active');
+  nextBtn.classList.add('visible');
+  revealChars(blocks[0]);
+
+  setTimeout(() => { document.getElementById('fly-text-1').classList.add('visible'); }, 3200);
+  setTimeout(() => { document.getElementById('fly-text-2').classList.add('visible'); }, 4400);
 
   function goTo(index) {
+    if (typingInProgress) return;
     blocks[current].classList.remove('active');
     blocks[current].classList.add('exit');
-    dots[current].classList.remove('active');
+    if (pageDots[current]) pageDots[current].classList.remove('active');
 
     setTimeout(() => {
       blocks[current].classList.remove('exit');
       current = index;
       blocks[current].classList.add('active');
-      dots[current].classList.add('active');
-
-      if (current === total - 1) {
-        nextBtn.classList.remove('visible');
-      } else {
-        nextBtn.classList.add('visible');
-      }
+      if (pageDots[current]) pageDots[current].classList.add('active');
+      nextBtn.classList.toggle('visible', current < total - 1);
+      revealChars(blocks[current]);
     }, 700);
   }
 
-  blocks[0].classList.add('active');
-  nextBtn.classList.add('visible');
-
-  setTimeout(() => { document.getElementById('fly-text-1').classList.add('visible'); }, 2000);
-  setTimeout(() => { document.getElementById('fly-text-2').classList.add('visible'); }, 2800);
-
   nextBtn.addEventListener('click', () => {
-    if (current < total - 1) goTo(current + 1);
+    if (current < total - 1 && !typingInProgress) goTo(current + 1);
   });
 
-  /* ── Image Gallery with Glitch ── */
-  const galleryImages = ['assets/page2-1.png','assets/page2-2.png','assets/page2-3.png','assets/page2-4.png'];
-  const gimgs         = [
-    document.getElementById('gimg-0'),
-    document.getElementById('gimg-1'),
-    document.getElementById('gimg-2'),
-    document.getElementById('gimg-3')
-  ];
-  const gcloneRed  = document.getElementById('gclone-red');
-  const gcloneBlue = document.getElementById('gclone-blue');
-  const gframe     = document.getElementById('gallery-frame');
+  /* ── Gallery ── */
+  const gframe  = document.getElementById('gallery-frame');
+const gimgs = Array.from(gframe.querySelectorAll('img:not(.gallery-paper)'));
+  const hint    = document.getElementById('gallery-hint');
+  const gdotsEl = document.getElementById('gallery-dots');
+  let gCurrent  = 0;
+  let hintDismissed = false;
 
-  let gCurrent     = 0;
-  let glitchTimer  = null;
+  gimgs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'gdot' + (i === 0 ? ' active' : '');
+    gdotsEl.appendChild(d);
+  });
+  const gdots = Array.from(gdotsEl.querySelectorAll('.gdot'));
 
-  function triggerGlitch(nextIndex) {
-    const nextSrc = galleryImages[nextIndex];
-
-    // Set clone sources to current image for RGB split effect
-    gcloneRed.src  = galleryImages[gCurrent];
-    gcloneBlue.src = galleryImages[gCurrent];
-
-    // Animate clones
-    gcloneRed.style.transition  = 'none';
-    gcloneBlue.style.transition = 'none';
-    gcloneRed.style.opacity     = '0.65';
-    gcloneBlue.style.opacity    = '0.65';
-
-    gframe.classList.add('glitching');
-
-    // Stagger the RGB shifts
-    let step = 0;
-    const shifts = [
-      { r: -7, b: 6 },
-      { r: 10, b: -8 },
-      { r: -4, b: 5 },
-      { r: 8,  b: -3 },
-      { r: -5, b: 7 },
-      { r: 3,  b: -6 }
-    ];
-
-    const shiftInterval = setInterval(() => {
-      if (step >= shifts.length) {
-        clearInterval(shiftInterval);
-        return;
-      }
-      gcloneRed.style.transform  = `translateX(${shifts[step].r}px)`;
-      gcloneBlue.style.transform = `translateX(${shifts[step].b}px)`;
-      step++;
-    }, 50);
-
-    // Mid-glitch: swap the main image
-    setTimeout(() => {
-      gimgs[gCurrent].classList.remove('shown');
-      gCurrent = nextIndex;
-      gimgs[gCurrent].classList.add('shown');
-
-    }, 180);
-
-    // End glitch
-    setTimeout(() => {
-      gframe.classList.remove('glitching');
-      gcloneRed.style.opacity  = '0';
-      gcloneBlue.style.opacity = '0';
-      gcloneRed.style.transform  = 'translateX(0)';
-      gcloneBlue.style.transform = 'translateX(0)';
-      clearInterval(shiftInterval);
-    }, 380);
+  function showImage(index) {
+    gimgs[gCurrent].classList.remove('shown');
+    gdots[gCurrent].classList.remove('active');
+    gCurrent = index;
+    gimgs[gCurrent].classList.add('shown');
+    gdots[gCurrent].classList.add('active');
   }
 
-  function nextGalleryImage() {
-    const nextIndex = (gCurrent + 1) % galleryImages.length;
-    triggerGlitch(nextIndex);
-  }
-
-  // Auto-cycle
-  function startGallery() {
-    glitchTimer = setInterval(nextGalleryImage, 3500);
-  }
-
-  // Start cycling when block 2 becomes active
-  const origGoTo = goTo;
-  nextBtn.addEventListener('click', () => {
-    if (current === 0) {
-      setTimeout(startGallery, 1200);
-    }
+  gframe.addEventListener('click', () => {
+    if (!hintDismissed) { hint.classList.add('hidden'); hintDismissed = true; }
+    showImage((gCurrent + 1) % gimgs.length);
   });
 </script>
 
