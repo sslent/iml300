@@ -14,7 +14,9 @@
                 src: url("assets/Subtitle.ttf") format("truetype");
             }
 
-            *, *::before, *::after {
+            *,
+            *::before,
+            *::after {
                 box-sizing: border-box;
                 margin: 0;
                 padding: 0;
@@ -30,7 +32,7 @@
                 color: #000000;
             }
 
-            /* grain */
+            /* added grain */
             body::before {
                 content: "";
                 position: fixed;
@@ -47,14 +49,14 @@
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background: rgba(0, 0, 0, 0.55);
+                background: rgba(255, 24, 144, 0.55);
                 pointer-events: none;
                 z-index: 999;
                 transform: translate(-50%, -50%);
                 transition: transform 0.1s ease;
             }
 
-            /* nav */
+            /* navigation */
             nav {
                 position: fixed;
                 top: 0;
@@ -76,7 +78,9 @@
                 text-decoration: none;
                 transition: color 0.2s;
             }
-            nav a:hover { color: rgba(232, 226, 216, 0.6); }
+            nav a:hover {
+                color: rgba(232, 226, 216, 0.6);
+            }
 
             /* main layout */
             main {
@@ -94,7 +98,7 @@
                 opacity: 0;
                 animation: fade-up 1.4s ease 0.3s forwards;
                 width: 100%;
-                max-width: 520px;
+                max-width: 420px;
                 margin-bottom: 4rem;
             }
 
@@ -102,12 +106,12 @@
                 width: 100%;
                 height: auto;
                 display: block;
-                /* soft vignette to blend into dark bg */
+                
                 mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 60%, transparent 100%);
                 -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 60%, transparent 100%);
             }
 
-            /* credits block */
+            /* info block */
             .credits {
                 opacity: 0;
                 animation: fade-up 1s ease 0.9s forwards;
@@ -138,14 +142,7 @@
                 margin-bottom: 0.6rem;
             }
 
-            /* divider */
-            .divider {
-                opacity: 0;
-                animation: fade-up 1s ease 1.2s forwards;
-                width: 1px;
-                height: 48px;
-                background: linear-gradient(to bottom, rgba(217, 79, 122, 0.5), transparent);
-                margin: 0 auto 4rem;
+            
             }
 
             /* body text */
@@ -171,29 +168,24 @@
                 color: rgba(232, 226, 216, 0.7);
             }
 
-            /* closing accent */
-            .accent-dot {
-                opacity: 0;
-                animation: fade-up 1s ease 2.2s forwards;
-                width: 4px;
-                height: 4px;
-                border-radius: 50%;
-                background: rgba(217, 79, 122, 0.5);
-                margin: 3.5rem auto 0;
-            }
+          
 
             @keyframes fade-up {
-                from { opacity: 0; transform: translateY(10px); }
-                to   { opacity: 1; transform: translateY(0); }
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         </style>
     </head>
     <body>
         <div id="cursor"></div>
 
-        <nav>
-           <a href="index.html">Home</a>>
-        </nav>
+        <nav><a href="index.html">Home</a>></nav>
 
         <main>
             <div class="image-wrap">
@@ -206,22 +198,29 @@
                 <p>Project 3: Networked Care Website</p>
             </div>
 
-  
-
             <div class="about-text">
-                <p>This website exists to make visitors sit with one question — what is a woman? And challenge the assumptions they bring to that prompt. The project is an interactive website that guides visitors through the social, scientific, and philosophical dimensions of gender, using feminist theory, science that is easy to understand, and personal reflection to question a category most people assume is inherent or objectively true.</p>
+                <p>
+                    This website exists to make visitors sit with one question — what is a woman? And challenge the
+                    assumptions they bring to that prompt. The project is an interactive website that guides visitors
+                    through the social, scientific, and philosophical dimensions of gender, using feminist theory,
+                    science that is easy to understand, and personal reflection to question a category most people
+                    assume is inherent or objectively true.
+                </p>
 
-                <p>This website is for everyone: students thinking feminist theory for the first time, activists seeking accessible educational tools to pass around, allies wanting to better understand trans experiences, anyone who has ever been told what a woman is supposed to look and act like. But for me, this website is a letter to my mom.</p>
+                <p>
+                    This website is for everyone: students thinking feminist theory for the first time, activists
+                    seeking accessible educational tools to pass around, allies wanting to better understand trans
+                    experiences, anyone who has ever been told what a woman is supposed to look and act like. But for
+                    me, this website is a letter to my mom.
+                </p>
             </div>
-
-    
         </main>
 
         <script>
             const cursor = document.getElementById("cursor");
             document.addEventListener("mousemove", (e) => {
                 cursor.style.left = e.clientX + "px";
-                cursor.style.top  = e.clientY + "px";
+                cursor.style.top = e.clientY + "px";
             });
         </script>
     </body>

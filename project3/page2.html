@@ -30,7 +30,6 @@
       color: var(--text);
       font-family: 'Handwritten', Georgia, serif;
       overflow: hidden;
-      /* FIX 1: cursor needs hotspot coordinates */
       cursor: url('assets/fly.png') 16 16, auto;
     }
 
@@ -107,11 +106,13 @@
       text-align: center;
     }
 
+    /* invisible but holds space so layout stays stable */
     .delayed {
-      opacity: 0;
-      transition: opacity 1.6s ease;
+      visibility: hidden;
     }
-    .delayed.visible { opacity: 1; }
+    .delayed.typing {
+      visibility: visible;
+    }
 
     /* ── Block 1 ── */
     .split-layout {
@@ -141,7 +142,6 @@
     /* ── Block 2 ── */
     .block2-inner {
       max-width: 740px;
-      /* FIX 2: was "width: 150%" — caused horizontal overflow */
       width: 100%;
       text-align: left;
     }
@@ -168,13 +168,13 @@
 
     .gallery-frame {
       position: relative;
-      /* FIX 3: was "width: 200%" — blew the gallery completely off screen */
       width: 100%;
       max-width: 680px;
       height: clamp(340px, 44vh, 480px);
-      /* FIX 1: hotspot coordinates */
       cursor: url('assets/fly.png') 16 16, pointer;
       user-select: none;
+      border: 2px solid rgba(255, 182, 200, 0.6);
+      border-radius: 4px;
     }
 
     .gallery-frame img {
@@ -187,16 +187,20 @@
       transition: opacity 0.6s ease;
       pointer-events: none;
     }
-      .gallery-paper {
-  object-fit: fill;
-  opacity: 1 !important;
-  z-index: 0;
-}
 
-.gallery-frame img:not(.gallery-paper) {
-  z-index: 1;
-}
+    .gallery-paper {
+      object-fit: fill;
+      opacity: 1 !important;
+      z-index: 0;
+      width: 100% !important;
+      height: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+    }
 
+    .gallery-frame img:not(.gallery-paper) { z-index: 1; }
     .gallery-frame img.shown { opacity: 1; }
 
     .gallery-hint {
@@ -208,7 +212,6 @@
       transition: opacity 0.6s ease;
     }
 
-    /* FIX 4: .hidden was never defined so hint never disappeared */
     .gallery-hint.hidden { opacity: 0; pointer-events: none; }
 
     .gallery-dots { display: flex; gap: 6px; margin-top: 0.25rem; }
@@ -228,7 +231,6 @@
       bottom: 2.8rem;
       left: 50%;
       transform: translateX(-50%);
-      /* FIX 5: was "display: ex" — not valid CSS, nothing rendered */
       display: flex;
       gap: 8px;
       z-index: 20;
@@ -253,7 +255,6 @@
       gap: 0.6rem;
       background: none;
       border: none;
-      /* FIX 1: hotspot coordinates */
       cursor: url('assets/fly.png') 16 16, pointer;
       font-family: 'Subtitle', Georgia, serif;
       font-size: 25px;
@@ -351,7 +352,7 @@
   <!-- BLOCK 2 -->
   <div class="block scrollable" id="block-2">
     <div class="block2-inner">
-      <p>Maybe you thought like I did — a woman is a person with a uterus, someone who menstruates. But this definition excludes a lot of people. Relying on biology to define "woman" typically excludes transgender women, intersex people, and those with reproductive diseases.</p>
+      <p class="delayed" id="b2-p1">Maybe you thought like I did — a woman is a person with a uterus, someone who menstruates. But this definition excludes a lot of people. Relying on biology to define "woman" typically excludes transgender women, intersex people, and those with reproductive diseases.</p>
 
       <div class="gallery-wrap">
         <div class="gallery-frame" id="gallery-frame" title="Click to see next">
@@ -364,17 +365,17 @@
         <div class="gallery-dots" id="gallery-dots"></div>
       </div>
 
-      <p class="question-line">So… if not chromosomes, then it's estrogen right?</p>
+      <p class="question-line delayed" id="b2-p2">So… if not chromosomes, then it's estrogen right?</p>
 
-      <p>Well, we all run on both. Hormones don't belong to a gender. Estrogen is not the "female" hormone. In fact, it is present and essential in all bodies — regardless of assigned sex.</p>
+      <p class="delayed" id="b2-p3">Well, we all run on both. Hormones don't belong to a gender. Estrogen is not the "female" hormone. In fact, it is present and essential in all bodies — regardless of assigned sex.</p>
 
-      <p>It also comes in many different forms: estradiol, estrone, estriol.</p>
+      <p class="delayed" id="b2-p4">It also comes in many different forms: estradiol, estrone, estriol.</p>
 
-      <p>Testosterone is also present in all bodies — ovaries actually produce it too.</p>
+      <p class="delayed" id="b2-p5">Testosterone is also present in all bodies — ovaries actually produce it too.</p>
 
-      <p>So it's not really that men have all the testosterone and women have all the estrogen. Levels of both vary enormously between individuals — and the overlap between ranges is significant.</p>
+      <p class="delayed" id="b2-p6">So it's not really that men have all the testosterone and women have all the estrogen. Levels of both vary enormously between individuals — and the overlap between ranges is significant.</p>
 
-      <p style="font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.6;font-style:italic;color:#fff;max-width:none;margin-top:2.5em;opacity:0.92;font-family:'Handwritten',Georgia,serif;">There is no single site in the body where gender lives. Not in the chromosomes. Not in the hormones. Not in the anatomy. The certainty we feel about gender being 'natural' or 'obvious' isn't coming from biology but rather how we were taught to read our bodies.</p>
+      <p class="delayed" id="b2-p7" style="font-size:clamp(1.2rem,2.2vw,1.7rem);line-height:1.6;font-style:italic;color:#fff;max-width:none;margin-top:2.5em;opacity:0.92;font-family:'Handwritten',Georgia,serif;">There is no single site in the body where gender lives. Not in the chromosomes. Not in the hormones. Not in the anatomy. The certainty we feel about gender being 'natural' or 'obvious' isn't coming from biology but rather how we were taught to read our bodies.</p>
 
       <a href="page3.html" class="continue-link">
         continue <span class="arrow"></span>
@@ -399,6 +400,7 @@
   const CHAR_DELAY = 18;
   let typingInProgress = false;
 
+  // Wraps text nodes into typed-char spans — no longer excludes .delayed
   function wrapTextNodes(root) {
     const walker = document.createTreeWalker(
       root,
@@ -407,7 +409,6 @@
         acceptNode(node) {
           if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
           if (node.parentElement.closest('#next-btn, .continue-link, .gallery-hint, .gallery-dots, #dots')) return NodeFilter.FILTER_REJECT;
-          if (node.parentElement.closest('.delayed')) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         }
       }
@@ -427,8 +428,9 @@
     });
   }
 
-  function revealChars(block, onDone) {
-    const chars = block.querySelectorAll('.typed-char');
+  // Reveals chars inside a container, calls onDone when finished
+  function revealChars(container, onDone) {
+    const chars = container.querySelectorAll('.typed-char');
     if (!chars.length) { onDone && onDone(); return; }
     chars.forEach(c => c.classList.remove('revealed'));
     let i = 0;
@@ -442,9 +444,14 @@
     next();
   }
 
+  // Makes a .delayed element visible then types it
+  function typeDelayed(el, onDone) {
+    el.classList.add('typing');
+    revealChars(el, onDone);
+  }
+
   /* ── Navigation ── */
   const blocks   = document.querySelectorAll('.block');
- 
   const pageDots = document.querySelectorAll('#dots .dot');
   const nextBtn  = document.getElementById('next-btn');
   let current    = 0;
@@ -454,10 +461,28 @@
 
   blocks[0].classList.add('active');
   nextBtn.classList.add('visible');
-  revealChars(blocks[0]);
 
-  setTimeout(() => { document.getElementById('fly-text-1').classList.add('visible'); }, 3200);
-  setTimeout(() => { document.getElementById('fly-text-2').classList.add('visible'); }, 4400);
+  // Chain: opener types → pause → fly-text-1 types → pause → fly-text-2 types
+  revealChars(blocks[0].querySelector('.opener'), () => {
+    setTimeout(() => {
+      typeDelayed(document.getElementById('fly-text-1'), () => {
+        setTimeout(() => {
+          typeDelayed(document.getElementById('fly-text-2'));
+        }, 300);
+      });
+    }, 400);
+  });
+
+  // Chains an array of element ids, typing each one after the previous finishes
+  function typeChain(ids, pause) {
+    function step(i) {
+      if (i >= ids.length) return;
+      const el = document.getElementById(ids[i]);
+      if (!el) { step(i + 1); return; }
+      typeDelayed(el, () => setTimeout(() => step(i + 1), pause || 200));
+    }
+    step(0);
+  }
 
   function goTo(index) {
     if (typingInProgress) return;
@@ -471,7 +496,13 @@
       blocks[current].classList.add('active');
       if (pageDots[current]) pageDots[current].classList.add('active');
       nextBtn.classList.toggle('visible', current < total - 1);
-      revealChars(blocks[current]);
+
+      // Block 2 gets sequential paragraph typing
+      if (current === 1) {
+        typeChain(['b2-p1', 'b2-p2', 'b2-p3', 'b2-p4', 'b2-p5', 'b2-p6', 'b2-p7'], 250);
+      } else {
+        revealChars(blocks[current]);
+      }
     }, 700);
   }
 
@@ -481,7 +512,7 @@
 
   /* ── Gallery ── */
   const gframe  = document.getElementById('gallery-frame');
-const gimgs = Array.from(gframe.querySelectorAll('img:not(.gallery-paper)'));
+  const gimgs   = Array.from(gframe.querySelectorAll('img:not(.gallery-paper)'));
   const hint    = document.getElementById('gallery-hint');
   const gdotsEl = document.getElementById('gallery-dots');
   let gCurrent  = 0;

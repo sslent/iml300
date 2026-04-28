@@ -509,7 +509,7 @@
 
 </div>
 
-<!-- Next button -->
+
 <button id="next-btn" class="visible" aria-label="Next">
   next <span class="arrow"></span>
 </button>
@@ -520,12 +520,7 @@
   let current   = 0;
   let typingInProgress = false;
 
-  /* ─────────────────────────────────────────────
-     Typing animation
-     Wraps every text node (excluding annotation
-     bubbles and buttons) in .typed-char spans,
-     then reveals them one-by-one.
-  ───────────────────────────────────────────── */
+  /* typing animation */
   const CHAR_DELAY = 18; // ms per character — adjust for speed
 
   function wrapTextNodes(root) {
