@@ -1,617 +1,887 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page 1</title>
-  <style>
-    @font-face {
-      font-family: 'Subtitle';
-      src: url('assets/Subtitle.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'Handwritten';
-      src: url('assets/handwritten.ttf') format('truetype');
-    }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Page 1</title>
+        <style>
+            @font-face {
+                font-family: "Subtitle";
+                src: url("assets/Subtitle.ttf") format("truetype");
+            }
+            @font-face {
+                font-family: "Handwritten";
+                src: url("assets/handwritten.ttf") format("truetype");
+            }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-    :root {
-      --bg: #2f2f2f;
-      --text: #fff;
-      --pink: #f472b6;
-    }
+            :root {
+                --bg: #2f2f2f;
+                --text: #fff;
+                --pink: #f472b6;
+            }
 
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Handwritten', Georgia, serif;
-      overflow: hidden;
-    }
+            html,
+            body {
+                height: 100%;
+                background: var(--bg);
+                color: var(--text);
+                font-family: "Handwritten", Georgia, serif;
+                overflow: hidden;
+            }
 
-    /* ── Blocks ── */
-    #stage {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-    }
+            /* ── Blocks ── */
+            #stage {
+                position: relative;
+                width: 100%;
+                height: 100vh;
+            }
 
-    .block {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 6vh 8vw;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.2s ease;
-      text-align: center;
-    }
+            .block {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 6vh 8vw;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 1.2s ease;
+                text-align: center;
+            }
 
-    .block.active  { opacity: 1; pointer-events: all; }
-    .block.exit    { opacity: 0; pointer-events: none; }
+            .block.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            .block.exit {
+                opacity: 0;
+                pointer-events: none;
+            }
 
-    /* ── Annotated phrases — NO underline ── */
-    .annotated {
-      position: relative;
-      display: inline;
-      color: var(--pink);
-      cursor: default;
-      transition: color 0.3s;
-    }
+            /* ── Annotated phrases — NO underline ── */
+            .annotated {
+                position: relative;
+                display: inline;
+                color: var(--pink);
+                cursor: default;
+                transition: color 0.3s;
+            }
 
-    .annotated:hover { color: #fff; }
+            .annotated:hover {
+                color: #fff;
+            }
 
-    .annotation-bubble {
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(20,10,20,0.96);
-      border: 1px solid rgba(244,114,182,0.3);
-      border-radius: 6px;
-      padding: 0.55em 0.9em;
-      font-size: 0.78rem;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.85);
-      white-space: normal;
-      max-width: 280px;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      z-index: 50;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            .annotation-bubble {
+                position: absolute;
+                bottom: calc(100% + 10px);
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(20, 10, 20, 0.96);
+                border: 1px solid rgba(244, 114, 182, 0.3);
+                border-radius: 6px;
+                padding: 0.55em 0.9em;
+                font-size: 0.78rem;
+                line-height: 1.6;
+                color: rgba(255, 255, 255, 0.85);
+                white-space: normal;
+                max-width: 280px;
+                text-align: center;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.25s ease;
+                z-index: 50;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-    .annotation-bubble::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: rgba(244,114,182,0.3);
-    }
+            .annotation-bubble::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 5px solid transparent;
+                border-top-color: rgba(244, 114, 182, 0.3);
+            }
 
-    .annotated:hover .annotation-bubble { opacity: 1; }
+            .annotated:hover .annotation-bubble {
+                opacity: 1;
+            }
 
-    /* ── Block 1: Paper ── */
-    .paper-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+            /* ── Block 1: Paper ── */
+            .paper-wrap {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-    .paper-wrap img.paper-bg {
-      display: block;
-      width: clamp(1000px, 55vw, 860px);
-      height: auto;
-        margin-top: -80px;
-    }
+            .paper-wrap img.paper-bg {
+                display: block;
+                width: clamp(1000px, 55vw, 860px);
+                height: auto;
+                margin-top: -80px;
+            }
 
-    .paper-text {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 12% 14%;
-      text-align: center;
-    }
+            .paper-text {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 12% 14%;
+                text-align: center;
+            }
 
-    .paper-text p {
-      font-family: 'Handwritten', Georgia, serif;
-      font-size: 25px;
-      line-height: 1.9;
-      color: #1a0a10;
-      max-width: none;
-    }
+            .paper-text p {
+                font-family: "Handwritten", Georgia, serif;
+                font-size: 25px;
+                line-height: 1.9;
+                color: #1a0a10;
+                max-width: none;
+            }
 
-    .paper-text p + p { margin-top: 0.9em; }
+            .paper-text p + p {
+                margin-top: 0.9em;
+            }
 
-    .paper-text .annotated { color: #9d174d; }
-    .paper-text .annotated:hover { color: #000; }
+            .paper-text .annotated {
+                color: #9d174d;
+            }
+            .paper-text .annotated:hover {
+                color: #000;
+            }
 
-    .paper-text .highlight {
-      color: #9d174d;
-      font-size: 35px;
-      font-style: bold;
-      display: inline-block;
-      margin-top: 0.6em;
-      cursor: pointer;
-      transition: color 0.3s;
-      font-family: 'Handwritten', Georgia, serif;
-    }
-    .paper-text .highlight:hover { color: #000; }
+            .paper-text .highlight {
+                color: #9d174d;
+                font-size: 35px;
+                font-style: bold;
+                display: inline-block;
+                margin-top: 0.6em;
+                cursor: pointer;
+                transition: color 0.3s;
+                font-family: "Handwritten", Georgia, serif;
+            }
+            .paper-text .highlight:hover {
+                color: #000;
+            }
 
-    /* ── Block 2: Envelopes ── */
-    .envelope-intro {
-      font-size: 60px;
-      font-style: bold;
-      color: #fff;
-      margin-bottom: 1.5rem;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            /* ── Block 2: Envelopes ── */
+            .envelope-intro {
+                font-size: 60px;
+                font-style: bold;
+                color: #fff;
+                margin-bottom: 1.5rem;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-    .envelopes-row {
-      display: flex;
-      gap: clamp(3rem, 8vw, 7rem);
-      align-items: flex-start;
-      justify-content: center;
-    }
+            .envelopes-row {
+                display: flex;
+                gap: clamp(3rem, 8vw, 7rem);
+                align-items: flex-start;
+                justify-content: center;
+            }
 
-    .envelope-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
+            .envelope-unit {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.2rem;
+            }
 
-    .env-label {
-      font-style: italic;
-      color: #ff4f9d;
-      font-size: 30px;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            .env-label {
+                font-style: italic;
+                color: #ff4f9d;
+                font-size: 30px;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-  .env-img-wrap {
-  position: relative;
-  width: 220px;
-  height: 160px; 
-  cursor: pointer;
-}
+            .env-img-wrap {
+                position: relative;
+                width: 220px;
+                height: 160px;
+                cursor: pointer;
+            }
 
-.env-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: fill; 
-  display: block;
-  transition: opacity 0.35s ease;
-  border-radius: 2px;
-}
+            .env-img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: fill;
+                display: block;
+                transition: opacity 0.35s ease;
+                border-radius: 2px;
+            }
 
-    .env-closed { position: relative; opacity: 1; }
-    .env-open   { position: absolute; inset: 0; opacity: 0; }
+            .env-closed {
+                position: relative;
+                opacity: 1;
+            }
+            .env-open {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+            }
 
-    .env-img-wrap:hover .env-closed { opacity: 0; }
-    .env-img-wrap:hover .env-open   { opacity: 1; }
+            .env-img-wrap:hover .env-closed {
+                opacity: 0;
+            }
+            .env-img-wrap:hover .env-open {
+                opacity: 1;
+            }
 
-    .env-def-body {
-      max-width: 220px;
-      font-size: 20px;
-      line-height: 1.7;
-      color: hotpink;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.4s 0.4s, transform 0.4s 0.4s;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            .env-def-body {
+                max-width: 220px;
+                font-size: 20px;
+                line-height: 1.7;
+                color: hotpink;
+                text-align: center;
+                opacity: 0;
+                transform: translateY(6px);
+                transition:
+                    opacity 0.4s 0.4s,
+                    transform 0.4s 0.4s;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-    .env-img-wrap:hover ~ .env-def-body {
-      opacity: 1;
-      transform: translateY(0);
-    }
+            .env-img-wrap:hover ~ .env-def-body {
+                opacity: 1;
+                transform: translateY(0);
+            }
 
-    /* ── Block 3: Split ── */
-    .split-layout {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5vw;
-      max-width: 860px;
-      width: 100%;
-    }
+            /* ── Block 3: Split ── */
+            .split-layout {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5vw;
+                max-width: 860px;
+                width: 100%;
+            }
 
-    .split-text { flex: 1; min-width: 0; text-align: left; }
-    .split-text p {
-      font-size: 35px;
-      color: rgba(255, 121, 170, 0.78);
-      line-height: 2;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            .split-text {
+                flex: 1;
+                min-width: 0;
+                text-align: left;
+            }
+            .split-text p {
+                font-size: 35px;
+                color: rgba(255, 121, 170, 0.78);
+                line-height: 2;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-    .split-img { flex: 0 0 auto; width: clamp(160px, 22vw, 280px); }
-    .split-img img { width: 150%; border-radius: 2px; opacity: 0.9; }
+            .split-img {
+                flex: 0 0 auto;
+                width: clamp(160px, 22vw, 280px);
+            }
+            .split-img img {
+                width: 150%;
+                border-radius: 2px;
+                opacity: 0.9;
+            }
 
-    /* ── Block 4: Sugar Cube ── */
-    .cube-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+            /* ── Block 4: Sugar Cube ── */
+            .cube-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-    .cube-box {
-      width: 280px;
-      height: 280px;
-      background-color: rgba(217, 79, 122, 0.92);
-      box-shadow: 22px 22px 18px rgba(0,0,0,0.25);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      position: relative;
-    }
+            .cube-box {
+                width: 280px;
+                height: 280px;
+                background-color: rgba(217, 79, 122, 0.92);
+                box-shadow: 22px 22px 18px rgba(0, 0, 0, 0.25);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                position: relative;
+            }
 
-    .cube-text {
-      font-size: 25px;
-      line-height: 1.85;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 1.2rem;
-      font-family: 'Handwritten', Georgia, serif;
-    }
+            .cube-text {
+                font-size: 25px;
+                line-height: 1.85;
+                color: #fff;
+                text-align: center;
+                margin-bottom: 1.2rem;
+                font-family: "Handwritten", Georgia, serif;
+            }
 
-    /* ── Continue / Next buttons stay in Subtitle font ── */
-    .cube-continue {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Subtitle', Georgia, serif;
-      font-size: 14px;
-      color: rgba(255,255,255,0.6);
-      text-decoration: none;
-      transition: color 0.3s, gap 0.3s;
-    }
+            /* ── Continue / Next buttons stay in Subtitle font ── */
+            .cube-continue {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-family: "Subtitle", Georgia, serif;
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.6);
+                text-decoration: none;
+                transition:
+                    color 0.3s,
+                    gap 0.3s;
+            }
 
-    .cube-continue:hover { color: #fff; gap: 0.9rem; }
+            .cube-continue:hover {
+                color: #fff;
+                gap: 0.9rem;
+            }
 
-    .cube-arrow {
-      display: inline-block;
-      width: 24px;
-      height: 1px;
-      background: currentColor;
-      position: relative;
-    }
+            .cube-arrow {
+                display: inline-block;
+                width: 24px;
+                height: 1px;
+                background: currentColor;
+                position: relative;
+            }
 
-    .cube-arrow::after {
-      content: '';
-      position: absolute;
-      right: 0; top: -3px;
-      width: 6px; height: 6px;
-      border-right: 1px solid currentColor;
-      border-top: 1px solid currentColor;
-      transform: rotate(45deg);
-    }
+            .cube-arrow::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                top: -3px;
+                width: 6px;
+                height: 6px;
+                border-right: 1px solid currentColor;
+                border-top: 1px solid currentColor;
+                transform: rotate(45deg);
+            }
 
-    .cube-shadow {
-      width: 320px;
-      height: 24px;
-      margin-top: 4px;
-      border-radius: 100%;
-      background: radial-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.0));
-    }
+            .cube-shadow {
+                width: 320px;
+                height: 24px;
+                margin-top: 4px;
+                border-radius: 100%;
+                background: radial-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+            }
 
-    /* ── Flies ── */
-    .fly {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      object-fit: contain;
-    }
+            /* ── Flies ── */
+            .fly {
+                width: 50px;
+                height: 50px;
+                position: absolute;
+                object-fit: contain;
+            }
 
-    #fly1 { left: 50%; bottom: -60%; animation: fly-1 8s infinite; }
-    #fly2 { left: 0;   bottom: -50%; animation: fly-2 9s infinite; }
-    #fly3 { left: 100%; bottom: -70%; animation: fly-3 12s infinite; animation-delay: 1s; }
-    #fly4 { left: 0;   bottom: -50%; animation: fly-2 12s infinite; animation-delay: 3s; }
+            #fly1 {
+                left: 50%;
+                bottom: -60%;
+                animation: fly-1 8s infinite;
+            }
+            #fly2 {
+                left: 0;
+                bottom: -50%;
+                animation: fly-2 9s infinite;
+            }
+            #fly3 {
+                left: 100%;
+                bottom: -70%;
+                animation: fly-3 12s infinite;
+                animation-delay: 1s;
+            }
+            #fly4 {
+                left: 0;
+                bottom: -50%;
+                animation: fly-2 12s infinite;
+                animation-delay: 3s;
+            }
 
-    @keyframes fly-1 {
-      0%  { left:50%; bottom:-60%; }
-      10% { left:50%; bottom:5%;  transform:rotate(0deg); }
-      12% { left:50%; bottom:5%;  transform:rotate(-90deg); }
-      20% { left:5%;  bottom:5%;  transform:rotate(-90deg); }
-      22% { transform:rotate(0); }
-      38% { left:5%;  bottom:87%; transform:rotate(90deg); }
-      50% { left:90%; bottom:87%; transform:rotate(90deg); }
-      55% { left:90%; bottom:87%; transform:rotate(230deg); }
-      72% { left:5%;  bottom:5%;  transform:rotate(230deg); }
-      78% { left:5%;  bottom:5%;  transform:rotate(90deg); }
-      85% { left:50%; bottom:5%;  transform:rotate(90deg); }
-      90% { left:50%; bottom:5%;  transform:rotate(180deg); }
-      100%{ left:50%; bottom:-60%;transform:rotate(180deg); }
-    }
+            @keyframes fly-1 {
+                0% {
+                    left: 50%;
+                    bottom: -60%;
+                }
+                10% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(0deg);
+                }
+                12% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(-90deg);
+                }
+                20% {
+                    left: 5%;
+                    bottom: 5%;
+                    transform: rotate(-90deg);
+                }
+                22% {
+                    transform: rotate(0);
+                }
+                38% {
+                    left: 5%;
+                    bottom: 87%;
+                    transform: rotate(90deg);
+                }
+                50% {
+                    left: 90%;
+                    bottom: 87%;
+                    transform: rotate(90deg);
+                }
+                55% {
+                    left: 90%;
+                    bottom: 87%;
+                    transform: rotate(230deg);
+                }
+                72% {
+                    left: 5%;
+                    bottom: 5%;
+                    transform: rotate(230deg);
+                }
+                78% {
+                    left: 5%;
+                    bottom: 5%;
+                    transform: rotate(90deg);
+                }
+                85% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(90deg);
+                }
+                90% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(180deg);
+                }
+                100% {
+                    left: 50%;
+                    bottom: -60%;
+                    transform: rotate(180deg);
+                }
+            }
 
-    @keyframes fly-2 {
-      0%  { left:0;   bottom:-50%; transform:rotate(45deg); }
-      15% { left:50%; bottom:5%;   transform:rotate(45deg); }
-      18% { left:50%; bottom:5%;   transform:rotate(90deg); }
-      28% { left:85%; bottom:5%;   transform:rotate(90deg); }
-      30% { left:85%; bottom:5%;   transform:rotate(0deg); }
-      40% { left:85%; bottom:85%;  transform:rotate(0deg); }
-      48% { left:85%; bottom:85%;  transform:rotate(-90deg); }
-      58% { left:5%;  bottom:85%;  transform:rotate(-90deg); }
-      68% { left:5%;  bottom:85%;  transform:rotate(-180deg); }
-      79% { left:5%;  bottom:5%;   transform:rotate(-180deg); }
-      81% { left:5%;  bottom:5%;   transform:rotate(-270deg); }
-      88% { left:50%; bottom:5%;   transform:rotate(-270deg); }
-      90% { left:50%; bottom:5%;   transform:rotate(-140deg); }
-      100%{ left:0%;  bottom:-50%; transform:rotate(-140deg); }
-    }
+            @keyframes fly-2 {
+                0% {
+                    left: 0;
+                    bottom: -50%;
+                    transform: rotate(45deg);
+                }
+                15% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(45deg);
+                }
+                18% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(90deg);
+                }
+                28% {
+                    left: 85%;
+                    bottom: 5%;
+                    transform: rotate(90deg);
+                }
+                30% {
+                    left: 85%;
+                    bottom: 5%;
+                    transform: rotate(0deg);
+                }
+                40% {
+                    left: 85%;
+                    bottom: 85%;
+                    transform: rotate(0deg);
+                }
+                48% {
+                    left: 85%;
+                    bottom: 85%;
+                    transform: rotate(-90deg);
+                }
+                58% {
+                    left: 5%;
+                    bottom: 85%;
+                    transform: rotate(-90deg);
+                }
+                68% {
+                    left: 5%;
+                    bottom: 85%;
+                    transform: rotate(-180deg);
+                }
+                79% {
+                    left: 5%;
+                    bottom: 5%;
+                    transform: rotate(-180deg);
+                }
+                81% {
+                    left: 5%;
+                    bottom: 5%;
+                    transform: rotate(-270deg);
+                }
+                88% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(-270deg);
+                }
+                90% {
+                    left: 50%;
+                    bottom: 5%;
+                    transform: rotate(-140deg);
+                }
+                100% {
+                    left: 0%;
+                    bottom: -50%;
+                    transform: rotate(-140deg);
+                }
+            }
 
-    @keyframes fly-3 {
-      0%  { left:100%;  bottom:-70%;  transform:rotate(-45deg); }
-      15% { left:50%;   bottom:-15%;  transform:rotate(-45deg); }
-      18% { left:50%;   bottom:-15%;  transform:rotate(-90deg); }
-      28% { left:-10%;  bottom:-15%;  transform:rotate(-90deg); }
-      30% { left:-10%;  bottom:-15%;  transform:rotate(0deg); }
-      45% { left:-10%;  bottom:105%;  transform:rotate(0deg); }
-      48% { left:-10%;  bottom:105%;  transform:rotate(90deg); }
-      58% { left:105%;  bottom:105%;  transform:rotate(90deg); }
-      60% { left:105%;  bottom:105%;  transform:rotate(180deg); }
-      75% { left:105%;  bottom:-15%;  transform:rotate(180deg); }
-      81% { left:105%;  bottom:-15%;  transform:rotate(270deg); }
-      88% { left:50%;   bottom:-15%;  transform:rotate(270deg); }
-      90% { left:50%;   bottom:-15%;  transform:rotate(180deg); }
-      100%{ left:100%;  bottom:-70%;  transform:rotate(130deg); }
-    }
+            @keyframes fly-3 {
+                0% {
+                    left: 100%;
+                    bottom: -70%;
+                    transform: rotate(-45deg);
+                }
+                15% {
+                    left: 50%;
+                    bottom: -15%;
+                    transform: rotate(-45deg);
+                }
+                18% {
+                    left: 50%;
+                    bottom: -15%;
+                    transform: rotate(-90deg);
+                }
+                28% {
+                    left: -10%;
+                    bottom: -15%;
+                    transform: rotate(-90deg);
+                }
+                30% {
+                    left: -10%;
+                    bottom: -15%;
+                    transform: rotate(0deg);
+                }
+                45% {
+                    left: -10%;
+                    bottom: 105%;
+                    transform: rotate(0deg);
+                }
+                48% {
+                    left: -10%;
+                    bottom: 105%;
+                    transform: rotate(90deg);
+                }
+                58% {
+                    left: 105%;
+                    bottom: 105%;
+                    transform: rotate(90deg);
+                }
+                60% {
+                    left: 105%;
+                    bottom: 105%;
+                    transform: rotate(180deg);
+                }
+                75% {
+                    left: 105%;
+                    bottom: -15%;
+                    transform: rotate(180deg);
+                }
+                81% {
+                    left: 105%;
+                    bottom: -15%;
+                    transform: rotate(270deg);
+                }
+                88% {
+                    left: 50%;
+                    bottom: -15%;
+                    transform: rotate(270deg);
+                }
+                90% {
+                    left: 50%;
+                    bottom: -15%;
+                    transform: rotate(180deg);
+                }
+                100% {
+                    left: 100%;
+                    bottom: -70%;
+                    transform: rotate(130deg);
+                }
+            }
 
-    /* ── Next button stays in Subtitle font ── */
-    #next-btn {
-      position: fixed;
-      bottom: 5rem;
-      right: 5vw;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Subtitle', Georgia, serif;
-      font-size: 19px;
-      color: #fff;
-      transition: color 0.3s, gap 0.3s, opacity 0.5s;
-      z-index: 20;
-      opacity: 0;
-      pointer-events: none;
-    }
+            /* ── Next button stays in Subtitle font ── */
+            #next-btn {
+                position: fixed;
+                bottom: 5rem;
+                right: 5vw;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-family: "Subtitle", Georgia, serif;
+                font-size: 19px;
+                color: #fff;
+                transition:
+                    color 0.3s,
+                    gap 0.3s,
+                    opacity 0.5s;
+                z-index: 20;
+                opacity: 0;
+                pointer-events: none;
+            }
 
-    #next-btn.visible { opacity: 1; pointer-events: all; }
-    #next-btn:hover { color: var(--pink); gap: 1rem; }
+            #next-btn.visible {
+                opacity: 1;
+                pointer-events: all;
+            }
+            #next-btn:hover {
+                color: var(--pink);
+                gap: 1rem;
+            }
 
-    #next-btn .arrow {
-      display: inline-block;
-      width: 28px;
-      height: 1px;
-      background: currentColor;
-      position: relative;
-      transition: width 0.3s;
-    }
+            #next-btn .arrow {
+                display: inline-block;
+                width: 28px;
+                height: 1px;
+                background: currentColor;
+                position: relative;
+                transition: width 0.3s;
+            }
 
-    #next-btn:hover .arrow { width: 40px; }
+            #next-btn:hover .arrow {
+                width: 40px;
+            }
 
-    #next-btn .arrow::after {
-      content: '';
-      position: absolute;
-      right: 0; top: -3px;
-      width: 7px; height: 7px;
-      border-right: 1px solid currentColor;
-      border-top: 1px solid currentColor;
-      transform: rotate(45deg);
-    }
+            #next-btn .arrow::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                top: -3px;
+                width: 7px;
+                height: 7px;
+                border-right: 1px solid currentColor;
+                border-top: 1px solid currentColor;
+                transform: rotate(45deg);
+            }
 
-    /* ── Typing animation ── */
-    
-    .typed-char {
-      display: inline;
-      opacity: 0;
-    }
-    .typed-char.revealed {
-      opacity: 1;
-    }
-  </style>
-</head>
-<body>
+            /* ── Typing animation ── */
 
-<div id="stage">
+            .typed-char {
+                display: inline;
+                opacity: 0;
+            }
+            .typed-char.revealed {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="stage">
+            <!-- BLOCK 1 -->
+            <div class="block active" id="block-1">
+                <div class="paper-wrap">
+                    <img class="paper-bg" src="assets/p1paper.png" />
+                    <div class="paper-text">
+                        <p>
+                            As I get older, I realize more and more that
+                            <span class="annotated"
+                                >gender is something socially constructed<span class="annotation-bubble"
+                                    >Simone de Beauvoir: "One is not born, but rather becomes, a woman."</span
+                                ></span
+                            >. And yet we treat it as a biological fact, like something that inherently lives in the
+                            body.
+                        </p>
+                        <p>
+                            I think the difficulty in unpacking these ideas lies not only in recognizing that gender is
+                            imagined but in the
+                            <span class="annotated"
+                                >psychological weight of trying to unlearn them<span class="annotation-bubble"
+                                    >Cognitive dissonance: the discomfort of holding a new belief that contradicts a
+                                    deeply held one.</span
+                                ></span
+                            >. Asking someone to question what they've been taught their entire life about how the world
+                            works is a lot.
+                        </p>
+                        <p>
+                            It
+                            <span class="annotated"
+                                >threatens our sense of identity and meaning<span class="annotation-bubble"
+                                    >Terror Management Theory suggests we cling hard to our worldviews because they
+                                    shield us from existential anxiety.</span
+                                ></span
+                            >.
+                        </p>
+                        <span class="highlight" id="highlight-trigger"
+                            >Who do we become when we step outside everything we know to be true?</span
+                        >
+                    </div>
+                </div>
+            </div>
 
-  <!-- BLOCK 1 -->
-  <div class="block active" id="block-1">
-    <div class="paper-wrap">
-      <img class="paper-bg" src="assets/p1paper.png" />
-      <div class="paper-text">
-        <p>As I get older, I realize more and more that
-          <span class="annotated">gender is something socially constructed<span class="annotation-bubble">Simone de Beauvoir: "One is not born, but rather becomes, a woman."</span></span>.
-          And yet we treat it as a biological fact, like something that inherently lives in the body.
-        </p>
-        <p>I think the difficulty in unpacking these ideas lies not only in recognizing that gender is imagined but in the
-          <span class="annotated">psychological weight of trying to unlearn them<span class="annotation-bubble">Cognitive dissonance: the discomfort of holding a new belief that contradicts a deeply held one.</span></span>.
-          Asking someone to question what they've been taught their entire life about how the world works is a lot.
-        </p>
-        <p>It
-          <span class="annotated">threatens our sense of identity and meaning<span class="annotation-bubble">Terror Management Theory suggests we cling hard to our worldviews because they shield us from existential anxiety.</span></span>.
-        </p>
-        <span class="highlight" id="highlight-trigger">Who do we become when we step outside everything we know to be true?</span>
-      </div>
-    </div>
-  </div>
+            <!-- BLOCK 2 -->
+            <div class="block" id="block-2">
+                <p class="envelope-intro">Hover to Open</p>
+                <div class="envelopes-row">
+                    <div class="envelope-unit">
+                        <span class="env-label">Sex</span>
+                        <div class="env-img-wrap">
+                            <img class="env-closed" src="assets/sexclosed.png" alt="Sex envelope closed" />
+                            <img class="env-open" src="assets/sexopen.png" alt="Sex envelope open" />
+                        </div>
+                        <div class="env-def-body">
+                            A set of physiological characteristics — chromosomes, hormones, anatomy. Varies along a
+                            spectrum. Assigned at birth based on visible anatomy. But this is more complicated than it
+                            appears.
+                        </div>
+                    </div>
 
-  <!-- BLOCK 2 -->
-  <div class="block" id="block-2">
-    <p class="envelope-intro">Hover to Open</p>
-    <div class="envelopes-row">
+                    <div class="envelope-unit">
+                        <span class="env-label">Gender</span>
+                        <div class="env-img-wrap">
+                            <img class="env-closed" src="assets/genderclosed.png" alt="Gender envelope closed" />
+                            <img class="env-open" src="assets/genderopen.png" alt="Gender envelope open" />
+                        </div>
+                        <div class="env-def-body">
+                            A social and cultural construct — the roles, behaviors, expressions, and identities that a
+                            society assigns to people. Learned, performed, enforced. Not the same as the body you
+                            inhabit.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      <div class="envelope-unit">
-        <span class="env-label">Sex</span>
-        <div class="env-img-wrap">
-          <img class="env-closed" src="assets/sexclosed.png" alt="Sex envelope closed" />
-          <img class="env-open"   src="assets/sexopen.png"   alt="Sex envelope open" />
+            <!-- BLOCK 3 -->
+            <div class="block" id="block-3">
+                <div class="split-layout">
+                    <div class="split-text">
+                        <p>
+                            Its easy to assume that "female" correlates with "woman". But think about it like this — my
+                            dog is female, but it'd be silly to call her a "woman", right? Thus, the concept of a
+                            "woman" must be a role— and roles are written by people, not nature.
+                        </p>
+                    </div>
+                    <div class="split-img">
+                        <img src="assets/gracie.png" alt="Gracie the dog" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOCK 4 -->
+            <div class="block" id="block-4">
+                <div class="cube-wrapper">
+                    <div class="cube-box">
+                        <p class="cube-text">
+                            But now I'm curious…. where do these ideas about the science of sex and gender come from?
+                        </p>
+                        <a href="page2.html" class="cube-continue"> continue <span class="cube-arrow"></span> </a>
+                        <img id="fly1" class="fly" src="assets/fly.png" alt="" />
+                        <img id="fly2" class="fly" src="assets/fly.png" alt="" />
+                        <img id="fly3" class="fly" src="assets/fly.png" alt="" />
+                        <img id="fly4" class="fly" src="assets/fly.png" alt="" />
+                    </div>
+                    <div class="cube-shadow"></div>
+                </div>
+            </div>
         </div>
-        <div class="env-def-body">A set of physiological characteristics — chromosomes, hormones, anatomy. Varies along a spectrum. Assigned at birth based on visible anatomy. But this is more complicated than it appears.</div>
-      </div>
 
-      <div class="envelope-unit">
-        <span class="env-label">Gender</span>
-        <div class="env-img-wrap">
-          <img class="env-closed" src="assets/genderclosed.png" alt="Gender envelope closed" />
-          <img class="env-open"   src="assets/genderopen.png"   alt="Gender envelope open" />
-        </div>
-        <div class="env-def-body">A social and cultural construct — the roles, behaviors, expressions, and identities that a society assigns to people. Learned, performed, enforced. Not the same as the body you inhabit.</div>
-      </div>
+        <button id="next-btn" class="visible" aria-label="Next">next <span class="arrow"></span></button>
 
-    </div>
-  </div>
+        <script>
+            const blocks = document.querySelectorAll(".block");
+            const nextBtn = document.getElementById("next-btn");
+            let current = 0;
+            let typingInProgress = false;
 
-  <!-- BLOCK 3 -->
-  <div class="block" id="block-3">
-    <div class="split-layout">
-      <div class="split-text">
-        <p>Its easy to assume that "female" correlates with "woman". But think about it like this — my dog is female, but it'd be silly to call her a "woman", right? Thus, the concept of a "woman" must be a role— and roles are written by people, not nature.</p>
-      </div>
-      <div class="split-img">
-        <img src="assets/gracie.png" alt="Gracie the dog" />
-      </div>
-    </div>
-  </div>
+            /* typing animation */
+            const CHAR_DELAY = 18; // ms per character — adjust for speed
 
-  <!-- BLOCK 4 -->
-  <div class="block" id="block-4">
-    <div class="cube-wrapper">
-      <div class="cube-box">
-        <p class="cube-text">But now I'm curious…. where do these ideas about the science of sex and gender come from?</p>
-        <a href="page2.html" class="cube-continue">
-          continue <span class="cube-arrow"></span>
-        </a>
-        <img id="fly1" class="fly" src="assets/fly.png" alt="" />
-        <img id="fly2" class="fly" src="assets/fly.png" alt="" />
-        <img id="fly3" class="fly" src="assets/fly.png" alt="" />
-        <img id="fly4" class="fly" src="assets/fly.png" alt="" />
-      </div>
-      <div class="cube-shadow"></div>
-    </div>
-  </div>
+            function wrapTextNodes(root) {
+                // Walk all text nodes that are NOT inside annotation bubbles or buttons
+                const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                    acceptNode(node) {
+                        // Skip empty / whitespace-only nodes
+                        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                        // Skip annotation bubbles
+                        if (node.parentElement.closest(".annotation-bubble")) return NodeFilter.FILTER_REJECT;
+                        // Skip buttons / links (keep Subtitle font elements unaffected)
+                        if (node.parentElement.closest(".cube-continue, #next-btn")) return NodeFilter.FILTER_REJECT;
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                });
 
-</div>
+                const nodes = [];
+                let n;
+                while ((n = walker.nextNode())) nodes.push(n);
 
+                nodes.forEach((node) => {
+                    const frag = document.createDocumentFragment();
+                    for (const ch of node.nodeValue) {
+                        const span = document.createElement("span");
+                        span.className = "typed-char";
+                        span.textContent = ch;
+                        frag.appendChild(span);
+                    }
+                    node.parentNode.replaceChild(frag, node);
+                });
+            }
 
-<button id="next-btn" class="visible" aria-label="Next">
-  next <span class="arrow"></span>
-</button>
+            function revealChars(block, onDone) {
+                const chars = block.querySelectorAll(".typed-char");
+                if (!chars.length) {
+                    onDone && onDone();
+                    return;
+                }
 
-<script>
-  const blocks  = document.querySelectorAll('.block');
-  const nextBtn = document.getElementById('next-btn');
-  let current   = 0;
-  let typingInProgress = false;
+                // Reset all to hidden first (for re-entry safety)
+                chars.forEach((c) => c.classList.remove("revealed"));
 
-  /* typing animation */
-  const CHAR_DELAY = 18; // ms per character — adjust for speed
+                let i = 0;
+                typingInProgress = true;
 
-  function wrapTextNodes(root) {
-    // Walk all text nodes that are NOT inside annotation bubbles or buttons
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode(node) {
-          // Skip empty / whitespace-only nodes
-          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-          // Skip annotation bubbles
-          if (node.parentElement.closest('.annotation-bubble')) return NodeFilter.FILTER_REJECT;
-          // Skip buttons / links (keep Subtitle font elements unaffected)
-          if (node.parentElement.closest('.cube-continue, #next-btn')) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      }
-    );
+                function next() {
+                    if (i >= chars.length) {
+                        typingInProgress = false;
+                        onDone && onDone();
+                        return;
+                    }
+                    chars[i].classList.add("revealed");
+                    i++;
+                    setTimeout(next, CHAR_DELAY);
+                }
+                next();
+            }
 
-    const nodes = [];
-    let n;
-    while ((n = walker.nextNode())) nodes.push(n);
+            // Wrap text nodes in every block on load
+            blocks.forEach((b) => wrapTextNodes(b));
 
-    nodes.forEach(node => {
-      const frag = document.createDocumentFragment();
-      for (const ch of node.nodeValue) {
-        const span = document.createElement('span');
-        span.className = 'typed-char';
-        span.textContent = ch;
-        frag.appendChild(span);
-      }
-      node.parentNode.replaceChild(frag, node);
-    });
-  }
+            // Kick off typing for block 1 immediately
+            revealChars(blocks[0]);
 
-  function revealChars(block, onDone) {
-    const chars = block.querySelectorAll('.typed-char');
-    if (!chars.length) { onDone && onDone(); return; }
-
-    // Reset all to hidden first (for re-entry safety)
-    chars.forEach(c => c.classList.remove('revealed'));
-
-    let i = 0;
-    typingInProgress = true;
-
-    function next() {
-      if (i >= chars.length) {
-        typingInProgress = false;
-        onDone && onDone();
-        return;
-      }
-      chars[i].classList.add('revealed');
-      i++;
-      setTimeout(next, CHAR_DELAY);
-    }
-    next();
-  }
-
-  // Wrap text nodes in every block on load
-  blocks.forEach(b => wrapTextNodes(b));
-
-  // Kick off typing for block 1 immediately
-  revealChars(blocks[0]);
-
-  /* ─────────────────────────────────────────────
+            /* ─────────────────────────────────────────────
      Block navigation
   ───────────────────────────────────────────── */
-  function goTo(index) {
-    if (typingInProgress) return; // don't interrupt mid-type
+            function goTo(index) {
+                if (typingInProgress) return; // don't interrupt mid-type
 
-    blocks[current].classList.add('exit');
-    blocks[current].classList.remove('active');
+                blocks[current].classList.add("exit");
+                blocks[current].classList.remove("active");
 
-    setTimeout(() => {
-      blocks[current].classList.remove('exit');
-      current = index;
-      blocks[current].classList.add('active');
-      nextBtn.classList.toggle('visible', current < blocks.length - 1);
-      // Start typing animation for the new block
-      revealChars(blocks[current]);
-    }, 700);
-  }
+                setTimeout(() => {
+                    blocks[current].classList.remove("exit");
+                    current = index;
+                    blocks[current].classList.add("active");
+                    nextBtn.classList.toggle("visible", current < blocks.length - 1);
+                    // Start typing animation for the new block
+                    revealChars(blocks[current]);
+                }, 700);
+            }
 
-  document.getElementById('highlight-trigger').addEventListener('click', () => {
-    if (!typingInProgress) goTo(1);
-  });
-  nextBtn.addEventListener('click', () => {
-    if (current < blocks.length - 1 && !typingInProgress) goTo(current + 1);
-  });
-</script>
-
-</body>
+            document.getElementById("highlight-trigger").addEventListener("click", () => {
+                if (!typingInProgress) goTo(1);
+            });
+            nextBtn.addEventListener("click", () => {
+                if (current < blocks.length - 1 && !typingInProgress) goTo(current + 1);
+            });
+        </script>
+    </body>
 </html>
