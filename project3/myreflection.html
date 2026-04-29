@@ -13,7 +13,7 @@
                 font-family: "Subtitlefont";
                 src: url("assets/Subtitle.ttf") format("truetype");
             }
- 
+
             *,
             *::before,
             *::after {
@@ -21,7 +21,7 @@
                 margin: 0;
                 padding: 0;
             }
- 
+
             html,
             body {
                 width: 100%;
@@ -36,7 +36,7 @@
                 background-size: cover;
                 background-attachment: fixed;
             }
- 
+
             #cursor {
                 position: fixed;
                 width: 10px;
@@ -46,10 +46,12 @@
                 pointer-events: none;
                 z-index: 999;
                 transform: translate(-50%, -50%);
-                transition: transform 0.15s ease, background 0.15s ease;
+                transition:
+                    transform 0.15s ease,
+                    background 0.15s ease;
                 mix-blend-mode: screen;
             }
- 
+
             canvas#stage {
                 position: fixed;
                 inset: 0;
@@ -57,7 +59,7 @@
                 height: 100%;
                 z-index: 1;
             }
- 
+
             .flash {
                 position: fixed;
                 inset: 0;
@@ -70,13 +72,27 @@
                 animation: flash-out 0.55s steps(1) forwards;
             }
             @keyframes flash-out {
-                0% { opacity: 0; }
-                15% { opacity: 0.9; }
-                30% { opacity: 0; }
-                52% { opacity: 0.6; }
-                65% { opacity: 0; }
-                82% { opacity: 0.85; }
-                100% { opacity: 0; }
+                0% {
+                    opacity: 0;
+                }
+                15% {
+                    opacity: 0.9;
+                }
+                30% {
+                    opacity: 0;
+                }
+                52% {
+                    opacity: 0.6;
+                }
+                65% {
+                    opacity: 0;
+                }
+                82% {
+                    opacity: 0.85;
+                }
+                100% {
+                    opacity: 0;
+                }
             }
         </style>
     </head>
@@ -84,12 +100,12 @@
         <div id="cursor"></div>
         <div class="flash" id="flash"></div>
         <canvas id="stage"></canvas>
- 
+
         <script>
             const canvas = document.getElementById("stage");
             const ctx = canvas.getContext("2d");
             const cursorEl = document.getElementById("cursor");
- 
+
             let W, H;
             let globalT = 0;
             let startTime = null;
@@ -100,7 +116,7 @@
             let lastLineRight = 0;
             let lastLineSize = 0;
             let isHoveringLastLine = false;
- 
+
             const LINES = [
                 {
                     text: "Knowing all of this\u2026 are we closer to figuring out what a woman is..?",
@@ -129,7 +145,7 @@
                 {
                     text: "my mom\u2019s hands, and her mom\u2019s voice always a current running beneath me.",
                     color: "#040404",
-                    size: 19
+                    size: 32
                 },
                 { text: "", size: 0 },
                 {
@@ -145,11 +161,11 @@
                 { text: "and wondering \u2014 always wondering \u2014", color: "#040404", size: 32 },
                 { text: "what I might become in the open ocean.", color: "#d94f7a", size: 32 }
             ];
- 
+
             const LAST_LINE_INDEX = LINES.length - 1;
             const CHARS_PER_SEC = 38;
             const LINE_PAUSE = 0.32;
- 
+
             const lineStartTimes = [];
             let t = 0;
             for (let i = 0; i < LINES.length; i++) {
@@ -157,16 +173,16 @@
                 const len = LINES[i].text.length;
                 t += (len > 0 ? len / CHARS_PER_SEC : 0) + LINE_PAUSE;
             }
- 
+
             function addRipple(x, y) {
                 ripples.push({ x, y, r: 0, maxR: 160, born: globalT });
             }
- 
+
             function resize() {
                 W = canvas.width = window.innerWidth;
                 H = canvas.height = window.innerHeight;
             }
- 
+
             function linePositions() {
                 const lineH = 48;
                 const emptyH = 20;
@@ -178,19 +194,19 @@
                     return pos;
                 });
             }
- 
+
             function drawLine(text, centerX, centerY, fontSize, color, visibleChars, isLast) {
                 if (!text || visibleChars <= 0) return;
- 
+
                 ctx.font = `${fontSize}px Handwritten, Georgia, serif`;
                 ctx.textBaseline = "middle";
                 ctx.textAlign = "left";
- 
+
                 const shown = text.slice(0, Math.floor(visibleChars));
                 const totalW = ctx.measureText(text).width;
                 let charX = centerX - totalW / 2;
                 const fullyVisible = visibleChars >= text.length;
- 
+
                 if (isLast && fullyVisible) {
                     lastLineReady = true;
                     lastLineY = centerY;
@@ -198,14 +214,15 @@
                     lastLineRight = centerX + totalW / 2;
                     lastLineSize = fontSize;
                 }
- 
+
                 for (let i = 0; i < shown.length; i++) {
                     const ch = shown[i];
                     const chW = ctx.measureText(ch).width;
                     const cx = charX + chW / 2;
- 
-                    let dx = 0, dy = 0;
- 
+
+                    let dx = 0,
+                        dy = 0;
+
                     for (const rip of ripples) {
                         const dist = Math.hypot(cx - rip.x, centerY - rip.y);
                         const age = globalT - rip.born;
@@ -217,26 +234,26 @@
                             dy += ((centerY - rip.y) / dist) * proximity * strength;
                         }
                     }
- 
+
                     dy += Math.sin(globalT * 0.001 + i * 0.18) * 0.5;
- 
+
                     ctx.globalAlpha = 1;
                     ctx.fillStyle = color || "#e8e2d8";
                     ctx.fillText(ch, charX + dx, centerY + dy);
                     charX += chW;
                 }
- 
+
                 // Underline on last line once fully typed
                 if (isLast && fullyVisible) {
                     const lineY = centerY + fontSize * 0.62;
                     const x0 = centerX - totalW / 2;
                     const x1 = centerX + totalW / 2;
- 
+
                     if (isHoveringLastLine) {
                         ctx.shadowColor = color;
                         ctx.shadowBlur = 10;
                     }
- 
+
                     ctx.globalAlpha = isHoveringLastLine ? 1 : 0.45;
                     ctx.strokeStyle = color || "#d94f7a";
                     ctx.lineWidth = isHoveringLastLine ? 1.2 : 0.7;
@@ -244,27 +261,27 @@
                     ctx.moveTo(x0, lineY);
                     ctx.lineTo(x1, lineY);
                     ctx.stroke();
- 
+
                     ctx.shadowBlur = 0;
                     ctx.globalAlpha = 1;
                 }
             }
- 
+
             function draw(ts) {
                 if (!startTime) startTime = ts;
                 globalT = ts;
- 
+
                 const elapsed = (ts - startTime) / 1000;
- 
+
                 ctx.clearRect(0, 0, W, H);
- 
+
                 ripples = ripples.filter((r) => {
                     r.r += 3.5;
                     return r.r < r.maxR;
                 });
- 
+
                 const positions = linePositions();
- 
+
                 for (let i = 0; i < LINES.length; i++) {
                     const l = LINES[i];
                     if (!l.text) continue;
@@ -273,10 +290,10 @@
                     const visible = Math.min(lineElapsed * CHARS_PER_SEC, l.text.length);
                     drawLine(l.text, W / 2, positions[i].y, l.size, l.color, visible, i === LAST_LINE_INDEX);
                 }
- 
+
                 requestAnimationFrame(draw);
             }
- 
+
             function hitTestLastLine(x, y) {
                 if (!lastLineReady) return false;
                 const pad = 14;
@@ -287,38 +304,36 @@
                     y <= lastLineY + lastLineSize
                 );
             }
- 
+
             document.fonts.load("22px Handwritten").then(() => {
                 resize();
                 requestAnimationFrame(draw);
             });
- 
+
             setTimeout(() => {
                 if (!startTime) {
                     resize();
                     requestAnimationFrame(draw);
                 }
             }, 3000);
- 
+
             window.addEventListener("resize", resize);
- 
+
             document.addEventListener("mousemove", (e) => {
                 cursorEl.style.left = e.clientX + "px";
                 cursorEl.style.top = e.clientY + "px";
                 addRipple(e.clientX, e.clientY);
- 
+
                 const hovering = hitTestLastLine(e.clientX, e.clientY);
                 if (hovering !== isHoveringLastLine) {
                     isHoveringLastLine = hovering;
-                    cursorEl.style.background = hovering
-                        ? "rgba(217, 79, 122, 1)"
-                        : "rgba(217, 79, 122, 0.6)";
+                    cursorEl.style.background = hovering ? "rgba(217, 79, 122, 1)" : "rgba(217, 79, 122, 0.6)";
                     cursorEl.style.transform = hovering
                         ? "translate(-50%, -50%) scale(1.8)"
                         : "translate(-50%, -50%) scale(1)";
                 }
             });
- 
+
             document.addEventListener("click", (e) => {
                 if (hitTestLastLine(e.clientX, e.clientY)) {
                     window.location.href = "prompt2.html";
