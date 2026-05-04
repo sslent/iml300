@@ -3,82 +3,493 @@
   <head>
     <meta charset="UTF-8" />
     <title>Sophia's Homepage</title>
+    <link rel="stylesheet" href="https://use.typekit.net/qxs5yrx.css" />
     <style>
       @font-face {
         font-family: "HomepageFont";
         src: url("assets/homepagefont.ttf") format("truetype");
       }
+
       body {
-        background-color: #ffc0cb;
+        background: #fef0f3;
         font-family: "HomepageFont", sans-serif;
         color: #c2185b;
-        text-align: center;
+        margin: 0;
+        padding: 0;
       }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-weight: bold;
+
+      .content {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 40px 24px;
       }
+
       a {
-        text-decoration: none;
         color: #fff7f8;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .banner {
+        background: #ffbdcd;
+        color: #ffffff;
+        text-align: center;
+        padding: 28px;
+        margin-bottom: 40px;
+      }
+      .banner h1 {
+        font-size: 5rem;
+        margin: 0;
+        font-family: "cofo-raffine", sans-serif;
+        font-weight: 700;
+      }
+      .banner p {
+        margin: 6px 0 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      .hero {
+        display: flex;
+        gap: 32px;
+        align-items: flex-start;
+        margin-bottom: 60px;
+      }
+      .hero img {
+        width: 400px;
+        border-radius: 6px;
+        flex-shrink: 0;
+      }
+      .hero p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: #c2185b;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        border-bottom: 3px solid #abd5ba;
+        padding-bottom: 6px;
+        margin: 0 0 24px;
+        font-family: "cofo-raffine", sans-serif;
+        font-weight: 700;
+      }
+      section {
+        margin-bottom: 60px;
+      }
+
+      /* PROJECTS */
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+      .project {
+        background: #fff7f8;
+        border-radius: 6px;
+        overflow: hidden;
+        color: #8c0d3f;
+      }
+      .project img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        display: block;
+      }
+      .project .project-body {
+        padding: 28px;
+      }
+      .project h3 {
+        font-size: 1.15rem;
+        margin: 0 0 12px;
+        color: #c2185b;
+      }
+      .project p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        margin: 0 0 14px;
+        opacity: 0.7;
+      }
+      .project a {
+        color: #c2185b;
+        font-size: 0.9rem;
+        display: block;
+        margin-top: 6px;
+      }
+      .project a:hover {
+        text-decoration: underline;
+      }
+
+      /* EXERCISES */
+      .iframe-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .iframe-grid.four-col {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .iframe-card {
+        background: #fff7f8;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .iframe-card iframe {
+        width: 100%;
+        height: 160px;
+        border: none;
+        display: block;
+        pointer-events: none;
+      }
+      .iframe-card .label {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        color: #c2185b;
+      }
+      .iframe-card .label a {
+        color: #c2185b;
+      }
+      .iframe-card .label p {
+        margin: 4px 0 0;
+        opacity: 0.6;
+        font-style: italic;
+        font-size: 0.75rem;
+        color: #8c0d3f;
+      }
+
+      /* VIBE CODED */
+      .vibe-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+      .vibe-card {
+        background: #fff7f8;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .vibe-card img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+      }
+      .vibe-card .label {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        color: #c2185b;
+      }
+      .vibe-card .label a {
+        color: #c2185b;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .vibe-card .label a:hover {
+        text-decoration: underline;
+      }
+      .vibe-card .label p {
+        margin: 4px 0 0;
+        opacity: 0.6;
+        font-style: italic;
+        font-size: 0.75rem;
+        color: #8c0d3f;
+      }
+
+      .presentation {
+        background: #fff7f8;
+        border-radius: 6px;
+        padding: 20px;
+      }
+      .presentation a {
+        color: #c2185b;
+      }
+
+      /* REFLECTION */
+      .reflection {
+        background: #fff7f8;
+        border-radius: 6px;
+        padding: 36px;
+        min-height: 220px;
+      }
+      .reflection p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #8c0d3f;
+        opacity: 0.4;
+        font-style: italic;
+        margin: 0;
+      }
+
+      footer {
+        text-align: center;
+        opacity: 0.6;
+        font-size: 0.85rem;
+        margin-top: 40px;
+      }
+
+      @media (max-width: 700px) {
+        .hero {
+          flex-direction: column;
+        }
+        .projects,
+        .iframe-grid,
+        .iframe-grid.four-col,
+        .vibe-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <img src="assets/classlogo.png" width="300px" />
-    <div>
+    <div class="banner">
       <h1>Sophia Lent</h1>
-      <p>
-        This is my website for <i>IML300 class</i>. Coding is what made me the most nervous about committing to Media
-        Arts + Practice at USC. I've never thought of myself as very technologically literate but this program has shown
-        me that I can do a lot of things I am afraid of. Coding has become an exciting medium in my arsenal and I am
-        very proud of how I've grown in this class.
-      </p>
+      <p>IML300 — Media Arts + Practice @ USC</p>
     </div>
-    <div>
-      <h1>Presentation</h1>
-      <a href="https://canva.link/ctxxgkcmm4he92d">Pecha Kucha: Morehshin Allahyari</a>
+
+    <div class="content">
+      <div class="hero">
+        <img src="assets/classlogo.png" alt="class logo" />
+        <p>
+          Hi there, thanks for stopping by! Welcome to my&nbsp;<em>IML300 website,&nbsp;</em>which is a home to all
+          projects created in Spring of 2026. <br />
+          <br />
+          In all honesty, I never thought I'd survive this class because coding is what made me the most nervous about
+          Media Arts + Practice at USC. I had never thought of myself as very technologically literate but MA+P has
+          shown me that I can do a lot of things I am afraid of —even coding! Writing code and designing my own web
+          pages has become an exciting tool in my arsenal as a creative. I am proud of myself for sticking with it. I
+          invite you to explore my projects and see how I've grown in this class!
+        </p>
+      </div>
+
+      <section>
+        <h2>Artist Presentation</h2>
+        <div class="presentation">
+          <a href="https://canva.link/ctxxgkcmm4he92d" target="_blank">Pecha Kucha: Morehshin Allahyari</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        <div class="projects">
+          <div class="project">
+            <img src="assets/project1-thumbnail.png" alt="Project 1 thumbnail" />
+            <div class="project-body">
+              <h3>Project 1: Interactive Audio & Visual with p5.js</h3>
+              <p>Welcome to the chambers of the intergalactic supreme leader, Zorp. Zorp can tell your future with the press of a button. Simply ask Zorp a yes or no question and they will reach into your past, present and future to give you a prediction. For a little fun, click on "Party" to make zorp dance and to hear them sing their own special cover of "Staying Alive" by the Beegees. I remember I was super stressed at the time that this was assigned so I wanted to make something really silly just to make myself laugh. I had so much fun creating it and I hope Zorp brings you some joy too :) </p>
+              <a href="https://editor.p5js.org/sophia-miyoko/full/koEbVJ_OU" target="_blank">Zorp the Intergalactic Fortune Teller Link</a>
+            </div>
+          </div>
+          <div class="project">
+            <img src="assets/screenshot-2026-05-03-at-6-29-18-pm.png" alt="Project 2 thumbnail" />
+            <div class="project-body">
+              <h3>Project 2: HyperNarrative</h3>
+              <p>This project is very special to me. My relationship with my grandmother is a driving force behind a lot of my work and something that I always find myself returning to. Though our dynamic was never perfect, there was so much love between us. This project is my attempt to understand her after her passing, through the language barrier and a generational gap, to weave something out of what she left behind. The narrative follows conversations between the two of us, held in the pages of her address book turned vocabulary notebook, an unusual record of her life and the woman she was. </p>
+              <a
+                href="https://docs.google.com/document/d/1XEC0ypJ4F0N_OFMZtFdHxOUAeCQSk1M7-bbb2i2vpIs/edit?usp=sharing"
+                target="_blank"
+                >'Dear Miyoko' concept doc</a
+              >
+              <a href="https://sslent.github.io/iml300/project2/" target="_blank">'Dear Miyoko' Site</a>
+            </div>
+          </div>
+          <div class="project">
+            <img src="assets/screenshot-2026-05-03-at-6-30-06-pm.png" alt="Project 3 thumbnail" />
+            <div class="project-body">
+              <h3>Project 3: Networked Care</h3>
+              <p>This project seeks to untangle and make sense of my relationship with “womanhood”. It blends my own personal reflections with the expansive conversations around gender theory, zooming in and out of such a complicated question. Ultimately, its an effort to explain something of myself and my feelings about being a woman to my mom. I often have a hard time expressing my own definition of gender to my mom, as something fluid and performative. The website prompts visitors to reflect on their own relationship with gender and hosts a space for communities to share their responses with others.</p>
+              <a
+                href="https://docs.google.com/document/d/1m7l60gd4irkti1OnqXjouunrMlntPtXahV_kvsmtoGU/edit?usp=sharing"
+                target="_blank"
+                >'What is a Woman?' concept doc</a
+              >
+              <a href="https://sslent.github.io/iml300/project3/" target="_blank">'What is a Woman?' Site</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>p5.js Exercises</h2>
+        <div class="iframe-grid">
+          <div class="iframe-card">
+            <iframe src="https://editor.p5js.org/sophia-miyoko/full/jx5U0EEpH"></iframe>
+            <div class="label">
+              <a href="https://editor.p5js.org/sophia-miyoko/full/jx5U0EEpH" target="_blank">Exercise 1: Make a Face</a>
+            </div>
+          </div>
+          <div class="iframe-card">
+            <iframe src="https://editor.p5js.org/sophia-miyoko/full/t7uRWsCW6"></iframe>
+            <div class="label">
+              <a href="https://editor.p5js.org/sophia-miyoko/full/t7uRWsCW6" target="_blank"
+                >Exercise 2: Drawing Tool</a
+              >
+            </div>
+          </div>
+          <div class="iframe-card">
+            <iframe src="https://editor.p5js.org/sophia-miyoko/full/Zr-XHqUIO"></iframe>
+            <div class="label">
+              <a href="https://editor.p5js.org/sophia-miyoko/full/Zr-XHqUIO" target="_blank"
+                >Exercise 3: Pattern Exercise</a
+              >
+            </div>
+          </div>
+          <div class="iframe-card">
+            <iframe src="https://editor.p5js.org/sophia-miyoko/full/u8AspZALR"></iframe>
+            <div class="label">
+              <a href="https://editor.p5js.org/sophia-miyoko/full/u8AspZALR" target="_blank"
+                >Exercise 4: 30 Second Music Video</a
+              >
+            </div>
+          </div>
+          <div class="iframe-card">
+            <iframe src="https://editor.p5js.org/sophia-miyoko/sketches/vLeJ5CCoS"></iframe>
+            <div class="label">
+              <a href="https://editor.p5js.org/sophia-miyoko/sketches/vLeJ5CCoS" target="_blank"
+                >Exercise 5: Interactive Poetry</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Vibe Coded Projects</h2>
+        <div class="vibe-grid">
+          <div class="vibe-card">
+            <img src="assets/vibe1-thumbnail.png" alt="Week One thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/21bcf369-31c8-4f3f-8ce7-4cba5cfd4f06" target="_blank"
+                >Week One</a
+              >
+              <p>
+                Week one's vibe coding assignment was to get familiar with ai tools and make something of our own. I
+                made a little interactive terrarium with animated deer that users can have fun with.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/vibe2-thumbnail.png" alt="Week Two thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/1405aae6-92a9-4f87-8b64-7adc35ed08fb" target="_blank"
+                >Week Two</a
+              >
+              <p>
+                For week two's vibe coding exercise, I made a website that forces you to confront the realities of fast
+                fashion. I was inspired by "Rich User Experience, UX and Desktopization of War" by Olia Lialina and how
+                she approaches the topic of interfaces that hide the human consequences. I thought the idea that people
+                no longer have to think about or understand their actions online was interesting. My site is a
+                deliberately interruptive web experience that forces users to pause before interaction and reflect on
+                the reality of their actions.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/vibe3-thumbnail.png" alt="Week Three thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/96e4ee60-9993-4521-a076-c287e7f4e3ef" target="_blank"
+                >Week Three</a
+              >
+              <p>
+                For this vibe coding assignment I made a website inspired by Laurel Schwulst's article. I liked the idea
+                of the web being a living breathing thing that evolves alongside us so my website is designed to create
+                alongside the user.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/vibe4-thumbnail.png" alt="Week Four thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/f4849dd1-753d-4b39-a087-71d5e104fa1f" target="_blank"
+                >Week Four</a
+              >
+              <p>
+                On week four I vibe coded something inspired by Lauren McCarthy's human Alexa. The website is a
+                reflection on the way surveillance systems harvest our data and form profiles based on our every move.
+                Kind of like the idea that Alexa is always listening, gathering information about your habits and
+                routines.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/screenshot-2026-05-03-at-6-36-01-pm.png" alt="Week Five thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/33fac505-39a5-4c7e-8c6e-5ceaa899399f" target="_blank"
+                >Week Five</a
+              >
+              <p>
+                In week five, I had the pleasure of visiting Bojana Coklyat and Shannon Finnegan's "Alt Text as Poetry".
+                I was inspired by how they called the community an "ecosystem of alt-text". I thought that was a really
+                beautiful way of putting it so I wanted to vibe code a website that allows you to explore this
+                ecosystem.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/vibe6-thumbnail.png" alt="Week Six thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/d74c131f-ed6a-4d6f-aaae-3d423d91a0d4" target="_blank"
+                >Week Six</a
+              >
+              <p>
+                For week six, I was inspired by an author I found on the Cyberfeminism index, Ester Freider. In her
+                dissertation, she argues that the Tumblr "girlblogs" of the early internet days were a space of nomadic
+                reinvention and community. For my vibe code, I made my own "girl blog" where you can type in some info
+                about yourself and submit it to the site for other people to find. Try it out, leave a comment!
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/vibe7-thumbnail.png" alt="Week Seven thumbnail" />
+            <div class="label">
+              <a href="https://claude.ai/public/artifacts/aa61b054-e14a-435a-b2fb-cf1d518ca248" target="_blank"
+                >Week Seven</a
+              >
+              <p>
+                Week seven's vibe code was a sister website to Olivia Jack's "Maps for Getting Lost". My website lets
+                you click real locations to plant stations, and add more interactive controls. Where Olivia's work draws
+                maps to get lost in, mine draws transit networks that forget where they were supposed to be going. The
+                lines grow to resemble transit systems, then slowly erase themselves from both ends, becoming forgotten
+                infrastructure.
+              </p>
+            </div>
+          </div>
+          <div class="vibe-card">
+            <img src="assets/screenshot-2026-05-03-at-6-27-26-pm.png" alt="Week Eight thumbnail" />
+            <div class="label">
+              <a href="https://sslent.github.io/iml300/vibe-coding/girlblog.html" target="_blank">Week Eight</a>
+              <p>
+                Week eight had us working on an interactive intervention inside one of our preexisting vibe coded
+                projects. I decided to edit my Girl Blog website from week six, and added a padded container for a
+                series of images that cycle.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Reflection on Vibe Coding</h2>
+        <div class="reflection">
+          <p>
+            At first I was weary of coding alongside an AI assistant but over the course of the semester, I learned to
+            work with it. I agree with most of the anti-ai art discourse online— I don't think anyone should be proudly
+            publishing their entirely vibe coded website and claiming it as their own work. I did find AI to be a useful
+            tool for this class but only to help me with tedious tasks or to break down something I didn't fully
+            understand. Having said this, I still engaged with other tools online like the many helpful videos on
+            youtube or going down reddit rabbit holes. I also frequently asked my peers, Student Assistant and Professor
+            for help/inspiration. No one should be letting AI generate an entire concept, color scheme, theme and text
+            for them without any of their own input. In fact, the times that I was most frustrated with using vibe
+            coding tools was when I would not be specific enough and it would make creative decisions for me that I
+            would then have to undo. At the end of the day, what makes a piece of media special is the perspective and
+            effort of the person that made it and that will always be more interesting than anything a robot can spit
+            out for you.
+          </p>
+        </div>
+      </section>
+
+      <footer>Sophia Lent - Spring, 2026.</footer>
     </div>
-    <div>
-      <h1>Projects</h1>
-      <h2>Project 1: Interactive Audio & Visual with p5.js</h2>
-      <a href="https://editor.p5js.org/sophia-miyoko/full/koEbVJ_OU">Zorp the Intergallactic Fortune Teller</a>
-      <h2>Project 2: HyperNarrative</h2>
-      <a href="https://docs.google.com/document/d/1XEC0ypJ4F0N_OFMZtFdHxOUAeCQSk1M7-bbb2i2vpIs/edit?usp=sharing"
-        >Dear Miyoko Concept</a
-      ><br />
-      <a href="https://sslent.github.io/iml300/project2/">Dear Miyoko Site</a>
-      <h2>Project 3: Networked Care</h2>
-      <a href="">coming soon</a>
-    </div>
-    <h1>Exercises</h1>
-    <div class="grid-container">
-      <div class="grid-item">
-        <a href="https://editor.p5js.org/sophia-miyoko/full/jx5U0EEpH">Exercise 1: Make a Face</a><br />
-        <iframe src="https://editor.p5js.org/sophia-miyoko/full/jx5U0EEpH"></iframe>
-      </div>
-      <div class="grid-item">
-        <a href="https://editor.p5js.org/sophia-miyoko/full/u8AspZALR">Exercise 2: Music Video</a><br />
-        <iframe src="https://editor.p5js.org/sophia-miyoko/full/u8AspZALR"></iframe>
-      </div>
-      <div class="grid-item">
-        <a href="https://editor.p5js.org/sophia-miyoko/full/SqTiOSFwI">Exercise 3: Pattern Exercise</a><br />
-        <iframe src="https://editor.p5js.org/sophia-miyoko/full/SqTiOSFwI"></iframe>
-      </div>
-      <div class="grid-item">
-        <a href="https://editor.p5js.org/sophia-miyoko/full/t7uRWsCW6">Exercise 4: Brush Tool</a><br />
-        <iframe src="https://editor.p5js.org/sophia-miyoko/full/t7uRWsCW6"></iframe>
-      </div>
-      <div class="grid-item">
-        <a href="https://editor.p5js.org/sophia-miyoko/full/Zr-XHqUIO">Exercise 5: Animated Pattern</a><br />
-        <iframe src="https://editor.p5js.org/sophia-miyoko/full/Zr-XHqUIO"></iframe>
-      </div>
-    </div>
-    <h1>Thoughts</h1>
-    <footer>Spring, 2026.</footer>
   </body>
 </html>
